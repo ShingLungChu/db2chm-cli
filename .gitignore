@@ -1,0 +1,12 @@
+/target/
+/dist/
+/dist.zip
+/output/
+/preview_out/
+/lib/*.jar
+/tools/
+*.chm
+*.log
+*.iml
+/.idea/
+/.vscode/

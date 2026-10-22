@@ -1,0 +1,128 @@
+name: CHM native-runner feasibility
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  java-build:
+    name: Build Java application
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '8'
+          cache: maven
+      - name: Package without vendor JDBC binaries
+        run: mvn --batch-mode --no-transfer-progress -DskipTests package
+      - name: Run mock CLI smoke check
+        run: java -jar target/db2chm.jar --cli --mock --type MYSQL --tables 2 --html-only --out target/ci-smoke
+
+  compile:
+    name: Compile on ${{ matrix.platform }}
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: ubuntu-24.04
+            platform: linux-x64
+            family: linux
+          - runner: macos-26
+            platform: macos-arm64
+            family: macos
+          - runner: macos-15-intel
+            platform: macos-x64
+            family: macos
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Free Pascal utilities on Linux
+        if: matrix.family == 'linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends fp-utils-3.2.2
+
+      - name: Install Free Pascal on macOS
+        if: matrix.family == 'macos'
+        run: brew install fpc
+
+      - name: Compile the synthetic HHP fixture
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if command -v chmcmd >/dev/null 2>&1; then
+            CHMCMD="$(command -v chmcmd)"
+          elif command -v chmcmd-3.2.2 >/dev/null 2>&1; then
+            CHMCMD="$(command -v chmcmd-3.2.2)"
+          else
+            echo "chmcmd was not installed by the platform package" >&2
+            exit 1
+          fi
+
+          echo "Compiler: $CHMCMD"
+          file "$CHMCMD"
+          mkdir -p "$RUNNER_TEMP/chm-fixture" "$GITHUB_WORKSPACE/artifacts"
+          cp -R validation/fixture/. "$RUNNER_TEMP/chm-fixture/"
+          cd "$RUNNER_TEMP/chm-fixture"
+
+          "$CHMCMD" database.hhp
+          test -s database.chm
+          file database.chm
+          shasum -a 256 database.chm
+          cp database.chm "$GITHUB_WORKSPACE/artifacts/database.chm"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: chm-${{ matrix.platform }}
+          path: artifacts/database.chm
+          if-no-files-found: error
+          retention-days: 7
+
+  windows-reader:
+    name: Read all generated CHMs on Windows
+    needs: compile
+    runs-on: windows-2025
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: chm-*
+          path: artifacts
+          merge-multiple: false
+
+      - name: Decompile and verify topic files
+        shell: pwsh
+        run: |
+          $hh = Join-Path $env:WINDIR 'hh.exe'
+          if (-not (Test-Path -LiteralPath $hh)) {
+            throw "Windows HTML Help viewer not found: $hh"
+          }
+
+          $chms = @(Get-ChildItem -LiteralPath artifacts -Recurse -File -Filter database.chm)
+          if ($chms.Count -ne 3) {
+            throw "Expected 3 platform CHMs; found $($chms.Count)"
+          }
+
+          foreach ($chm in $chms) {
+            $destination = Join-Path $env:RUNNER_TEMP $chm.Directory.Name
+            New-Item -ItemType Directory -Path $destination -Force | Out-Null
+            & $hh -decompile $destination $chm.FullName
+            if ($LASTEXITCODE -ne 0) {
+              throw "hh.exe could not decompile $($chm.FullName) (exit $LASTEXITCODE)"
+            }
+            foreach ($topic in @('index.html', 'topic.html')) {
+              if (-not (Test-Path -LiteralPath (Join-Path $destination $topic))) {
+                throw "Missing $topic after decompiling $($chm.Directory.Name)"
+              }
+            }
+            Write-Host "Windows reader accepted $($chm.Directory.Name)"
+          }

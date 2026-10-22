@@ -1,0 +1,13 @@
+[OPTIONS]
+Compiled file=database.chm
+Contents file=contents.hhc
+Index file=index.hhk
+Default topic=index.html
+Title=跨平台帮助编译验证
+Language=0x804
+Binary TOC=Yes
+Full-text search=Yes
+
+[FILES]
+index.html
+topic.html

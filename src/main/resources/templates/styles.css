@@ -1,0 +1,308 @@
+/* db2chm 数据库字典 CHM 样式 — 集团资金管理行业风 (藏蓝+沙金, IE7+ 兼容) */
+
+* { box-sizing: border-box; }
+
+body {
+    font-family: "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f7fb;
+    color: #2b3546;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.page {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 24px 32px;
+    background: #ffffff;
+}
+
+.page-header {
+    border-bottom: 3px solid #16305e;
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+}
+
+.page-header h1 {
+    margin: 0;
+    font-size: 22px;
+    color: #16305e;
+    font-weight: 600;
+}
+
+.page-header .breadcrumb {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #8894a6;
+}
+
+.page-header .breadcrumb a {
+    color: #1f4e8c;
+    text-decoration: none;
+}
+
+/* ===== 封面 ===== */
+html, body { height: 100%; }
+
+.cover-table {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.cover-td {
+    background: #122a52;
+    text-align: center;
+    vertical-align: middle;
+    padding: 50px 40px;
+}
+
+.cover-inner {
+    display: inline-block;
+    zoom: 1;
+    text-align: center;
+    max-width: 640px;
+}
+
+/* 凭证式双金线(上/下) */
+.cover-frame-top {
+    width: 560px;
+    margin: 0 auto 38px auto;
+    font-size: 0;
+    line-height: 0;
+    position: relative;
+}
+.cover-frame-bottom {
+    width: 560px;
+    margin: 38px auto 0 auto;
+    font-size: 0;
+    line-height: 0;
+    position: relative;
+}
+.cover-frame-top .cover-line1 { display: block; height: 2px; background: #c8a45c; }
+.cover-frame-top .cover-line2 { display: block; height: 1px; background: #c8a45c; margin-top: 3px; }
+.cover-frame-bottom .cover-line1 { display: block; height: 1px; background: #c8a45c; }
+.cover-frame-bottom .cover-line2 { display: block; height: 2px; background: #c8a45c; margin-top: 3px; }
+
+.cover-diamond {
+    position: absolute;
+    top: -3px;
+    left: 80px;
+    width: 7px;
+    height: 7px;
+    font-size: 0;
+    line-height: 0;
+    background: #c8a45c;
+    overflow: hidden;
+}
+
+.cover-diamond-right { left: auto; right: 80px; }
+
+.cover-eyebrow {
+    font-size: 12px;
+    letter-spacing: 6px;
+    color: #c8a45c;
+    margin-bottom: 26px;
+    font-weight: 400;
+}
+
+.cover-title {
+    font-size: 56px;
+    margin: 0 0 26px 0;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 6px;
+}
+
+.cover-divider {
+    width: 120px;
+    height: 2px;
+    font-size: 0;
+    line-height: 0;
+    background: #c8a45c;
+    margin: 0 auto 34px auto;
+    position: relative;
+}
+
+.cover-divider .cover-diamond { top: -3px; }
+
+.cover-subtitle {
+    font-size: 18px;
+    margin: 12px 0;
+    font-weight: 400;
+    color: #e8edf5;
+}
+
+.cover-sub-label {
+    display: inline-block;
+    zoom: 1;
+    color: #c8a45c;
+    font-size: 13px;
+    letter-spacing: 4px;
+    padding: 2px 12px;
+    border: 1px solid #c8a45c;
+    margin-right: 10px;
+}
+
+.cover-sub-value {
+    color: #ffffff;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+.cover-foot {
+    margin-top: 50px;
+    font-size: 12px;
+    letter-spacing: 4px;
+    color: #c8a45c;
+}
+
+/* ===== 通用表格 ===== */
+table.data {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border: 1px solid #d7dfe9;
+    font-size: 13px;
+}
+
+table.data thead {
+    background: #16305e;
+    color: #ffffff;
+}
+
+table.data th {
+    padding: 10px 8px;
+    text-align: left;
+    font-weight: 500;
+    border-right: 1px solid #1f4e8c;
+    white-space: nowrap;
+}
+
+table.data td {
+    padding: 8px;
+    border-bottom: 1px solid #edf1f6;
+    border-right: 1px solid #edf1f6;
+    vertical-align: middle;
+}
+
+table.data tbody tr:nth-child(even) {
+    background: #f6f9fc;
+}
+
+table.data tbody tr:hover {
+    background: #e9f0f8;
+}
+
+table.data td.seq {
+    text-align: center;
+    color: #8894a6;
+    width: 50px;
+}
+
+table.data td.pk, table.data td.auto-inc, table.data td.nullable {
+    text-align: center;
+    width: 60px;
+}
+
+table.data td.col-name {
+    font-family: "Consolas", "Monaco", monospace;
+    color: #1f4e8c;
+    font-weight: 500;
+}
+
+table.data td.col-type {
+    font-family: "Consolas", "Monaco", monospace;
+    color: #16305e;
+}
+
+table.data td.comment {
+    color: #55606f;
+}
+
+/* ===== 表详情页 ===== */
+.table-header {
+    background: #16305e;
+    color: #ffffff;
+    padding: 20px 24px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    border-bottom: 3px solid #c8a45c;
+}
+
+.table-header h2 {
+    margin: 0 0 8px 0;
+    font-size: 22px;
+    font-family: "Consolas", "Monaco", monospace;
+}
+
+.table-header .table-comment {
+    font-size: 14px;
+}
+
+.table-header .table-comment:empty::before {
+    content: "（暂无表说明）";
+    opacity: 0.7;
+    font-style: italic;
+}
+
+.section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #16305e;
+    margin: 24px 0 12px 0;
+    padding-left: 10px;
+    border-left: 4px solid #c8a45c;
+}
+
+/* ===== 目录页 ===== */
+.catalog-summary {
+    background: #e9f0f8;
+    border-left: 4px solid #16305e;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    color: #16305e;
+    font-size: 13px;
+}
+
+table.catalog td.tbl-name {
+    font-family: "Consolas", "Monaco", monospace;
+    color: #1f4e8c;
+    font-weight: 500;
+}
+
+/* ===== 索引标记 ===== */
+.pk-mark {
+    background: #fdeeef;
+    color: #b03a2e;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.auto-inc-mark {
+    background: #f5ecd7;
+    color: #8a6d1f;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.no-mark {
+    color: #ccc;
+}
+
+/* ===== 滚动条（仅 web 预览用，CHM 内不显示） ===== */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-thumb {
+    background: #b7c2d2;
+    border-radius: 4px;
+}

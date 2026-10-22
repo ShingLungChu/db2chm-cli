@@ -1,0 +1,13 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML><BODY>
+<UL>
+  <LI><OBJECT type="text/sitemap">
+    <param name="Name" value="帮助首页">
+    <param name="Local" value="index.html">
+  </OBJECT>
+  <LI><OBJECT type="text/sitemap">
+    <param name="Name" value="示例主题">
+    <param name="Local" value="topic.html">
+  </OBJECT>
+</UL>
+</BODY></HTML>
