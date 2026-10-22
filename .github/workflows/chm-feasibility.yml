@@ -183,7 +183,10 @@ jobs:
           }
 
           if ($problems.Count -gt 0) {
-            Write-Error "Windows CHM validation failed. See the step summary and windows-reader-diagnostics artifact for details."
+            foreach ($problem in $problems) {
+              $annotationText = $problem.Replace('%', '%25').Replace("`r", '%0D').Replace("`n", '%0A').Replace(':', '%3A').Replace(',', '%2C')
+              Write-Output "::error title=Windows CHM validation::$annotationText"
+            }
             exit 1
           }
 
