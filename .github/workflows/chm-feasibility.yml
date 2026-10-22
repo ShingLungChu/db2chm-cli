@@ -14,8 +14,8 @@ jobs:
     name: Build Java application
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
         with:
           distribution: temurin
           java-version: '8'
@@ -43,7 +43,7 @@ jobs:
             family: macos
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Install Free Pascal utilities on Linux
         if: matrix.family == 'linux'
@@ -81,7 +81,7 @@ jobs:
           shasum -a 256 database.chm
           cp database.chm "$GITHUB_WORKSPACE/artifacts/database.chm"
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: chm-${{ matrix.platform }}
           path: artifacts/database.chm
@@ -93,7 +93,7 @@ jobs:
     needs: compile
     runs-on: windows-2025
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           pattern: chm-*
           path: artifacts
@@ -102,27 +102,96 @@ jobs:
       - name: Decompile and verify topic files
         shell: pwsh
         run: |
+          $ErrorActionPreference = 'Stop'
+          $diagnostics = [System.Collections.Generic.List[string]]::new()
+          $problems = [System.Collections.Generic.List[string]]::new()
           $hh = Join-Path $env:WINDIR 'hh.exe'
-          if (-not (Test-Path -LiteralPath $hh)) {
-            throw "Windows HTML Help viewer not found: $hh"
-          }
+          $diagnostics.Add("Runner: $env:RUNNER_OS $env:PROCESSOR_ARCHITECTURE")
+          $diagnostics.Add("HTML Help executable: $hh")
 
-          $chms = @(Get-ChildItem -LiteralPath artifacts -Recurse -File -Filter database.chm)
-          if ($chms.Count -ne 3) {
-            throw "Expected 3 platform CHMs; found $($chms.Count)"
-          }
-
-          foreach ($chm in $chms) {
-            $destination = Join-Path $env:RUNNER_TEMP $chm.Directory.Name
-            New-Item -ItemType Directory -Path $destination -Force | Out-Null
-            & $hh -decompile $destination $chm.FullName
-            if ($LASTEXITCODE -ne 0) {
-              throw "hh.exe could not decompile $($chm.FullName) (exit $LASTEXITCODE)"
+          try {
+            if (-not (Test-Path -LiteralPath $hh)) {
+              throw "Windows HTML Help viewer not found: $hh"
             }
-            foreach ($topic in @('index.html', 'topic.html')) {
-              if (-not (Test-Path -LiteralPath (Join-Path $destination $topic))) {
-                throw "Missing $topic after decompiling $($chm.Directory.Name)"
+
+            $hhItem = Get-Item -LiteralPath $hh
+            $diagnostics.Add("HTML Help file version: $($hhItem.VersionInfo.FileVersion)")
+            $chms = @(Get-ChildItem -LiteralPath artifacts -Recurse -File -Filter database.chm)
+            $diagnostics.Add("Downloaded CHM count: $($chms.Count)")
+            if ($chms.Count -ne 3) {
+              $problems.Add("Expected 3 platform CHMs; found $($chms.Count)")
+            }
+
+            foreach ($chm in $chms) {
+              $destination = Join-Path $env:RUNNER_TEMP $chm.Directory.Name
+              New-Item -ItemType Directory -Path $destination -Force | Out-Null
+              $diagnostics.Add("CHM: $($chm.Directory.Name), bytes=$($chm.Length), sha256=$((Get-FileHash -LiteralPath $chm.FullName -Algorithm SHA256).Hash)")
+
+              $hhExitCode = $null
+              try {
+                $hhOutput = & $hh -decompile $destination $chm.FullName 2>&1
+                $hhExitCode = $LASTEXITCODE
+                foreach ($line in $hhOutput) {
+                  $diagnostics.Add("hh.exe output: $line")
+                }
+              } catch {
+                $problems.Add("Could not run hh.exe for $($chm.Directory.Name): $($_.Exception.Message)")
               }
+
+              $diagnostics.Add("hh.exe exit code for $($chm.Directory.Name): $hhExitCode")
+              $extracted = @(Get-ChildItem -LiteralPath $destination -Recurse -File -ErrorAction SilentlyContinue)
+              $diagnostics.Add("Extracted files for $($chm.Directory.Name): $($extracted.Count)")
+              foreach ($topic in @('index.html', 'topic.html')) {
+                $topicPath = Join-Path $destination $topic
+                if (-not (Test-Path -LiteralPath $topicPath -PathType Leaf)) {
+                  $problems.Add("Missing $topic after hh.exe decompile of $($chm.Directory.Name)")
+                  continue
+                }
+                $topicText = Get-Content -LiteralPath $topicPath -Raw -Encoding utf8
+                if ([string]::IsNullOrWhiteSpace($topicText)) {
+                  $problems.Add("Extracted $topic is empty for $($chm.Directory.Name)")
+                }
+                if ($topic -eq 'index.html' -and $topicText -notmatch '跨平台帮助编译验证') {
+                  $problems.Add("Chinese title was not preserved in $($chm.Directory.Name)/index.html")
+                }
+                if ($topic -eq 'topic.html' -and $topicText -notmatch '全文检索的中文文本') {
+                  $problems.Add("Chinese searchable text was not preserved in $($chm.Directory.Name)/topic.html")
+                }
+              }
+
+              if ($hhExitCode -ne 0 -and (Test-Path -LiteralPath (Join-Path $destination 'index.html')) -and (Test-Path -LiteralPath (Join-Path $destination 'topic.html'))) {
+                $diagnostics.Add("Warning: hh.exe returned non-zero, but both required topics were extracted; validating extracted content.")
+              }
+              $diagnostics.Add("Windows reader validated $($chm.Directory.Name)")
             }
-            Write-Host "Windows reader accepted $($chm.Directory.Name)"
+          } catch {
+            $problems.Add($_.Exception.Message)
+          } finally {
+            if ($problems.Count -gt 0) {
+              $diagnostics.Add('Validation failures:')
+              foreach ($problem in $problems) {
+                $diagnostics.Add("- $problem")
+              }
+            } else {
+              $diagnostics.Add('Result: all generated CHMs passed Windows extraction and content checks.')
+            }
+
+            $reportPath = Join-Path $env:RUNNER_TEMP 'windows-reader-diagnostics.txt'
+            $diagnostics | Set-Content -LiteralPath $reportPath -Encoding utf8
+            $summaryLines = [string[]](@('## Windows CHM reader diagnostics', '', '```text') + $diagnostics.ToArray() + @('```'))
+            Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY -Value $summaryLines -Encoding utf8
           }
+
+          if ($problems.Count -gt 0) {
+            Write-Error "Windows CHM validation failed. See the step summary and windows-reader-diagnostics artifact for details."
+            exit 1
+          }
+
+      - name: Upload Windows reader diagnostics
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: windows-reader-diagnostics
+          path: ${{ runner.temp }}/windows-reader-diagnostics.txt
+          if-no-files-found: warn
+          retention-days: 7
