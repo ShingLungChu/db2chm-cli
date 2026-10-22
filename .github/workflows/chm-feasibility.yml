@@ -128,6 +128,7 @@ jobs:
               $diagnostics.Add("CHM: $($chm.Directory.Name), bytes=$($chm.Length), sha256=$((Get-FileHash -LiteralPath $chm.FullName -Algorithm SHA256).Hash)")
 
               $hhExitCode = $null
+              $hhOutput = @()
               try {
                 $hhOutput = & $hh -decompile $destination $chm.FullName 2>&1
                 $hhExitCode = $LASTEXITCODE
@@ -141,10 +142,14 @@ jobs:
               $diagnostics.Add("hh.exe exit code for $($chm.Directory.Name): $hhExitCode")
               $extracted = @(Get-ChildItem -LiteralPath $destination -Recurse -File -ErrorAction SilentlyContinue)
               $diagnostics.Add("Extracted files for $($chm.Directory.Name): $($extracted.Count)")
+              $hhOutputSummary = (@($hhOutput | ForEach-Object { $_.ToString() }) -join ' | ')
+              if ($hhOutputSummary.Length -gt 300) {
+                $hhOutputSummary = $hhOutputSummary.Substring(0, 300)
+              }
               foreach ($topic in @('index.html', 'topic.html')) {
                 $topicPath = Join-Path $destination $topic
                 if (-not (Test-Path -LiteralPath $topicPath -PathType Leaf)) {
-                  $problems.Add("Missing $topic after hh.exe decompile of $($chm.Directory.Name)")
+                  $problems.Add("Missing $topic after hh.exe decompile of $($chm.Directory.Name) (exit code: $hhExitCode; extracted files: $($extracted.Count); output: $hhOutputSummary)")
                   continue
                 }
                 $topicText = Get-Content -LiteralPath $topicPath -Raw -Encoding utf8
