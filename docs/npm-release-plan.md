@@ -10,6 +10,8 @@ npm scope 为 @nstc，发布账号 jackiechen1994。统一入口 @nstc/db2chm，
 用户调整本版真实环境验收范围：先准备 Oracle、达梦、Vastbase；最低通过标准为 Oracle 和达梦。原计划中五种适配器继续保留，MySQL/Kingbase 的未验证组合不作正式支持声明。本文较早的五数据库全量验收要求在本版按此决策执行。
 
 Windows HHC 的现状已进一步定位：工具文件存在且普通宿主执行可启动，但出现 HHC6003，完整搜索组件和再分发问题尚未解决。早期重定位现象不能用于认定工具文件缺失。当前不将 HHC 文件放进 npm 包。
+
+用户随后确认 Windows 方案：优先使用已安装 HHC，找不到时使用包内 chmcmd.exe。已找到的 HHC 编译失败时保留失败，显式 HHC 不回退。T01 按此方案验收，不再要求再分发微软编译器。四个平台均构建自己的 chmcmd；Windows 使用已校验的 FPC 3.3.1 bootstrap，macOS/Linux 使用 3.2.2。
 ## 1. 最终交付目标
 
 用户安装对应平台的 npm 包后，使用统一的 db2chm 命令，连接受支持的数据库，以只读方式查询元数据，按表名过滤并生成可在 Windows HTML Help 中使用的 CHM。Agent 通过独立 skill 调用相同的 CLI。
@@ -18,7 +20,7 @@ Windows HHC 的现状已进一步定位：工具文件存在且普通宿主执�
 
 - 继续使用 Java。用户预装 Java；npm 包不捆绑 JRE/JDK。
 - 首期四个目标：Windows x64、macOS Intel x64、macOS Apple Silicon arm64、Linux x64。Linux arm64 进入后续版本。
-- Windows 编译后端首选 HHC；macOS/Linux 首选 chmcmd。Windows x64 指宿主平台，允许经过验证的 32 位 HHC 在其上运行，不能把它误标为原生 x64 二进制。
+- Windows 编译后端首选已安装 HHC，缺席时使用包内原生 x64 chmcmd.exe；macOS/Linux 使用包内 chmcmd。Windows x64 指宿主平台，外置 32 位 HHC 不能误标为原生 x64 二进制。
 - 单个平台实际安装所需的压缩包下载总量严格小于 15,000,000 字节。统一入口、平台包及默认传递依赖全部计入；不能用拆包或安装时补下载规避上限。
 - 默认安装链路不依赖 Maven、FPC、WSL、Docker、系统提权或本机编译。受许可限制的外置 JDBC 驱动作为明确记录的额外前提。
 - 保留 Oracle、MySQL、达梦、Vastbase、KingbaseES 五种数据库的适配范围。实际支持的数据库版本和 OS 最低版本须有对应证据。
@@ -54,7 +56,7 @@ Actions 证据：https://github.com/ShingLungChu/db2chm-cli/actions/runs/4025353
 | 正式包名，scope 已确认为 nstc | npm os / cpu | 内容与定位 |
 | --- | --- | --- |
 | @nstc/db2chm | 入口根据平台分派 | 创建 db2chm 命令，选择平台包，报告缺失依赖 |
-| @nstc/db2chm-win32-x64 | win32 / x64 | JAR、HHC 运行文件集、启动器；HHC 分发以 T01 结论为准 |
+| @nstc/db2chm-win32-x64 | win32 / x64 | JAR、x64 chmcmd.exe、源码/许可与启动器；HHC 优先使用外置安装，不捆绑 |
 | @nstc/db2chm-darwin-x64 | darwin / x64 | JAR、Intel chmcmd、启动器 |
 | @nstc/db2chm-darwin-arm64 | darwin / arm64 | JAR、Apple Silicon chmcmd、启动器 |
 | @nstc/db2chm-linux-x64 | linux / x64 | JAR、Linux chmcmd、启动器 |
@@ -81,8 +83,8 @@ skill 是操作说明，真实访问和安全限制由 CLI/Java/数据库权限�
 | ID | 优先级 | 任务与交付物 | 依赖 | 完成标准与证据 |
 | --- | --- | --- | --- | --- |
 | T00 | P0 | 冻结源码基线、支持矩阵、命令契约、包名与体积口径 | 无 | 两份源码差异有结论；Node/Java/OS/数据库版本、Linux libc 基线及 npm scope 明确；本计划转成可勾选任务清单 |
-| T01 | P0 | Windows HHC 运行与分发方案 | T00 | 同源 EXE/DLL 清单、版本和 SHA-256 齐备；干净 Windows x64 能从包目录编译项目形状样例，无需注册或提权；有明确分发依据。任一条件未满足即保留阻断状态 |
-| T02 | P0 | 固定源码构建三种 macOS/Linux chmcmd | T00 | 原生 runner 从固定 FPC 源码、工具链和依赖构建；保存构建脚本、许可、二进制校验值和共享库报告；安装用户无需 FPC；最低 OS/libc 范围实测成立 |
+| T01 | P0 | Windows HHC 优先和开源兜底方案 | T00 | HHC 不随包分发；干净 Windows x64 无需注册/提权即用包内 chmcmd 编译；HHC 优先、缺席回退、显式选择及失败不回退分别验证；保存真实 npm 安装证据 |
+| T02 | P0 | 固定源码构建四平台 chmcmd | T00 | 原生 runner 从固定 FPC 源码、工具链和依赖构建；保存构建脚本、许可、对应源码、二进制校验值和共享库报告；安装用户无需 FPC；最低 OS/libc 范围实测成立 |
 | T03 | P0 | JDBC 版本、许可和加载方案 | T00 | 五种数据库逐项有驱动版本/Java 要求/来源/许可/哈希/安装方式；取消对固定 manifest 文件名的唯一依赖；doctor 可识别缺失或不受支持的驱动 |
 | T04 | P1 | 适合脚本与 agent 的 CLI 契约 | T00 | help/version/doctor/tables list/export 可用；严格解析参数；稳定 JSON/退出码；npm 无参数显示帮助；旧 Java CLI 的兼容或迁移说明明确 |
 | T05 | P0 | 数据库访问和凭据安全收口 | T03、T04 | 固定查询清单、参数绑定、JDBC URL/属性许可列表、固定驱动映射、只读账户与会话策略；注入测试和数据库审计证据通过；密码不落入日志、HTML 或默认配置 |
@@ -95,7 +97,7 @@ skill 是操作说明，真实访问和安全限制由 CLI/Java/数据库权限�
 | T12 | P0 | RC 验收与发布候选交付 | T09、T10、T11 | 四平台 tgz、完整证据、体积报告、支持矩阵、已知限制和回滚方案齐备；先做 beta/next 验证，实际 registry 安装通过后才进入正式发布 |
 | T13 | P1 | 正式 npm 发布与发布后核验 | T12 | 平台包先发布、统一入口后发布；四平台版本精确匹配；真实全局安装与导出通过；latest 指向完整通过的同一版本，发布记录可追溯 |
 
-HHC 再分发无法确认时，不默认把“用户另外安装 Workshop”算作已经完成简易 npm 安装目标。T01 应提供外置 HHC 或开源 Windows 后端的可运行备选、安装步骤和体积/维护成本，再冻结调整后的 Windows 交付方式。该分支不阻止 CLI、安全和 macOS/Linux 开发。
+Windows 交付方式已冻结为 HHC 优先、包内开源后端兜底。默认 npm 安装链无需 Workshop。chmcmd 的对应源码、许可证、最低系统和完整发布审查仍须按 T02 与 G0/G1 验收。
 
 ## 5. CLI、过滤与安全交付约定
 

@@ -1,17 +1,17 @@
 # db2chm CLI
 
-读取 Oracle、MySQL、达梦、Vastbase、KingbaseES 元数据，按表名过滤并生成 HTML/CHM 数据字典。业务逻辑使用 Java，npm 提供平台选择和启动入口；用户预装 Java。
+提供 Oracle、MySQL、达梦、Vastbase、KingbaseES 元数据适配器，按表名过滤并生成 HTML/CHM 数据字典。真实兼容范围以版本验收记录为准，本版最低真实验收为 Oracle 和达梦。业务逻辑使用 Java，npm 提供平台选择和启动入口；用户预装 Java。
 
 ## 当前交付状态
 
-本仓库处于 npm 发布实施阶段。CLI、只读访问约束、表过滤、HHC/chmcmd 后端和私有 npm 原型已实现。**尚未发布 npm RC 或正式版。** 当前原型不含编译器和 JDBC 驱动，不代表安装后可直接生成 CHM。
+本仓库处于 npm 发布实施阶段。CLI、只读访问约束、表过滤、HHC/chmcmd 后端和私有 npm 原型已实现。**尚未发布 npm RC 或正式版。** 私有验证包分为无编译器原型和含实际 chmcmd 的平台原型；JDBC 驱动均外置。原型验证不代替正式发布验收。
 
 正式命名采用组织 `@nstc`，发布账号为 `jackiechen1994`。组织发布权限尚未核验。目标包：
 
 | 包 | 平台 |
 | --- | --- |
 | @nstc/db2chm | 统一入口，自动选择当前平台依赖 |
-| @nstc/db2chm-win32-x64 | Windows x64，默认 HHC |
+| @nstc/db2chm-win32-x64 | Windows x64，优先已安装 HHC，缺席时用包内 chmcmd |
 | @nstc/db2chm-darwin-x64 | macOS Intel |
 | @nstc/db2chm-darwin-arm64 | macOS Apple Silicon |
 | @nstc/db2chm-linux-x64 | Linux x64/glibc |
@@ -62,11 +62,13 @@ db2chm export --config ./connection.json --include "BIZ_*" --exclude "*_BAK" --o
 
 ## CHM 编译器
 
-Windows 自动选择 HHC，macOS/Linux 自动选择 chmcmd。可显式指定 `--compiler hhc|chmcmd --compiler-path PATH`；这是真实可执行依赖，应来自可信来源。
+Windows 自动模式优先查找已安装的 `hhc.exe`，找不到时选择包内 `chmcmd.exe`。macOS/Linux 自动选择包内 chmcmd。Windows 不要求另装 Workshop，也不捆绑微软 HHC 文件。
+
+可用 `--compiler chmcmd` 明确选择开源后端；`--compiler hhc` 只接受 HHC，缺失即报错。已找到的 HHC 如果启动或编译失败，会保留该错误，不自动改用另一后端。`--compiler-path PATH`、`DB2CHM_COMPILER` 指向明确选择的编译器；路径本身不能用于自动推断类型，指向 chmcmd 时同时指定 `--compiler chmcmd`。这是真实可执行依赖，应来自可信来源。
 
 HHC 是编译器 `hhc.exe`；Windows 的 `hh.exe` 是查看器/解包工具。项目参考目录中的 HHC 在当前宿主能启动，但出现 HHC6003 搜索组件错误；生成了文件也会被 CLI 拒绝。HHC 再分发权和无需注册的完整运行条件尚未解决，因此它没有进入 npm 原型。
 
-三种 macOS/Linux 原生构建使用固定 FPC 源码。构建成功、Windows 解包成功、查看器目录/索引/全文搜索通过，分别是不同的验收证据。[依赖与许可清单](docs/dependencies.md)记录当前限制。
+四个平台的 chmcmd 使用固定 FPC 源码构建。构建成功、Windows 解包成功、查看器目录/索引/全文搜索通过，分别是不同的验收证据。[验证记录](docs/validation-evidence.md)及[依赖与许可清单](docs/dependencies.md)记录当前结果与限制。
 
 ## 独立 skill
 
@@ -77,3 +79,4 @@ HHC 是编译器 `hhc.exe`；Windows 的 `hh.exe` 是查看器/解包工具。�
 - [CLI 契约与退出码](docs/cli-contract.md)
 - [安全查询与权限边界](docs/security.md)
 - [构建、发布与回滚](docs/releasing.md)
+- [真实数据库与查看器验收](docs/manual-acceptance.md)

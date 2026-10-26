@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "4826b393c361a9deb6d0b44c80ef29025bd235d4",
+  "nativeRun": "https://github.com/ShingLungChu/db2chm-cli/actions/runs/40276072365",
+  "runtimeMatrixRun": "https://github.com/ShingLungChu/db2chm-cli/actions/runs/40276072386",
+  "kind": "private-native-validation",
+  "formalReleaseEligible": false,
+  "sharedJarSha256": "d3b0d706bb74481614c66c6f87eb5f7b8658b52303529aa9e640bb89ac94e561",
+  "sameEnvironmentJarRepeatBuild": "passed",
+  "payloadHashesRecheckedAfterDownload": true,
+  "maxDownloadBytes": 15000000,
+  "platforms": [
+    {
+      "platform": "win32-x64",
+      "jarSha256": "d3b0d706bb74481614c66c6f87eb5f7b8658b52303529aa9e640bb89ac94e561",
+      "reportSha256": "55651f0728726582d005a149db455ed95292681d85c07d1410e38caebc89e353",
+      "packages": [
+        {
+          "name": "@nstc/db2chm-win32-x64",
+          "bytes": 2635419,
+          "sha256": "37dcb59cf4dc1350b1729ef40c8f934a7bbe0376ee31517d05e60d2c240a71c3"
+        },
+        {
+          "name": "@nstc/db2chm",
+          "bytes": 2471,
+          "sha256": "bbc43327088617a24f3cc584efaba8470b7798beb373993d6942b67166f63d77"
+        }
+      ],
+      "totalDownloadBytes": 2637890
+    },
+    {
+      "platform": "darwin-x64",
+      "jarSha256": "d3b0d706bb74481614c66c6f87eb5f7b8658b52303529aa9e640bb89ac94e561",
+      "reportSha256": "45698e7f5e37bc12d8fb4bb7a8c2bab74072a2b20e9a72d76a4c10f0f1e36e5e",
+      "packages": [
+        {
+          "name": "@nstc/db2chm-darwin-x64",
+          "bytes": 3147118,
+          "sha256": "24c557cd38469824620268f1282db92065c75c7271f0240ffc7a3ce23ab7bd2e"
+        },
+        {
+          "name": "@nstc/db2chm",
+          "bytes": 2483,
+          "sha256": "d0e73d8b8f215bf81546f98da88820707405754bdb51a236a5051493abbf0fe8"
+        }
+      ],
+      "totalDownloadBytes": 3149601
+    },
+    {
+      "platform": "darwin-arm64",
+      "jarSha256": "d3b0d706bb74481614c66c6f87eb5f7b8658b52303529aa9e640bb89ac94e561",
+      "reportSha256": "954406796384c4263a24128b402cf074f34ae49c23cb8ee2b87e1901fce45442",
+      "packages": [
+        {
+          "name": "@nstc/db2chm-darwin-arm64",
+          "bytes": 3114688,
+          "sha256": "80331227cdcad5575d4d80d748d2b0bff8cb50e23b04124f6b451dfcd5f6712a"
+        },
+        {
+          "name": "@nstc/db2chm",
+          "bytes": 2478,
+          "sha256": "dfa86d5070bd3d126f42262d95f42dfa9cc036d0c4369930c215a29e15decc01"
+        }
+      ],
+      "totalDownloadBytes": 3117166
+    },
+    {
+      "platform": "linux-x64",
+      "jarSha256": "d3b0d706bb74481614c66c6f87eb5f7b8658b52303529aa9e640bb89ac94e561",
+      "reportSha256": "733fba79e750d214bc30fee603b16aa88211a6b62e1b8b14bc3a25f721e40dad",
+      "packages": [
+        {
+          "name": "@nstc/db2chm-linux-x64",
+          "bytes": 2706516,
+          "sha256": "816d1c50ee7801eb06bd8ea8eab7f38d7815441bb0ed1882b767ce793c3aa96b"
+        },
+        {
+          "name": "@nstc/db2chm",
+          "bytes": 2478,
+          "sha256": "dfa86d5070bd3d126f42262d95f42dfa9cc036d0c4369930c215a29e15decc01"
+        }
+      ],
+      "totalDownloadBytes": 2708994
+    }
+  ],
+  "windowsExtraction": {
+    "scenarios": 12,
+    "matchedHtmlCssFiles": 4052,
+    "reportSha256": "04524d7d9e8e93ce9f51ee07ecd2c17fd6f07b652bb92d7c4543a9b9c9bc3af4",
+    "viewerInteraction": "pending"
+  },
+  "windowsCompilerSelection": {
+    "bundledCompiler": true,
+    "hhcPreferred": true,
+    "explicitHhcNoFallback": true
+  },
+  "pending": [
+    "real-oracle-and-dm-acceptance",
+    "database-permission-and-sql-audits",
+    "vastbase-validation",
+    "viewer-interaction",
+    "oldest-os-and-libc",
+    "native-distribution-source-review",
+    "full-toolchain-reproducibility",
+    "npm-publisher-permissions",
+    "beta-registry-acceptance"
+  ]
+}

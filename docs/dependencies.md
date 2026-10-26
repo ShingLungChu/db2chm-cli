@@ -47,16 +47,18 @@ GUI 的旧文件名兼容只查业务 JAR 同目录下 lib/；不扫描当前工
 - 当前实际阻断是 HHC6003：Itircl.dll 注册/匹配失败。混入现代 Windows 10.0.26100.5074 的 DLL 后仍未解决。未执行系统 DLL 注册或修改注册表。
 - HHC 可返回 0 并留下 ITSF 文件，同时报告 HHC6003。CLI 会读取全部输出流的错误编号并拒绝假成功。
 - 微软 EULA 中显式允许再分发的文件为 hhupd.exe；尚未建立 hhc.exe 及其完整运行文件集的分发依据。不得将现有文件目录直接装入正式 npm 包。
-- 外置已安装 Workshop 可供验证；正式简易安装目标仍需要满足运行/许可门槛，或冻结经过验证的开源 Windows 备选。当前尚未把外置前提算作 T01 完成。
+- 用户已确认 Windows 交付：优先已安装 HHC，缺席时使用包内 chmcmd。微软文件不进入 npm；HHC 的再分发问题不再作为默认安装链前提。已有 HHC 运行失败时不会自动切换。
 
 依据：[Microsoft HTML Help EULA](https://learn.microsoft.com/en-us/previous-versions/windows/desktop/htmlhelp/html-help-end-user-license-agreement)。
 
-### macOS / Linux chmcmd
+### 四平台 chmcmd
 
-源码固定为 FPCSource 提交 de69d52048cf52c72ebfeef61617c04c9bc2005c，bootstrap 要求 FPC 3.2.2。该提交的 chmcmd.lpr 使用新版本的 rtlString 名称，仓库记录的 chmcmd-fpc322.patch 为 3.2.2 补充等价 string 别名。补丁与修改后源码归档随 native artifact 保存。
+源码固定为 FPCSource 提交 de69d52048cf52c72ebfeef61617c04c9bc2005c。macOS/Linux bootstrap 要求 FPC 3.2.2；Windows 使用官方 FPC 3.3.1 x64 交叉编译包。该提交的 chmcmd.lpr 使用新版本的 rtlString 名称，仓库记录的 chmcmd-fpc322.patch 为 3.2.2 补充等价 string 别名；Windows 3.3.1 不启用该条件分支。补丁与修改后源码归档随 native artifact 保存。
+
+Windows 构建入口为 scripts/build-native-windows.ps1；验证官方 ZIP SHA-256 为 2206d8d866360844e02a2920c4827bd139ec4a8713b14be2afacc04ee3e8d66e，同时验证实际 bootstrap 可执行文件哈希。官方 snapshot 地址可能变化，内容不匹配时停止，不能自动接受新版本。构建工具约 79 MB 仅用于开发/CI，不进入安装包。PE 检查记录 x64 架构、导入 DLL 和二进制哈希。
 
 入口源码许可为 GNU Library GPL v2 或更新版本；完整分发还需核对链接的 RTL/FCL、例外条款与对应 bootstrap 源码来源。因此构建 manifest 默认 redistributionApproved:false，正式打包必须有已审核的精确文件/哈希记录。
 
 来源：[固定源码](https://github.com/fpc/FPCSource/tree/de69d52048cf52c72ebfeef61617c04c9bc2005c/packages/chm)。
 
-三种 native runner 已从固定源码编译，并运行完整 Java 过滤导出和 1000×20 样例。Windows 自动解包和 Viewer 交互验收分别记录在任务状态中。最新 hosted runner 通过不代表旧版 macOS/glibc 已通过；Linux arm64/musl 未列入首期。
+四平台 native runner 已从固定源码编译，并通过完整 Java 过滤导出、1000×20、真实编译器 npm 安装和 Windows 解包。四个平台复用同一份重复构建一致的业务 JAR。Windows Viewer 交互验收仍待记录。最新 hosted runner 通过不代表旧版 macOS/glibc 已通过；Linux arm64/musl 未列入首期。

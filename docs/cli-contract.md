@@ -67,4 +67,6 @@ export 在同级随机临时目录生成完整成果，成功后移动到新输�
 
 Windows HHC 输出 GBK，chmcmd 输出 UTF-8；不可编码的字符会令本次导出失败，不静默丢失。编译返回码和 ITSF 文件头仅为基本校验；Windows Viewer 验收单独记录。
 
+Windows 的 `--compiler auto` 优先 HHC，只有没有找到 HHC 文件时才选择包内 chmcmd。显式 `--compiler hhc`、显式编译器路径或环境变量配置均不在失败后切换后端。已找到的 HHC 报错时保留编译失败；需要改用开源后端时指定 `--compiler chmcmd`。HHC 不随 npm 分发。
+
 旧 --tables 仍表示 mock 表数量，推荐 --mock-tables；规模夹具可用 --mock-columns 20。Java 无参数 GUI 仅保留原入口，npm 主交付范围为 CLI。GUI 外置驱动可使用 JAR 所在目录下 lib/ 中固定的旧文件名，或在代码提供的连接配置中指定路径；不从当前工作目录扫描 JAR。
