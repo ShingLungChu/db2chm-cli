@@ -1,0 +1,14 @@
+diff --git a/packages/chm/src/chmcmd.lpr b/packages/chm/src/chmcmd.lpr
+--- a/packages/chm/src/chmcmd.lpr
++++ b/packages/chm/src/chmcmd.lpr
+@@ -31,6 +31,10 @@ uses
+   {$ifdef Unix}cthreads, cwstring, {$endif} Classes, Sysutils, chmfilewriter, GetOpts;
+ {$ENDIF FPC_DOTTEDUNITS}
+ 
++{$if FPC_FULLVERSION < 30301}
++type rtlString = string;
++{$endif}
++
+ Const
+   CHMCMDVersion = {$I %FPCVERSION%};
+ 

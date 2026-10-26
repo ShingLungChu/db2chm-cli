@@ -69,7 +69,7 @@ public final class CliRunner {
                 if (failure instanceof CliFailure) throw (CliFailure) failure;
                 if (failure instanceof LinkageError) throw new CliFailure(3, "DRIVER_INCOMPATIBLE", "JDBC driver is not compatible with this Java runtime.");
                 if (failure instanceof IOException) throw new CliFailure(7, "IO_FAILED", "Could not read or write the selected files.");
-                throw new CliFailure(6, "EXPORT_FAILED", "Export failed; verify dependencies and the selected output path.");
+                throw new CliFailure(6, "EXPORT_FAILED", "Export failed (" + failure.getClass().getSimpleName() + "); verify dependencies and the selected output path.");
             } finally { executor.shutdownNow(); }
             if (json) emit(output, true, command, data, null);
             else if ("tables list".equals(command)) {
