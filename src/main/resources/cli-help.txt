@@ -1,0 +1,48 @@
+db2chm - read-only database metadata to HTML/CHM
+
+Commands:
+  db2chm --help | --version
+  db2chm doctor [--type TYPE] [--driver-jar PATH] [--json]
+  db2chm tables list --type TYPE --url JDBC_URL --user USER [options]
+  db2chm export --type TYPE --url JDBC_URL --user USER --out NEW_DIR [options]
+
+Connection:
+  --config FILE          JSON: type, url, user, schema, charset, driverJar
+  --type TYPE            MYSQL, ORACLE, DM, VASTBASE or KINGBASE
+  --url JDBC_URL         Direct server URL with approved connection properties
+  --user USER            Least-privilege metadata account
+  --driver-jar PATH      Explicit trusted vendor JDBC JAR
+  --schema NAME          Authorized schema
+  --charset NAME         JDBC character encoding (default UTF-8)
+  --password-stdin       Read one UTF-8 password line; otherwise DB2CHM_PASSWORD
+  --connect-timeout N    Connection timeout seconds (default 15)
+  --query-timeout N      Query timeout seconds (default 30)
+
+Selection:
+  --include GLOB         Include names; repeat for union; * and ? supported
+  --exclude GLOB         Exclude after inclusion; repeatable
+  --ignore-case          Match without case; default case-sensitive
+  --max-tables N         Sorted result limit, applied after filtering
+
+Export:
+  --out NEW_DIR          Fresh output directory; existing paths are refused
+  --title TEXT           CHM title, no control characters
+  --html-only            Generate HTML and project files without a compiler
+  --compiler KIND        auto, hhc or chmcmd
+  --compiler-path PATH   Explicit installed compiler
+  --timeout N            Whole operation deadline seconds (default 120)
+  --json                 One JSON result on stdout; diagnostics on stderr
+
+Offline fixture:
+  --mock                 Use deterministic metadata, no database
+  --mock-tables N        Number of fixture tables (legacy alias: --tables)
+  --mock-columns N       Pad fixture tables to N columns (8..1000)
+
+Examples:
+  db2chm tables list --mock --include "BIZ_*" --exclude "*_ITEM" --json
+  db2chm export --mock --include "*ORDER*" --html-only --out "./out/dict" --json
+
+Exit codes: 0 success, 2 arguments, 3 dependency, 4 connection,
+  5 metadata/no export matches, 6 rendering/compiler, 7 files,
+  8 policy refusal, 124 timeout, 130 cancelled.
+Passwords are never saved by the CLI. --password is a deprecated legacy option.

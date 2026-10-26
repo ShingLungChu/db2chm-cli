@@ -1,0 +1,79 @@
+name: Build pinned CHM toolchain
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  native:
+    name: Build source and application CHM / ${{ matrix.platform }}
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { runner: ubuntu-24.04, platform: linux-x64 }
+          - { runner: macos-15-intel, platform: darwin-x64 }
+          - { runner: macos-26, platform: darwin-arm64 }
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
+        with:
+          distribution: temurin
+          java-version: '8'
+          cache: maven
+      - name: Select Node 22
+        run: node scripts/select-node.cjs 22
+      - name: Install Linux bootstrap FPC 3.2.2
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends fp-compiler-3.2.2 fp-units-fcl-3.2.2
+          mkdir -p target/native/${{ matrix.platform }}
+          dpkg-query -W 'fp-*' > target/native/${{ matrix.platform }}/bootstrap-packages.txt
+      - name: Install macOS bootstrap FPC
+        if: runner.os == 'macOS'
+        run: |
+          brew install fpc
+          mkdir -p target/native/${{ matrix.platform }}
+          brew info --json=v2 fpc > target/native/${{ matrix.platform }}/bootstrap-packages.json
+      - name: Build fixed source and record provenance
+        run: bash scripts/build-native.sh ${{ matrix.platform }} target/native/${{ matrix.platform }}
+      - name: Build application
+        run: mvn --batch-mode --no-transfer-progress -DskipTests package
+      - name: Complete Java to CHM, filtered and 1000 tables x 20 columns
+        run: node scripts/check-application.cjs target/native/${{ matrix.platform }}/chmcmd target/application/${{ matrix.platform }}
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: native-${{ matrix.platform }}
+          path: target/native/${{ matrix.platform }}/
+          if-no-files-found: warn
+          retention-days: 14
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: application-${{ matrix.platform }}
+          path: target/application/${{ matrix.platform }}/
+          if-no-files-found: error
+          retention-days: 14
+  windows-extraction:
+    runs-on: windows-2025
+    needs: native
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          pattern: application-*
+          path: artifacts
+          merge-multiple: false
+      - name: Compare extracted application pages with original hashes
+        shell: pwsh
+        run: ./scripts/verify-windows-chm.ps1 -ArtifactRoot ./artifacts
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: windows-application-verification
+          path: artifacts/windows-verification.json
+          if-no-files-found: warn
+          retention-days: 14

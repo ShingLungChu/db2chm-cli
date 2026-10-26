@@ -29,7 +29,7 @@ public class VastbaseAdapter extends AbstractDbAdapter {
                    + " WHERE c.relkind = 'r' AND n.nspname = ? "
                    + " ORDER BY c.relname";
         List<TableInfo> result = new ArrayList<>();
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = prepareMetadataQuery(sql)) {
             ps.setString(1, schema);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -61,7 +61,7 @@ public class VastbaseAdapter extends AbstractDbAdapter {
                    + "   AND a.attnum > 0 AND NOT a.attisdropped "
                    + " ORDER BY a.attnum";
 
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = prepareMetadataQuery(sql)) {
             ps.setString(1, schema);
             ps.setString(2, tableName);
             ps.setString(3, tableName);
@@ -105,7 +105,7 @@ public class VastbaseAdapter extends AbstractDbAdapter {
                    + " WHERE tc.TABLE_SCHEMA = ? AND tc.TABLE_NAME = ? "
                    + "   AND tc.CONSTRAINT_TYPE = 'PRIMARY KEY' "
                    + " ORDER BY kcu.ORDINAL_POSITION";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = prepareMetadataQuery(sql)) {
             ps.setString(1, schema);
             ps.setString(2, tableName);
             try (ResultSet rs = ps.executeQuery()) {
@@ -120,7 +120,7 @@ public class VastbaseAdapter extends AbstractDbAdapter {
                    + "  FROM pg_class c "
                    + "  JOIN pg_namespace n ON n.oid = c.relnamespace "
                    + " WHERE c.relname = ? AND n.nspname = ?";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = prepareMetadataQuery(sql)) {
             ps.setString(1, tableName);
             ps.setString(2, schema);
             try (ResultSet rs = ps.executeQuery()) {

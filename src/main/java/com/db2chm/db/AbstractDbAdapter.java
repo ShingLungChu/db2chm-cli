@@ -1,7 +1,9 @@
 package com.db2chm.db;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.util.Locale;
+import com.db2chm.cli.CliFailure;
 
 /**
  * 适配器抽象基类. 负责驱动加载与连接管理, 子类实现元数据查询.
@@ -13,6 +15,7 @@ public abstract class AbstractDbAdapter implements DbAdapter {
 
     protected final ConnectionInfo info;
     protected Connection conn;
+    private DriverLoader driverLoader;
 
     protected AbstractDbAdapter(ConnectionInfo info) {
         if (info == null) throw new IllegalArgumentException("ConnectionInfo is null");
@@ -21,30 +24,26 @@ public abstract class AbstractDbAdapter implements DbAdapter {
 
     @Override
     public void connect() throws Exception {
-        String driver = info.getDriverClass();
-        if (driver == null || driver.isEmpty()) {
-            throw new IllegalStateException("未指定 JDBC 驱动类");
-        }
-        String url = info.getUrl();
-        if (url == null || url.isEmpty()) {
-            throw new IllegalStateException("未填写 JDBC 链接串");
-        }
-        Class.forName(driver);
-        this.conn = DriverManager.getConnection(applyCharset(url), info.getUser(), info.getPassword());
+        JdbcPolicy.validate(info);
+        driverLoader = new DriverLoader();
+        try {
+            this.conn = driverLoader.load(info).connect(info.getUrl(), JdbcPolicy.properties(info));
+            if (conn == null) throw new CliFailure(4, "CONNECTION_FAILED", "The JDBC driver did not accept the connection.");
+            try { conn.setReadOnly(true); } catch (java.sql.SQLException e) { throw new CliFailure(8, "READ_ONLY_REQUIRED", "The JDBC driver cannot establish the required read-only session."); }
+            if (!conn.isReadOnly()) throw new CliFailure(8, "READ_ONLY_REQUIRED", "The JDBC driver did not establish a read-only connection.");
+        } catch (Exception e) { close(); throw e; }
     }
 
     /**
      * MySQL 且用户设了字符集且链接串未带 characterEncoding 时自动追加.
      * 其余库: 字符集只影响导出文档编码, 不动链接串.
      */
-    private String applyCharset(String url) {
-        if (info.getDbType() != DatabaseType.MYSQL) return url;
-        if (url.contains("characterEncoding=")) return url;
-        String cs = info.getCharset();
-        if (cs == null || cs.isEmpty()) return url;
-        // MySQL 驱动的 characterEncoding 取 utf8/gbk 这类值, UTF-8 也兼容
-        String v = "UTF-8".equalsIgnoreCase(cs) ? "utf8" : cs;
-        return url + (url.contains("?") ? "&" : "?") + "characterEncoding=" + v;
+    protected final PreparedStatement prepareMetadataQuery(String sql) throws java.sql.SQLException {
+        String normalized = sql.trim().toUpperCase(Locale.ROOT);
+        if (!normalized.startsWith("SELECT ") || sql.contains(";") || sql.contains("--") || sql.contains("/*")) throw new java.sql.SQLException("Only audited metadata SELECT statements are permitted.", "42000");
+        PreparedStatement statement = conn.prepareStatement(sql);
+        try { statement.setQueryTimeout(info.getQueryTimeout()); return statement; }
+        catch (Exception e) { statement.close(); throw e; }
     }
 
     @Override
@@ -53,6 +52,7 @@ public abstract class AbstractDbAdapter implements DbAdapter {
             try { conn.close(); } catch (Exception ignored) { /* best-effort */ }
             conn = null;
         }
+        if (driverLoader != null) { driverLoader.close(); driverLoader = null; }
     }
 
     @Override

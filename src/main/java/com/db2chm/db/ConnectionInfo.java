@@ -19,7 +19,10 @@ public class ConnectionInfo {
     private String driverClass;  // JDBC 驱动类名
     private String url;          // 完整 JDBC 链接串
     private String user;
-    private String password;
+    private transient String password;
+    private String driverJar;
+    private int connectTimeout = 15;
+    private int queryTimeout = 30;
     private String charset;      // 输出文档编码: UTF-8 / GBK / GB2312
 
     /** 可选: 手工指定 schema(不填则自动推导). */
@@ -46,6 +49,13 @@ public class ConnectionInfo {
 
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
+
+    public String getDriverJar() { return driverJar; }
+    public void setDriverJar(String driverJar) { this.driverJar = driverJar; }
+    public int getConnectTimeout() { return connectTimeout > 0 ? connectTimeout : 15; }
+    public void setConnectTimeout(int seconds) { this.connectTimeout = seconds; }
+    public int getQueryTimeout() { return queryTimeout > 0 ? queryTimeout : 30; }
+    public void setQueryTimeout(int seconds) { this.queryTimeout = seconds; }
 
     public String getCharset() {
         return (charset == null || charset.trim().isEmpty()) ? "UTF-8" : charset.trim();
@@ -111,8 +121,6 @@ public class ConnectionInfo {
 
     /** 显示用一行概要, 不含密码. */
     public String describe() {
-        return String.format("%s | %s | user=%s",
-                dbType == null ? "?" : dbType.displayName(),
-                getUrl(), user);
+        return dbType == null ? "Database metadata" : dbType.displayName() + " metadata";
     }
 }

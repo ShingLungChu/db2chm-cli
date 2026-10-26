@@ -35,9 +35,9 @@ public class DmAdapter extends AbstractDbAdapter {
         Map<String, String> cmts = loadTableComments(owner);
 
         List<TableInfo> result = new ArrayList<>();
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = prepareMetadataQuery(sql)) {
             if (owner != null && !owner.trim().isEmpty()) {
-                ps.setString(1, owner.toUpperCase());
+                ps.setString(1, owner);
             }
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -59,9 +59,9 @@ public class DmAdapter extends AbstractDbAdapter {
             sql = "SELECT TABLE_NAME, COMMENTS FROM ALL_TAB_COMMENTS "
                 + " WHERE OWNER=? AND TABLE_TYPE='TABLE' AND COMMENTS IS NOT NULL";
         }
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = prepareMetadataQuery(sql)) {
             if (owner != null && !owner.trim().isEmpty()) {
-                ps.setString(1, owner.toUpperCase());
+                ps.setString(1, owner);
             }
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) map.put(rs.getString(1), rs.getString(2));
@@ -73,7 +73,7 @@ public class DmAdapter extends AbstractDbAdapter {
     @Override
     public TableInfo getTableColumns(String tableName) throws Exception {
         String owner = (info.getSchema() == null || info.getSchema().trim().isEmpty())
-                ? null : info.getSchema().toUpperCase();
+                ? null : info.getSchema();
         TableInfo table = new TableInfo(tableName, "");
 
         String sql;
@@ -97,10 +97,10 @@ public class DmAdapter extends AbstractDbAdapter {
                 + " ORDER BY c.COLUMN_ID";
         }
 
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = prepareMetadataQuery(sql)) {
             int idx = 1;
             if (owner != null) ps.setString(idx++, owner);
-            ps.setString(idx, tableName.toUpperCase());
+            ps.setString(idx, tableName);
             try (ResultSet rs = ps.executeQuery()) {
                 int seq = 0;
                 while (rs.next()) {
@@ -134,10 +134,10 @@ public class DmAdapter extends AbstractDbAdapter {
                   + " ORDER BY cc.POSITION";
         }
         Map<String, Integer> pkMap = new LinkedHashMap<>();
-        try (PreparedStatement ps = conn.prepareStatement(pkSql)) {
+        try (PreparedStatement ps = prepareMetadataQuery(pkSql)) {
             int idx = 1;
             if (owner != null) ps.setString(idx++, owner);
-            ps.setString(idx, tableName.toUpperCase());
+            ps.setString(idx, tableName);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) pkMap.put(rs.getString(1), rs.getInt(2));
             }
@@ -154,10 +154,10 @@ public class DmAdapter extends AbstractDbAdapter {
         String cmtSql = (owner == null)
                 ? "SELECT COMMENTS FROM ALL_TAB_COMMENTS WHERE OWNER=USER AND TABLE_NAME=? AND TABLE_TYPE='TABLE'"
                 : "SELECT COMMENTS FROM ALL_TAB_COMMENTS WHERE OWNER=? AND TABLE_NAME=? AND TABLE_TYPE='TABLE'";
-        try (PreparedStatement ps = conn.prepareStatement(cmtSql)) {
+        try (PreparedStatement ps = prepareMetadataQuery(cmtSql)) {
             int idx = 1;
             if (owner != null) ps.setString(idx++, owner);
-            ps.setString(idx, tableName.toUpperCase());
+            ps.setString(idx, tableName);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) table.setComment(safeComment(rs.getString(1)));
             }
@@ -168,7 +168,7 @@ public class DmAdapter extends AbstractDbAdapter {
 
     private static String formatLength(String dataType, int dataLength, Integer precision, Integer scale) {
         if (dataType == null) return "";
-        String dt = dataType.toUpperCase();
+        String dt = dataType.toUpperCase(java.util.Locale.ROOT);
         if ("NUMBER".equals(dt) || "DECIMAL".equals(dt)) {
             if (precision == null) return "";
             if (scale == null || scale == 0) return String.valueOf(precision);

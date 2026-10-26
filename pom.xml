@@ -6,7 +6,7 @@
 
     <groupId>com.db2chm</groupId>
     <artifactId>db2chm</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0-beta.1</version>
     <packaging>jar</packaging>
 
     <name>db2chm</name>
@@ -70,10 +70,6 @@
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <mainClass>com.db2chm.Main</mainClass>
-                                    <!-- system scope 驱动不进 fat jar, 通过 Manifest Class-Path 引用 lib/ 下的 jar -->
-                                    <manifestEntries>
-                                        <Class-Path>lib/ojdbc7-12.1.0.2.0.jar lib/mysql-connector-java-8.0.17.jar lib/DmJdbcDriver18-8.1.2.192.jar lib/Vastbase-G100-2.14_pg_2026011411.jar lib/kingbase8-9.0.0.jar</Class-Path>
-                                    </manifestEntries>
                                 </transformer>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                             </transformers>

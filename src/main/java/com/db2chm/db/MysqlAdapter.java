@@ -24,7 +24,7 @@ public class MysqlAdapter extends AbstractDbAdapter {
                    + " WHERE TABLE_SCHEMA = ? AND TABLE_TYPE = 'BASE TABLE' "
                    + " ORDER BY TABLE_NAME";
         List<TableInfo> result = new ArrayList<>();
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = prepareMetadataQuery(sql)) {
             ps.setString(1, schema);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -47,7 +47,7 @@ public class MysqlAdapter extends AbstractDbAdapter {
                    + " WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? "
                    + " ORDER BY ORDINAL_POSITION";
 
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = prepareMetadataQuery(sql)) {
             ps.setString(1, schema);
             ps.setString(2, tableName);
             try (ResultSet rs = ps.executeQuery()) {
@@ -75,7 +75,7 @@ public class MysqlAdapter extends AbstractDbAdapter {
         String pkSql = "SELECT COLUMN_NAME, SEQ_IN_INDEX FROM information_schema.STATISTICS "
                      + " WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? AND INDEX_NAME = 'PRIMARY' "
                      + " ORDER BY SEQ_IN_INDEX";
-        try (PreparedStatement ps = conn.prepareStatement(pkSql)) {
+        try (PreparedStatement ps = prepareMetadataQuery(pkSql)) {
             ps.setString(1, schema);
             ps.setString(2, tableName);
             try (ResultSet rs = ps.executeQuery()) {
@@ -98,7 +98,7 @@ public class MysqlAdapter extends AbstractDbAdapter {
         String sql = "SELECT IFNULL(TABLE_COMMENT,'') AS TABLE_COMMENT "
                    + "  FROM information_schema.TABLES "
                    + " WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = prepareMetadataQuery(sql)) {
             ps.setString(1, schema);
             ps.setString(2, tableName);
             try (ResultSet rs = ps.executeQuery()) {

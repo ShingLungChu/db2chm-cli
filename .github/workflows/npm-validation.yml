@@ -1,0 +1,51 @@
+name: npm CLI validation
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  contract:
+    name: ${{ matrix.target.platform }} / Java ${{ matrix.runtime.java }} / Node ${{ matrix.runtime.node }}
+    runs-on: ${{ matrix.target.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - { runner: windows-2025, platform: win32-x64 }
+          - { runner: ubuntu-24.04, platform: linux-x64 }
+          - { runner: macos-15-intel, platform: darwin-x64 }
+          - { runner: macos-26, platform: darwin-arm64 }
+        runtime:
+          - { java: '8', node: '22' }
+          - { java: '17', node: '24' }
+          - { java: '21', node: '24' }
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.runtime.java }}
+          cache: maven
+      - name: Select requested Node from runner tool cache
+        run: node scripts/select-node.cjs ${{ matrix.runtime.node }}
+      - name: Record runtime versions
+        run: |
+          node --version
+          java -version
+          mvn --version
+      - name: Build Java
+        run: mvn --batch-mode --no-transfer-progress -DskipTests package
+      - name: Pack private compiler-free prototypes
+        run: node scripts/package.cjs --prototype
+      - name: CLI, safety and clean npm installation checks
+        run: node --test tests/*.test.cjs
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: prototype-${{ matrix.target.platform }}-java${{ matrix.runtime.java }}-node${{ matrix.runtime.node }}
+          path: target/npm/report.json
+          if-no-files-found: warn
+          retention-days: 14

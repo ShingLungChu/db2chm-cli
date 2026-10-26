@@ -1,201 +1,170 @@
 package com.db2chm;
 
-import com.db2chm.db.ConnectionInfo;
-import com.db2chm.db.DatabaseType;
-import com.db2chm.db.DbAdapter;
-import com.db2chm.db.DbAdapterFactory;
-import com.db2chm.db.MockDbAdapter;
-import com.db2chm.db.TableInfo;
-import com.db2chm.generator.ChmBuilder;
-import com.db2chm.generator.HtmlGenerator;
+import com.db2chm.cli.*;
+import com.db2chm.db.*;
+import com.db2chm.generator.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-/**
- * 命令行模式. 用于批量出字典文档 / 自动化测试, 不启动 GUI.
- *
- * <pre>
- * 用法一(连真实库):
- *   java -jar db2chm.jar --cli \
- *        --type DM \
- *        --driver dm.jdbc.driver.DmDriver \
- *        --url  jdbc:dm://localhost:5236 \
- *        --user dbuser \
- *        --password ****** \
- *        --charset UTF-8 \
- *        --out   ./out/dict_dm \
- *        [--title 自定义标题] [--html-only] [--max-tables 20]
- *
- * 用法二(挡板测试, 无需数据库):
- *   java -jar db2chm.jar --cli --mock --type ORACLE \
- *        [--tables 10] [--charset GBK] \
- *        --out D:/output/mock_oracle
- *
- *   --type 取值: ORACLE / MYSQL / DM / VASTBASE / KINGBASE
- * </pre>
- */
+/** Non-interactive CLI; the GUI continues to share metadata and rendering modules. */
 public final class CliRunner {
-
-    private CliRunner() {}
-
+    private static final Gson JSON = new GsonBuilder().disableHtmlEscaping().serializeNulls().create();
+    private CliRunner() { }
+    public static String version() {
+        Properties properties = new Properties();
+        try (InputStream in = CliRunner.class.getResourceAsStream("/version.properties")) { if (in != null) properties.load(in); } catch (IOException ignored) { }
+        return properties.getProperty("version", "0.2.0-beta.1");
+    }
+    public static String help() {
+        try (InputStream in = CliRunner.class.getResourceAsStream("/cli-help.txt")) {
+            if (in == null) return "db2chm: help resource missing";
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream(); byte[] buffer = new byte[4096]; int n;
+            while ((n = in.read(buffer)) != -1) bytes.write(buffer, 0, n);
+            return new String(bytes.toByteArray(), StandardCharsets.UTF_8);
+        } catch (IOException e) { return "db2chm: help resource unavailable"; }
+    }
     public static int run(String[] args) {
-        ConnectionInfo ci = new ConnectionInfo();
-        String out = "output";
-        String title = null;
-        boolean htmlOnly = false;
-        boolean mock = false;
-        int maxTables = -1;
-        int mockTables = -1;
-
-        for (int i = 0; i < args.length; i++) {
-            String a = args[i];
-            String next = (i + 1 < args.length) ? args[i + 1] : null;
-            switch (a) {
-                case "--type":     ci.setDbType(DatabaseType.byName(next)); i++; break;
-                case "--driver":   ci.setDriverClass(next); i++; break;
-                case "--url":      ci.setUrl(next); i++; break;
-                case "--user":     ci.setUser(next); i++; break;
-                case "--password": ci.setPassword(next); i++; break;
-                case "--charset":  ci.setCharset(next); i++; break;
-                case "--schema":   ci.setSchema(next); i++; break;
-                case "--out":      out = next; i++; break;
-                case "--title":    title = next; i++; break;
-                case "--html-only": htmlOnly = true; break;
-                case "--mock":     mock = true; break;
-                case "--tables":
-                    try { mockTables = Integer.parseInt(next == null ? "-1" : next); } catch (Exception ignored) {}
-                    i++;
-                    break;
-                case "--max-tables":
-                    try { maxTables = Integer.parseInt(next == null ? "-1" : next); } catch (Exception ignored) {}
-                    i++;
-                    break;
-                default:
-                    System.err.println("未知参数: " + a);
-                    return 2;
+        PrintStream output = System.out, errors = System.err;
+        // Third-party JDBC libraries cannot pollute the machine-readable stdout channel.
+        try { System.setOut(errors); return run(args, output, errors, System.in, System.getenv()); }
+        finally { System.setOut(output); }
+    }
+    public static int run(String[] args, PrintStream output, PrintStream errors, InputStream input, Map<String, String> environment) {
+        boolean json = Arrays.asList(args).contains("--json");
+        String command = "unknown";
+        try {
+            CliOptions options = CliOptions.parse(args); json = options.json; command = options.command;
+            if ("help".equals(command) || "version".equals(command)) {
+                String value = "help".equals(command) ? help() : version();
+                if (json) emit(output, true, command, map("value", value), null); else output.println(value);
+                return 0;
             }
-        }
-
-        if (mock) {
-            if (ci.getDbType() == null) {
-                System.err.println("挡板模式需要 --type 指定数据库类型(影响模拟数据的方言)");
-                return 2;
+            if ("doctor".equals(command)) {
+                Map<String, Object> data = doctor(options);
+                boolean ready = Boolean.TRUE.equals(data.get("ready"));
+                if (json) emit(output, ready, command, data, ready ? null : map("code", "DEPENDENCIES_MISSING", "message", "Install the reported dependencies before exporting."));
+                else output.println(JSON.toJson(data));
+                return ready ? 0 : 3;
             }
-            if (ci.getUrl() == null || ci.getUrl().isEmpty()) {
-                ci.setUrl("mock://stub/MOCK_DB");
-            }
-            if (ci.getUser() == null || ci.getUser().isEmpty()) {
-                ci.setUser("MOCK_USER");
-            }
-            return runPipeline(new MockDbAdapter(ci, mockTables), ci, out, title, htmlOnly, maxTables, true);
-        }
-
-        if (ci.getDbType() == null || ci.getUrl() == null || ci.getUrl().isEmpty()) {
-            System.err.println("缺少 --type 或 --url 参数");
-            System.err.println("连库示例: java -jar db2chm.jar --cli --type DM --url jdbc:dm://localhost:5236 --user dbuser --password xxx --out D:/out");
-            System.err.println("挡板示例: java -jar db2chm.jar --cli --mock --type ORACLE --tables 10 --out ./out-mock");
+            if (Arrays.asList(args).contains("--password")) errors.println("Deprecated: use DB2CHM_PASSWORD or --password-stdin; command arguments can appear in process listings.");
+            AtomicBoolean cancelled = new AtomicBoolean();
+            ExecutorService executor = Executors.newSingleThreadExecutor(task -> { Thread t = new Thread(task, "db2chm-export"); t.setDaemon(true); return t; });
+            Future<Map<String, Object>> future = executor.submit(() -> {
+                if (options.passwordStdin) options.connection.setPassword(readPassword(input));
+                else if (options.connection.getPassword() == null) options.connection.setPassword(environment.get("DB2CHM_PASSWORD"));
+                return execute(options, errors, cancelled);
+            });
+            Map<String, Object> data;
+            try { data = future.get(options.timeout, TimeUnit.SECONDS); }
+            catch (TimeoutException e) { cancelled.set(true); future.cancel(true); throw new CliFailure(124, "OPERATION_TIMEOUT", "Operation timed out."); }
+            catch (InterruptedException e) { cancelled.set(true); future.cancel(true); Thread.currentThread().interrupt(); throw new CliFailure(130, "CANCELLED", "Operation was cancelled."); }
+            catch (ExecutionException e) {
+                Throwable failure = e.getCause();
+                if (failure instanceof CliFailure) throw (CliFailure) failure;
+                if (failure instanceof LinkageError) throw new CliFailure(3, "DRIVER_INCOMPATIBLE", "JDBC driver is not compatible with this Java runtime.");
+                if (failure instanceof IOException) throw new CliFailure(7, "IO_FAILED", "Could not read or write the selected files.");
+                throw new CliFailure(6, "EXPORT_FAILED", "Export failed; verify dependencies and the selected output path.");
+            } finally { executor.shutdownNow(); }
+            if (json) emit(output, true, command, data, null);
+            else if ("tables list".equals(command)) {
+                for (Object table : (List<?>) data.get("tables")) output.println(JSON.toJson(table));
+            } else output.println("Generated " + data.get("tableCount") + " tables: " + data.get("outputDir"));
+            return 0;
+        } catch (CliFailure failure) {
+            if (json) emit(output, false, command, null, map("code", failure.code(), "message", failure.getMessage()));
+            else errors.println(failure.code() + ": " + failure.getMessage());
+            return failure.exitCode();
+        } catch (Exception failure) {
+            if (json) emit(output, false, command, null, map("code", "INVALID_ARGUMENT", "message", "Invalid configuration or arguments."));
+            else errors.println("INVALID_ARGUMENT: Invalid configuration or arguments.");
             return 2;
         }
-
-        DbAdapter adapter = null;
-        try {
-            adapter = DbAdapterFactory.create(ci.getDbType(), ci);
-            return runPipeline(adapter, ci, out, title, htmlOnly, maxTables, false);
-        } finally {
-            if (adapter != null) adapter.close();
-        }
     }
-
-    /** 连接之后的公共流水线: 拉表 → 渲染 HTML → 编译 CHM. */
-    private static int runPipeline(DbAdapter adapter, ConnectionInfo ci, String out,
-                                   String title, boolean htmlOnly, int maxTables, boolean mock) {
-        try {
-            if (mock) {
-                System.out.println("[挡板模式] " + ci.getDbType().displayName()
-                        + " | 模拟数据, 不连接数据库");
-            } else {
-                System.out.println("[1/5] 连接数据库: " + ci.describe());
-                adapter.connect();
-                System.out.println("      连接成功");
-            }
-
-            System.out.println("[2/5] 拉取表清单 ...");
-            List<TableInfo> tables = adapter.listTables();
-            if (maxTables >= 0 && tables.size() > maxTables) {
-                tables = new ArrayList<>(tables.subList(0, maxTables));
-                System.out.println("      (限制前 " + maxTables + " 张)");
-            }
-            System.out.println("      共 " + tables.size() + " 张表");
-
-            System.out.println("[3/5] 读取表结构(逐表取列) ...");
-            for (int i = 0; i < tables.size(); i++) {
-                TableInfo raw = tables.get(i);
-                TableInfo full;
-                try {
-                    full = adapter.getTableColumns(raw.getName());
-                } catch (Exception e) {
-                    throw new Exception("读取表「" + raw.getName() + "」的字段失败: "
-                            + e.getMessage(), e);
-                }
-                if (full == null) {
-                    throw new Exception("读取表「" + raw.getName() + "」的字段失败: 数据库未返回表结构。");
-                }
-                if (full.getColumnCount() == 0) {
-                    throw new Exception("表「" + raw.getName() + "」未读取到任何字段，已取消生成。"
-                            + "请检查 schema 配置和元数据查询权限。");
-                }
-                full.setComment(raw.getComment() == null || raw.getComment().isEmpty()
-                        ? full.getComment() : raw.getComment());
-                tables.set(i, full);
-                if ((i + 1) % 50 == 0) System.out.println("      ... " + (i + 1) + "/" + tables.size());
-            }
-
-            File outDir = new File(out);
-            System.out.println("[4/5] 渲染 HTML → " + outDir.getAbsolutePath());
-            HtmlGenerator gen = new HtmlGenerator();
-            Map<String, String> pageMap = gen.renderAll(outDir, ci, tables);
-
-            if (htmlOnly) {
-                System.out.println("[5/5] 跳过编译(--html-only), 完成。");
-                return 0;
-            }
-
-            System.out.println("[5/5] 编译 CHM ...");
-            ChmBuilder cb = new ChmBuilder(outDir);
-            cb.setTitle(title != null ? title
-                    : (mock ? "[挡板] " : "") + "全量数据字典");
-            cb.setCharset(gen.getOutputCharset());
-            cb.setPageMap(pageMap);
-            cb.setHtmlFiles(cb.listHtmlFiles());
-            cb.writeHhp();
-            cb.writeHhc();
-            cb.writeHhk();
-
-            String hhc = ChmBuilder.locateHhc();
-            if (hhc == null) {
-                System.out.println("      ⚠ 未找到 hhc.exe, 仅输出 HTML + 工程文件。");
-                System.out.println("      可将 tools/hhc 目录放到运行目录后重试, 或安装 HTML Help Workshop。");
-                return 1;
-            }
-            System.out.println("      hhc: " + hhc);
-            String log = cb.compile();
-            if (log != null) System.out.println("      " + log.replace("\n", "\n      "));
-
-            if (cb.getChmFile().exists()) {
-                System.out.println("✓ CHM 已生成: " + cb.getChmFile().getAbsolutePath()
-                        + "  (" + (cb.getChmFile().length() / 1024) + " KB)");
-                return 0;
-            } else {
-                System.out.println("✗ CHM 未生成, 请查看上方 hhc 输出。");
-                return 1;
-            }
-        } catch (Exception e) {
-            System.err.println("✗ 失败: " + e.getMessage());
-            e.printStackTrace(System.err);
-            return 1;
+    private static Map<String, Object> execute(CliOptions options, PrintStream errors, AtomicBoolean cancelled) throws Exception {
+        NativeCompiler compiler = null;
+        if ("export".equals(options.command) && !options.htmlOnly) compiler = NativeCompiler.resolve(options.compiler, options.compilerPath);
+        DbAdapter adapter;
+        if (options.mock) {
+            options.connection.setUrl("mock://fixture/dictionary");
+            adapter = new MockDbAdapter(options.connection, options.mockTables, options.mockColumns);
+        } else {
+            JdbcPolicy.validate(options.connection);
+            adapter = DbAdapterFactory.create(options.connection.getDbType(), options.connection);
         }
+        try {
+            errors.println("Reading database metadata" + (options.mock ? " (mock)." : "."));
+            try { adapter.connect(); } catch (CliFailure e) { throw e; } catch (Exception e) { throw new CliFailure(4, "CONNECTION_FAILED", "Database connection or read-only session setup failed."); }
+            List<TableInfo> tables;
+            try { tables = new TableFilter(options.includes, options.excludes, options.ignoreCase).select(adapter.listTables(), options.maxTables); }
+            catch (CliFailure e) { throw e; } catch (Exception e) { throw new CliFailure(5, "METADATA_FAILED", "Could not read the authorized table list."); }
+            List<Map<String, Object>> selected = new ArrayList<>();
+            for (TableInfo table : tables) selected.add(map("name", table.getName(), "comment", table.getComment()));
+            if ("tables list".equals(options.command)) return map("tableCount", tables.size(), "tables", selected);
+            if (tables.isEmpty()) throw new CliFailure(5, "NO_TABLES_MATCHED", "No tables matched; no output was generated.");
+            for (int i = 0; i < tables.size(); i++) {
+                checkCancelled(cancelled);
+                TableInfo listed = tables.get(i), full;
+                try { full = adapter.getTableColumns(listed.getName()); } catch (Exception e) { throw new CliFailure(5, "METADATA_FAILED", "Could not read columns for a selected table."); }
+                if (full == null || full.getColumnCount() == 0) throw new CliFailure(5, "METADATA_EMPTY", "A selected table has no readable columns.");
+                if (!listed.getComment().isEmpty()) full.setComment(listed.getComment());
+                tables.set(i, full);
+            }
+            checkCancelled(cancelled);
+            try (OutputTransaction transaction = new OutputTransaction(options.out)) {
+                HtmlGenerator renderer = new HtmlGenerator();
+                renderer.setOutputCharset(compiler == null ? "UTF-8" : compiler.charset.name());
+                Map<String, String> pages = renderer.renderAll(transaction.workspace.toFile(), options.connection, tables);
+                ChmBuilder project = new ChmBuilder(transaction.workspace.toFile());
+                project.setTitle(options.title); project.setCharset(renderer.getOutputCharset()); project.setPageMap(pages); project.setHtmlFiles(project.listHtmlFiles());
+                project.writeHhp(); project.writeHhc(); project.writeHhk();
+                checkCancelled(cancelled);
+                Map<String, Object> backend = compiler == null ? null : compiler.compile(project.getHhpFile().toPath(), project.getChmFile().toPath(), options.timeout);
+                checkCancelled(cancelled);
+                transaction.publish(cancelled);
+                return map("tableCount", tables.size(), "tables", selected, "outputDir", transaction.destination.toString(),
+                    "html", transaction.destination.resolve("index.html").toString(), "chm", compiler == null ? null : transaction.destination.resolve("database.chm").toString(), "compiler", backend);
+            }
+        } finally { adapter.close(); }
+    }
+    private static void checkCancelled(AtomicBoolean cancelled) throws CliFailure {
+        if (cancelled.get() || Thread.currentThread().isInterrupted()) throw new CliFailure(130, "CANCELLED", "Operation was cancelled.");
+    }
+    private static String readPassword(InputStream input) throws Exception {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream(); int c;
+        while ((c = input.read()) >= 0 && c != '\n') {
+            if (bytes.size() >= 4096) throw CliFailure.usage("Password input is too long.");
+            bytes.write(c);
+        }
+        byte[] result = bytes.toByteArray();
+        int size = result.length > 0 && result[result.length - 1] == '\r' ? result.length - 1 : result.length;
+        return new String(result, 0, size, StandardCharsets.UTF_8);
+    }
+    private static Map<String, Object> doctor(CliOptions options) {
+        Map<String, Object> checks = new LinkedHashMap<>(); boolean ready = true;
+        checks.put("java", map("ok", true, "version", System.getProperty("java.version")));
+        checks.put("platform", map("os", System.getProperty("os.name"), "arch", System.getProperty("os.arch")));
+        try { checks.put("compiler", NativeCompiler.resolve(options.compiler, options.compilerPath).describe()); }
+        catch (CliFailure e) { checks.put("compiler", map("ok", false, "code", e.code())); ready = false; }
+        if (options.connection.getDbType() != null) {
+            try (DriverLoader loader = new DriverLoader()) {
+                loader.load(options.connection);
+                checks.put("driver", map("ok", true, "type", options.connection.getDbType().name(), "class", options.connection.getDbType().driverClass()));
+            } catch (Throwable e) { checks.put("driver", map("ok", false, "code", "DRIVER_UNAVAILABLE")); ready = false; }
+        }
+        return map("ready", ready, "version", version(), "checks", checks);
+    }
+    private static void emit(PrintStream out, boolean ok, String command, Object data, Object error) {
+        out.println(JSON.toJson(map("schemaVersion", 1, "ok", ok, "command", command, "data", data, "error", error)));
+    }
+    private static Map<String, Object> map(Object... pairs) {
+        Map<String, Object> result = new LinkedHashMap<>();
+        for (int i = 0; i < pairs.length; i += 2) result.put((String) pairs[i], pairs[i + 1]);
+        return result;
     }
 }

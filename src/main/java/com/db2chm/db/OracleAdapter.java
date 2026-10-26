@@ -42,9 +42,9 @@ public class OracleAdapter extends AbstractDbAdapter {
         List<TableInfo> result = new ArrayList<>();
         Map<String, String> comments = loadTableComments(owner);
 
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = prepareMetadataQuery(sql)) {
             if (owner != null && !owner.trim().isEmpty()) {
-                ps.setString(1, owner.toUpperCase());
+                ps.setString(1, owner);
             }
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -67,9 +67,9 @@ public class OracleAdapter extends AbstractDbAdapter {
             sql = "SELECT TABLE_NAME, COMMENTS FROM ALL_TAB_COMMENTS "
                 + " WHERE OWNER = ? AND TABLE_TYPE='TABLE' AND COMMENTS IS NOT NULL";
         }
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = prepareMetadataQuery(sql)) {
             if (owner != null && !owner.trim().isEmpty()) {
-                ps.setString(1, owner.toUpperCase());
+                ps.setString(1, owner);
             }
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -83,7 +83,7 @@ public class OracleAdapter extends AbstractDbAdapter {
     @Override
     public TableInfo getTableColumns(String tableName) throws Exception {
         String owner = (info.getSchema() == null || info.getSchema().trim().isEmpty())
-                ? null : info.getSchema().toUpperCase();
+                ? null : info.getSchema();
         String sql;
         if (owner == null) {
             sql = "SELECT c.COLUMN_NAME, c.DATA_TYPE, c.DATA_LENGTH, c.DATA_PRECISION, "
@@ -108,10 +108,10 @@ public class OracleAdapter extends AbstractDbAdapter {
         }
 
         TableInfo table = new TableInfo(tableName, "");
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = prepareMetadataQuery(sql)) {
             int idx = 1;
             if (owner != null) ps.setString(idx++, owner);
-            ps.setString(idx, tableName.toUpperCase());
+            ps.setString(idx, tableName);
             try (ResultSet rs = ps.executeQuery()) {
                 int seq = 0;
                 while (rs.next()) {
@@ -128,7 +128,7 @@ public class OracleAdapter extends AbstractDbAdapter {
                     // 兜底: 老版本可能没 IDENTITY_COLUMN 字段, 用 data_default 含 IDENTITY 判定
                     if (!isAutoInc) {
                         String def = rs.getString("DATA_DEFAULT");
-                        if (def != null && def.toUpperCase().contains("IDENTITY")) {
+                        if (def != null && def.toUpperCase(java.util.Locale.ROOT).contains("IDENTITY")) {
                             isAutoInc = true;
                         }
                     }
@@ -175,10 +175,10 @@ public class OracleAdapter extends AbstractDbAdapter {
                 + "   AND c.CONSTRAINT_TYPE = 'P' "
                 + " ORDER BY cc.POSITION";
         }
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = prepareMetadataQuery(sql)) {
             int idx = 1;
             if (owner != null) ps.setString(idx++, owner);
-            ps.setString(idx, tableName.toUpperCase());
+            ps.setString(idx, tableName);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     map.put(rs.getString(1), rs.getInt(2));
@@ -192,10 +192,10 @@ public class OracleAdapter extends AbstractDbAdapter {
         String sql = (owner == null)
                 ? "SELECT COMMENTS FROM ALL_TAB_COMMENTS WHERE OWNER=USER AND TABLE_NAME=? AND TABLE_TYPE='TABLE'"
                 : "SELECT COMMENTS FROM ALL_TAB_COMMENTS WHERE OWNER=? AND TABLE_NAME=? AND TABLE_TYPE='TABLE'";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = prepareMetadataQuery(sql)) {
             int idx = 1;
             if (owner != null) ps.setString(idx++, owner);
-            ps.setString(idx, tableName.toUpperCase());
+            ps.setString(idx, tableName);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) return safeComment(rs.getString(1));
             }
@@ -206,7 +206,7 @@ public class OracleAdapter extends AbstractDbAdapter {
     /** 把 Oracle 字段类型/长度统一成字符串. */
     private static String formatLength(String dataType, int dataLength, Integer precision, Integer scale) {
         if (dataType == null) return "";
-        String dt = dataType.toUpperCase();
+        String dt = dataType.toUpperCase(java.util.Locale.ROOT);
         if ("NUMBER".equals(dt)) {
             if (precision == null) return "";
             if (scale == null || scale == 0) return String.valueOf(precision);

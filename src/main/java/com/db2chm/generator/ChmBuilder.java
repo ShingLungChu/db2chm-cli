@@ -56,7 +56,10 @@ public class ChmBuilder {
         this.chmFile  = new File(outDir, "database.chm");
     }
 
-    public void setTitle(String title) { this.title = title; }
+    public void setTitle(String title) {
+        if (title == null || title.length() > 512 || title.chars().anyMatch(c -> c < 32 || c == 127)) throw new IllegalArgumentException("Invalid CHM title");
+        this.title = title;
+    }
     /** 仅供测试覆盖; 正常链路由 HtmlGenerator 传入 ANSI 编码. */
     public void setCharset(Charset charset) {
         if (charset != null) this.charset = charset;

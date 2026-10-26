@@ -38,9 +38,17 @@ public class MockDbAdapter implements DbAdapter {
     private final List<TableInfo> tables = new ArrayList<>();
 
     public MockDbAdapter(ConnectionInfo info, int tableCount) {
+        this(info, tableCount, 0);
+    }
+
+    public MockDbAdapter(ConnectionInfo info, int tableCount, int minimumColumns) {
         this.info = info == null ? new ConnectionInfo() : info;
         int n = tableCount > 0 ? tableCount : TABLE_TEMPLATES.length;
         buildTables(n);
+        for (TableInfo table : tables) while (table.getColumnCount() < minimumColumns) {
+            int next = table.getColumnCount() + 1;
+            table.addColumn(col(next, "FIXTURE_" + next, "varchar", "128", false, 0, false, true, "规模验证字段"));
+        }
     }
 
     // ------------------------------------------------------------------

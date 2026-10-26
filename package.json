@@ -1,0 +1,11 @@
+{
+  "name": "@nstc/db2chm-development",
+  "version": "0.2.0-beta.1",
+  "private": true,
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "test": "node --test tests/*.test.cjs",
+    "pack:prototype": "node scripts/package.cjs --prototype",
+    "pack:release": "node scripts/package.cjs"
+  }
+}

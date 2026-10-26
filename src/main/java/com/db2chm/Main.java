@@ -14,9 +14,14 @@ import javax.swing.UIManager;
 public class Main {
 
     public static void main(String[] args) {
-        if (args.length > 0 && "--cli".equals(args[0])) {
-            String[] rest = new String[args.length - 1];
-            System.arraycopy(args, 1, rest, 0, rest.length);
+        if (args.length > 0) {
+            int skip = "--cli".equals(args[0]) ? 1 : 0;
+            String[] rest = new String[args.length - skip];
+            System.arraycopy(args, skip, rest, 0, rest.length);
+            try {
+                System.setOut(new java.io.PrintStream(new java.io.FileOutputStream(java.io.FileDescriptor.out), true, "UTF-8"));
+                System.setErr(new java.io.PrintStream(new java.io.FileOutputStream(java.io.FileDescriptor.err), true, "UTF-8"));
+            } catch (java.io.UnsupportedEncodingException impossible) { throw new IllegalStateException(impossible); }
             System.exit(CliRunner.run(rest));
             return;
         }
