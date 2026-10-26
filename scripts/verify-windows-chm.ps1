@@ -8,10 +8,20 @@ foreach ($report in $reports) {
   $manifest = Get-Content -LiteralPath $report.FullName -Raw -Encoding utf8 | ConvertFrom-Json
   $source = $report.Directory.FullName
   $chm = Join-Path $source 'database.chm'
-  $destination = Join-Path $env:RUNNER_TEMP ([guid]::NewGuid().ToString('N'))
+  $work = Join-Path $env:RUNNER_TEMP ([guid]::NewGuid().ToString('N'))
+  New-Item -ItemType Directory -Path $work | Out-Null
+  $inputChm = Join-Path $work 'database.chm'
+  Copy-Item -LiteralPath $chm -Destination $inputChm
+  $destination = Join-Path $work 'extracted'
   New-Item -ItemType Directory -Path $destination | Out-Null
-  $arguments = '-decompile "{0}" "{1}"' -f $destination,$chm
+  $arguments = '-decompile "{0}" "{1}"' -f $destination,$inputChm
   $process = Start-Process -FilePath $hh -ArgumentList $arguments -WindowStyle Hidden -Wait -PassThru
+  $deadline = [DateTime]::UtcNow.AddSeconds(30)
+  do {
+    $missing = @($manifest.files | Where-Object { -not (Test-Path -LiteralPath (Join-Path $destination $_.file) -PathType Leaf) })
+    if ($missing.Count -eq 0) { break }
+    Start-Sleep -Milliseconds 200
+  } while ([DateTime]::UtcNow -lt $deadline)
   foreach ($file in $manifest.files) {
     $extracted = Join-Path $destination $file.file
     if (-not (Test-Path -LiteralPath $extracted -PathType Leaf)) { throw "Missing extracted $($file.file) from $chm" }
