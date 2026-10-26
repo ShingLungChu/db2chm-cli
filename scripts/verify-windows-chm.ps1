@@ -2,7 +2,7 @@ param([Parameter(Mandatory=$true)][string]$ArtifactRoot)
 $ErrorActionPreference = 'Stop'
 $hh = Join-Path $env:WINDIR 'hh.exe'
 $reports = @(Get-ChildItem -LiteralPath $ArtifactRoot -Filter verification.json -Recurse -File)
-if ($reports.Count -ne 6) { throw "Expected 6 application scenarios, found $($reports.Count)" }
+if ($reports.Count -ne 9) { throw "Expected 9 application scenarios, found $($reports.Count)" }
 $results = @()
 foreach ($report in $reports) {
   $manifest = Get-Content -LiteralPath $report.FullName -Raw -Encoding utf8 | ConvertFrom-Json
@@ -14,7 +14,9 @@ foreach ($report in $reports) {
   Copy-Item -LiteralPath $chm -Destination $inputChm
   $destination = Join-Path $work 'extracted'
   New-Item -ItemType Directory -Path $destination | Out-Null
-  $arguments = '-decompile "{0}" "{1}"' -f $destination,$inputChm
+  # hh.exe's legacy decompile parser treats quote characters literally.
+  if (($destination + $inputChm) -match '[^\x21-\x7e]') { throw 'hh.exe validation workspace must use ASCII paths without spaces' }
+  $arguments = @('-decompile',$destination,$inputChm)
   $process = Start-Process -FilePath $hh -ArgumentList $arguments -WindowStyle Hidden -Wait -PassThru
   $deadline = [DateTime]::UtcNow.AddSeconds(30)
   do {

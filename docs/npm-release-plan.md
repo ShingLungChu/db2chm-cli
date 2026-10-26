@@ -1,7 +1,15 @@
 # db2chm npm 发布任务与交付计划
 
-制定日期：2026-10-26。状态：执行基线草案；本文件定义任务和验收标准，不表示相关功能已经实现。
+制定日期：2026-10-26。状态：实施中；实际交付状态以 docs/task-status.md 为准。
 
+
+## 2026-10-26 执行决策更新
+
+npm scope 为 @nstc，发布账号 jackiechen1994。统一入口 @nstc/db2chm，平台包为 @nstc/db2chm-PLATFORM。
+
+用户调整本版真实环境验收范围：先准备 Oracle、达梦、Vastbase；最低通过标准为 Oracle 和达梦。原计划中五种适配器继续保留，MySQL/Kingbase 的未验证组合不作正式支持声明。本文较早的五数据库全量验收要求在本版按此决策执行。
+
+Windows HHC 的现状已进一步定位：工具文件存在且普通宿主执行可启动，但出现 HHC6003，完整搜索组件和再分发问题尚未解决。早期重定位现象不能用于认定工具文件缺失。当前不将 HHC 文件放进 npm 包。
 ## 1. 最终交付目标
 
 用户安装对应平台的 npm 包后，使用统一的 db2chm 命令，连接受支持的数据库，以只读方式查询元数据，按表名过滤并生成可在 Windows HTML Help 中使用的 CHM。Agent 通过独立 skill 调用相同的 CLI。
@@ -43,13 +51,13 @@ Actions 证据：https://github.com/ShingLungChu/db2chm-cli/actions/runs/4025353
 
 建议平台包自包含业务 JAR、该平台已获准分发的编译器、轻量 Node 启动器及必要许可。统一入口通过精确版本的 optionalDependencies 选择当前平台包。
 
-| 包名示例，scope 待确认 | npm os / cpu | 内容与定位 |
+| 正式包名，scope 已确认为 nstc | npm os / cpu | 内容与定位 |
 | --- | --- | --- |
-| @db2chm/cli | 入口根据平台分派 | 创建 db2chm 命令，选择平台包，报告缺失依赖 |
-| @db2chm/cli-win32-x64 | win32 / x64 | JAR、HHC 运行文件集、启动器；HHC 分发以 T01 结论为准 |
-| @db2chm/cli-darwin-x64 | darwin / x64 | JAR、Intel chmcmd、启动器 |
-| @db2chm/cli-darwin-arm64 | darwin / arm64 | JAR、Apple Silicon chmcmd、启动器 |
-| @db2chm/cli-linux-x64 | linux / x64 | JAR、Linux chmcmd、启动器 |
+| @nstc/db2chm | 入口根据平台分派 | 创建 db2chm 命令，选择平台包，报告缺失依赖 |
+| @nstc/db2chm-win32-x64 | win32 / x64 | JAR、HHC 运行文件集、启动器；HHC 分发以 T01 结论为准 |
+| @nstc/db2chm-darwin-x64 | darwin / x64 | JAR、Intel chmcmd、启动器 |
+| @nstc/db2chm-darwin-arm64 | darwin / arm64 | JAR、Apple Silicon chmcmd、启动器 |
+| @nstc/db2chm-linux-x64 | linux / x64 | JAR、Linux chmcmd、启动器 |
 
 目标调用链：
 

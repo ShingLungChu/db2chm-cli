@@ -62,6 +62,9 @@ test('dangerous JDBC properties and arbitrary driver class are refused before co
     assert.doesNotMatch(r.stdout+r.stderr,/never-log-this/);
   }
   assert.equal(cli(['tables','list','--type','MYSQL','--url','jdbc:mysql://localhost:3306/demo','--driver','arbitrary.Class']).status,8);
+  assert.equal(cli(['tables','list','--type','MYSQL','--url','jdbc:mysql://localhost:3306/demo?socketTimeout=0']).status,8);
+  for(const port of ['0','65536'])assert.equal(cli(['tables','list','--type','ORACLE','--url','jdbc:oracle:thin:@localhost:'+port+'/ORCL']).status,8);
+  assert.equal(cli(['tables','list','--type','ORACLE','--url','jdbc:oracle:thin:@localhost:1521/ORCL','--user','sys as sysdba']).status,8);
 });
 test('config refuses stored passwords and a missing approved driver is a dependency failure', () => {
   const config=path.join(scratch,'secret.json');

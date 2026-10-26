@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "version": "0.2.0-beta.1",
+  "sourceCommit": null,
+  "reportSha256": null,
+  "gates": {
+    "G0": {
+      "status": "pending",
+      "evidence": []
+    },
+    "G1": {
+      "status": "pending",
+      "evidence": []
+    },
+    "G2": {
+      "status": "pending",
+      "evidence": []
+    },
+    "G3": {
+      "status": "pending",
+      "evidence": []
+    },
+    "G4": {
+      "status": "pending",
+      "evidence": []
+    },
+    "G5": {
+      "status": "pending",
+      "evidence": []
+    }
+  },
+  "databases": {
+    "ORACLE": "pending",
+    "DM": "pending",
+    "VASTBASE": "planned",
+    "MYSQL": "unverified",
+    "KINGBASE": "unverified"
+  }
+}

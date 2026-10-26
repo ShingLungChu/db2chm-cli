@@ -44,6 +44,16 @@ jobs:
         run: mvn --batch-mode --no-transfer-progress -DskipTests package
       - name: Complete Java to CHM, filtered and 1000 tables x 20 columns
         run: node scripts/check-application.cjs target/native/${{ matrix.platform }}/chmcmd target/application/${{ matrix.platform }}
+      - name: Pack and install private prototype with its real native compiler
+        run: |
+          node scripts/package.cjs --prototype --native-prototype --platform ${{ matrix.platform }}
+          node scripts/check-installed-native.cjs "target/application/${{ matrix.platform }}/installed output"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: private-native-npm-${{ matrix.platform }}
+          path: target/npm/
+          if-no-files-found: error
+          retention-days: 14
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
