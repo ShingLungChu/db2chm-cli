@@ -7,7 +7,8 @@ const scenarios=[{name:'small',count:2,extra:['--include','*ORDER*']},{name:'sca
 for(const scenario of scenarios){
  const dir=path.join(output,scenario.name+' 中文 output');
  const started=Date.now();
- const result=spawnSync(java,['-jar',path.join(root,'target/db2chm.jar'),'export','--mock','--compiler','chmcmd','--compiler-path',compiler,'--out',dir,'--timeout','600','--json',...scenario.extra],{encoding:'utf8',timeout:620000,maxBuffer:4*1024*1024});
+ const transport=require('../npm/argv.cjs')(['export','--mock','--compiler','chmcmd','--compiler-path',compiler,'--out',dir,'--timeout','600','--json',...scenario.extra]);
+ const result=spawnSync(java,['-jar',path.join(root,'target/db2chm.jar'),...transport.args],{encoding:'utf8',env:{...process.env,...transport.env},timeout:620000,maxBuffer:4*1024*1024});
  fs.writeFileSync(path.join(output,scenario.name+'-stderr.txt'),result.stderr||'');
  if(result.error)throw result.error;
  let body;try{body=JSON.parse(result.stdout);}catch{throw new Error('CLI stdout is not JSON: '+result.stdout);}

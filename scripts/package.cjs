@@ -6,7 +6,7 @@ const cp=require('node:child_process');
 const sourceCommit=cp.execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim();
 const prototype=argv.includes('--prototype'),single=argv.includes('--platform')?argv[argv.indexOf('--platform')+1]:null;
 const nativePrototype=argv.includes('--native-prototype');
-if(nativePrototype&&(!prototype||!single||single==='win32-x64'))throw new Error('Native prototypes require --prototype and one macOS/Linux target');
+if(nativePrototype&&(!prototype||!single))throw new Error('Native prototypes require --prototype and one target');
 if(!prototype&&cp.execFileSync('git',['status','--porcelain'],{cwd:root,encoding:'utf8'}).trim())throw new Error('Candidate packaging requires a clean source checkout');
 const targets=single?config.platforms.filter(p=>p.id===single):config.platforms;
 if(!targets.length)throw new Error('Unknown platform');
@@ -60,7 +60,7 @@ for(const platform of targets){
  const dir=path.join(build,'entry');fs.mkdirSync(dir,{recursive:true});
  copy(help,path.join(dir,'help.txt'));copy(path.join(root,'npm/entry.cjs'),path.join(dir,'bin/db2chm.cjs'));fs.chmodSync(path.join(dir,'bin/db2chm.cjs'),0o755);
  copy(path.join(root,'npm/info.cjs'),path.join(dir,'bin/info.cjs'));
- fs.writeFileSync(path.join(dir,'README.md'),'# @'+config.scope+'/'+config.name+'\n\nRequires Node 22+ and preinstalled Java. Source and current release status: https://github.com/ShingLungChu/db2chm-cli\n'+(prototype?'Private compiler-free prototype. Not a release candidate.\n':''));
+ fs.writeFileSync(path.join(dir,'README.md'),'# @'+config.scope+'/'+config.name+'\n\nRequires Node 22+ and preinstalled Java. Source and current release status: https://github.com/ShingLungChu/db2chm-cli\n'+(prototype?'Private validation prototype. Not a release candidate.\n':''));
  const optionalDependencies=Object.fromEntries(config.platforms.map(p=>['@'+config.scope+'/'+config.name+'-'+p.id,config.version]));
  pack(dir,{...base,name:'@'+config.scope+'/'+config.name,files:['bin/','help.txt','README.md'],optionalDependencies});
 }

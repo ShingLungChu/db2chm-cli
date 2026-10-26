@@ -16,9 +16,11 @@ const prepared=types.map(type=>{
  const file=path.join(configDir,type+'.json'),config=JSON.parse(fs.readFileSync(file,'utf8'));
  if(JSON.stringify(config).includes('REPLACE_')||!versions[type]?.serverVersion||versions[type]?.accountPermissionsConfirmed!==true)throw new Error(type+': fill connection, server version and account confirmation first');
  if(Object.hasOwn(config,'password'))throw new Error('Use local password environment variables instead of config passwords');
+ const driver=path.resolve(path.dirname(file),config.driverJar||'');
+ if(!config.driverJar||!fs.existsSync(driver)||!fs.statSync(driver).isFile())throw new Error(type+': configure a readable trusted driverJar file first');
  const secret=process.env['DB2CHM_'+type.toUpperCase()+'_PASSWORD'];
  if(secret===undefined)throw new Error('Set local DB2CHM_'+type.toUpperCase()+'_PASSWORD');
- return {type,file,secret,config};
+ return {type,file,secret,config,driver};
 });
 const destination=fs.mkdtempSync(path.join(root,'target/database-validation-')),summary=[];
 let failed=false;
@@ -40,7 +42,7 @@ for(const item of prepared){
  }
  const ok=results.length===2&&results.every(r=>r.ok)&&results.every(r=>r.tableCount>0);
  failed ||= !ok;
- const driver=path.resolve(path.dirname(item.file),item.config.driverJar);
+ const driver=item.driver;
  summary.push({type:item.type,ok,serverVersion:versions[item.type].serverVersion,driverSha256:crypto.createHash('sha256').update(fs.readFileSync(driver)).digest('hex'),platform:process.platform+'-'+process.arch,results,chmRequested:!!options.compiler,databaseAudit:'pending',viewerInteraction:'pending'});
 }
 fs.writeFileSync(path.join(destination,'summary.json'),JSON.stringify(summary,null,2)+'\n');

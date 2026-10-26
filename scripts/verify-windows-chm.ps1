@@ -2,7 +2,7 @@ param([Parameter(Mandatory=$true)][string]$ArtifactRoot)
 $ErrorActionPreference = 'Stop'
 $hh = Join-Path $env:WINDIR 'hh.exe'
 $reports = @(Get-ChildItem -LiteralPath $ArtifactRoot -Filter verification.json -Recurse -File)
-if ($reports.Count -ne 9) { throw "Expected 9 application scenarios, found $($reports.Count)" }
+if ($reports.Count -ne 12) { throw "Expected 12 application scenarios, found $($reports.Count)" }
 $results = @()
 foreach ($report in $reports) {
   $manifest = Get-Content -LiteralPath $report.FullName -Raw -Encoding utf8 | ConvertFrom-Json

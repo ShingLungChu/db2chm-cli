@@ -13,6 +13,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - { runner: windows-2025, platform: win32-x64 }
           - { runner: ubuntu-24.04, platform: linux-x64 }
           - { runner: macos-15-intel, platform: darwin-x64 }
           - { runner: macos-26, platform: darwin-arm64 }
@@ -39,11 +40,16 @@ jobs:
           mkdir -p target/native/${{ matrix.platform }}
           brew info --json=v2 fpc > target/native/${{ matrix.platform }}/bootstrap-packages.json
       - name: Build fixed source and record provenance
+        if: runner.os != 'Windows'
         run: bash scripts/build-native.sh ${{ matrix.platform }} target/native/${{ matrix.platform }}
+      - name: Build Windows fallback from pinned source and bootstrap
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: ./scripts/build-native-windows.ps1
       - name: Build application
         run: mvn --batch-mode --no-transfer-progress -DskipTests package
       - name: Complete Java to CHM, filtered and 1000 tables x 20 columns
-        run: node scripts/check-application.cjs target/native/${{ matrix.platform }}/chmcmd target/application/${{ matrix.platform }}
+        run: node scripts/check-application.cjs target/native/${{ matrix.platform }}/${{ runner.os == 'Windows' && 'chmcmd.exe' || 'chmcmd' }} target/application/${{ matrix.platform }}
       - name: Pack and install private prototype with its real native compiler
         run: |
           node scripts/package.cjs --prototype --native-prototype --platform ${{ matrix.platform }}

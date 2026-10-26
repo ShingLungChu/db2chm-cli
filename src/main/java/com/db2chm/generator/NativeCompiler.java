@@ -45,6 +45,7 @@ public final class NativeCompiler {
             }
         }
         for (Path candidate : candidates) if (Files.isRegularFile(candidate) && (isWindows() || Files.isExecutable(candidate))) return checked(kind, candidate);
+        if (isWindows() && "auto".equals(requested)) return resolve("chmcmd", null);
         throw new CliFailure(3, "COMPILER_NOT_FOUND", "CHM compiler is missing. Use doctor or --compiler-path with an installed compiler.");
     }
     private static NativeCompiler checked(String kind, Path path) throws CliFailure {
