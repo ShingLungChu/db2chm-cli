@@ -12,7 +12,8 @@ const jar = path.join(root, 'target', 'db2chm.jar');
 const scratch = fs.mkdtempSync(path.join(root, 'target', 'db2chm-contract-'));
 test.after(() => fs.rmSync(scratch, {recursive:true, force:true}));
 function cli(args, extra={}) {
-  const r = spawnSync(java, ['-jar', jar, '--cli', ...args, '--json'], {encoding:'utf8', timeout:20000, ...extra});
+  const transport=require('../npm/argv.cjs')([...args,'--json']);
+  const r = spawnSync(java, ['-jar', jar, '--cli', ...transport.args], {encoding:'utf8', timeout:20000, ...extra, env:{...process.env,...extra.env,...transport.env}});
   assert.ifError(r.error);
   let data; try { data = JSON.parse(r.stdout); } catch { assert.fail('stdout must be one JSON object: ' + r.stdout); }
   assert.equal(data.schemaVersion, 1);

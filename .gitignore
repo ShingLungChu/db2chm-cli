@@ -10,3 +10,8 @@
 *.iml
 /.idea/
 /.vscode/
+/.local/
+/node_modules/
+.env
+.env.*
+*.pem

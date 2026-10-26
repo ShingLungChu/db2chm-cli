@@ -10,7 +10,9 @@ if(!require('./info.cjs')(args,pkg,root)){
   if(expected && expected!==process.platform+'-'+process.arch)fail('UNSUPPORTED_PLATFORM','Install the package matching this operating system and CPU.');
   else {
     const java=process.env.JAVA_HOME?path.join(process.env.JAVA_HOME,'bin',process.platform==='win32'?'java.exe':'java'):'java';
-    const child=spawn(java,['-Dfile.encoding=UTF-8','-Ddb2chm.home='+root,'-jar',path.join(root,'lib','db2chm.jar'),'--cli',...args],{stdio:'inherit',shell:false,detached:process.platform!=='win32'});
+    let transport;try{transport=require('./argv.cjs').forLaunch(args,process.cwd());}catch{if(json)emit(false,null,{code:'INVALID_ARGUMENT',message:'Arguments exceed the supported launcher limit.'},2);else{console.error('INVALID_ARGUMENT: Arguments exceed the supported launcher limit.');process.exitCode=2;}return;}
+    const home64=Buffer.from(root,'utf8').toString('base64');
+    const child=spawn(java,['-Dfile.encoding=UTF-8','-Ddb2chm.home64='+home64,'-jar','db2chm.jar','--cli',...transport.args],{cwd:path.join(root,'lib'),stdio:'inherit',shell:false,detached:process.platform!=='win32',env:{...process.env,...transport.env}});
     let stopping=false;
     function stop(signal){
       if(stopping)return;stopping=true;

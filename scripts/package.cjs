@@ -22,6 +22,7 @@ for(const platform of targets){
  const dir=path.join(build,platform.id);fs.mkdirSync(dir,{recursive:true});
  copy(jar,path.join(dir,'lib/db2chm.jar'));copy(help,path.join(dir,'help.txt'));copy(path.join(root,'npm/launcher.cjs'),path.join(dir,'bin/db2chm.cjs'));
  copy(path.join(root,'npm/info.cjs'),path.join(dir,'bin/info.cjs'));
+ copy(path.join(root,'npm/argv.cjs'),path.join(dir,'bin/argv.cjs'));
  fs.chmodSync(path.join(dir,'bin/db2chm.cjs'),0o755);
  let notices='JAR includes FreeMarker 2.3.32 (Apache-2.0) and Gson 2.10.1 (Apache-2.0). See their LICENSE/NOTICE resources in the JAR.\nJava and vendor JDBC drivers are not bundled.\n';
  if(!prototype){

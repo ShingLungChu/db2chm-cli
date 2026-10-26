@@ -26,6 +26,9 @@ public final class NativeCompiler {
         String filename = kind + (isWindows() ? ".exe" : "");
         List<Path> candidates = new ArrayList<>();
         String appHome = System.getProperty("db2chm.home");
+        String home64 = System.getProperty("db2chm.home64");
+        if (home64 != null) try { appHome = new String(Base64.getDecoder().decode(home64), java.nio.charset.StandardCharsets.UTF_8); }
+        catch (IllegalArgumentException e) { throw CliFailure.usage("Invalid application directory transport."); }
         if (appHome != null) { candidates.add(Paths.get(appHome, "native", filename)); candidates.add(Paths.get(appHome, "tools", "hhc", filename)); }
         try {
             Path app = Paths.get(NativeCompiler.class.getProtectionDomain().getCodeSource().getLocation().toURI()).toAbsolutePath().getParent();
@@ -70,11 +73,8 @@ public final class NativeCompiler {
             catch (InterruptedException e) { process.destroyForcibly(); Thread.currentThread().interrupt(); throw e; }
             if (!exited) { process.destroyForcibly(); throw new CliFailure(124, "COMPILER_TIMEOUT", "CHM compiler timed out."); }
             reader.join(1000);
-            String log = capture.text(charset);
-            Set<String> diagnostics = new LinkedHashSet<>();
-            Matcher codes = Pattern.compile("HHC[0-9]{4}").matcher(log);
-            while (codes.find()) diagnostics.add(codes.group());
-            boolean fatal = Pattern.compile("HHC[0-9]{4}:\\s*Error:", Pattern.CASE_INSENSITIVE).matcher(log).find();
+            Set<String> diagnostics = capture.diagnostics();
+            boolean fatal = capture.fatal || capture.readFailed || !capture.finished;
             int code = process.exitValue();
             boolean expectedCode = code == 0 || ("hhc".equals(kind) && code == 1);
             byte[] signature = new byte[4];
@@ -94,13 +94,20 @@ public final class NativeCompiler {
     }
     private static final class Capture implements Runnable {
         private final InputStream input;
-        private final ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        private final Set<String> codes = new LinkedHashSet<>();
+        volatile boolean fatal, readFailed, finished;
         Capture(InputStream input) { this.input = input; }
         public void run() {
-            byte[] buffer = new byte[4096]; int n;
-            try { while ((n = input.read(buffer)) != -1) synchronized(bytes) { int keep=Math.min(n,65536-bytes.size()); if(keep>0) bytes.write(buffer,0,keep); } }
-            catch (IOException ignored) { }
+            byte[] buffer = new byte[4096]; int n; String tail = "";
+            try { while ((n = input.read(buffer)) != -1) {
+                String chunk = tail + new String(buffer,0,n,java.nio.charset.StandardCharsets.ISO_8859_1);
+                Matcher matcher = Pattern.compile("HHC[0-9]{4}").matcher(chunk);
+                synchronized(codes) { while (matcher.find()) if(codes.size()<128) codes.add(matcher.group()); }
+                fatal |= Pattern.compile("HHC[0-9]{4}:\\s*Error:",Pattern.CASE_INSENSITIVE).matcher(chunk).find();
+                tail = chunk.substring(Math.max(0,chunk.length()-512));
+            } } catch (IOException ignored) { readFailed=true; }
+            finally { finished=true; }
         }
-        String text(Charset charset) { synchronized(bytes) { return new String(bytes.toByteArray(),charset); } }
+        Set<String> diagnostics() { synchronized(codes) { return new LinkedHashSet<>(codes); } }
     }
 }

@@ -9,7 +9,7 @@ test('final-shape tarballs install through the entry package and download only t
  const report=JSON.parse(fs.readFileSync(reportPath)),id=process.platform+'-'+process.arch;
  const selected=report.packages.find(p=>p.platform===id),entry=report.packages.find(p=>!p.platform);
  assert.ok(selected&&entry);
- const workspace=fs.mkdtempSync(path.join(root,'target/npm-install-'));
+ const workspace=fs.mkdtempSync(path.join(root,'target/npm 安装-'));
  const requested=[];
  const server=http.createServer((req,res)=>{
   const route=decodeURIComponent(req.url.split('?')[0]);

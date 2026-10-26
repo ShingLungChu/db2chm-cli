@@ -39,6 +39,8 @@ public final class CliRunner {
         boolean json = Arrays.asList(args).contains("--json");
         String command = "unknown";
         try {
+            args = LauncherArguments.decode(args, environment);
+            json = Arrays.asList(args).contains("--json");
             CliOptions options = CliOptions.parse(args); json = options.json; command = options.command;
             if ("help".equals(command) || "version".equals(command)) {
                 String value = "help".equals(command) ? help() : version();

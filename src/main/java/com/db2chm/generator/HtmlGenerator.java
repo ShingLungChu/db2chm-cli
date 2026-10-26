@@ -174,7 +174,7 @@ public class HtmlGenerator {
             throws Exception {
         Template tpl = cfg.getTemplate(tplName);
         File outFile = new File(outDir, fileName);
-        try (Writer w = new OutputStreamWriter(Files.newOutputStream(outFile.toPath()), outputCharset)) {
+        try (Writer w = new OutputStreamWriter(Files.newOutputStream(outFile.toPath()), outputCharset.newEncoder().onMalformedInput(java.nio.charset.CodingErrorAction.REPORT).onUnmappableCharacter(java.nio.charset.CodingErrorAction.REPORT))) {
             tpl.process(model, w);
         }
     }
