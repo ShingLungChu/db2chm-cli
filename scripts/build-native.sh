@@ -36,15 +36,18 @@ else
   otool -l "$out/chmcmd" >> "$out/binary-dependencies.txt"
   sw_vers >> "$out/binary-dependencies.txt"
 fi
-for license in COPYING COPYING.FPC COPYING.LIB; do
-  if [[ -f "$work/$license" ]]; then cp "$work/$license" "$out/$license"; fi
-done
-tar -czf "$out/chm-source.tar.gz" -C "$work" packages/chm
+cp "$work/LICENSE" "$out/FPC-LICENSE.txt"
+cp "$work/rtl/COPYING.FPC" "$out/RTL-COPYING.FPC"
+cp "$work/rtl/COPYING.txt" "$out/RTL-COPYING.txt"
+tar -czf "$out/chm-source.tar.gz" -C "$work" packages/chm LICENSE rtl/COPYING.FPC rtl/COPYING.txt
 cat > "$out/SOURCE.txt" <<EOF
 CHM utility source: $source_url
 Commit: $commit
 Bootstrap FPC: $version
 Bootstrap executable: $fpc_bin
+Local modification: chmcmd-fpc322.patch supplies the rtlString alias for FPC 3.2.2.
+Bootstrap library source baseline: https://github.com/fpc/FPCSource/tree/release_3_2_2
+Exact distro package/revision details: bootstrap-packages.*
 Build candidate: distribution review and oldest-system validation pending.
 EOF
 node - "$out" "$platform" "$commit" "$fpc_bin" <<'NODE'

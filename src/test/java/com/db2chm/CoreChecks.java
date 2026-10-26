@@ -56,6 +56,9 @@ public final class CoreChecks {
             Files.write(hhp,(success+"process.exit(2);").getBytes(StandardCharsets.UTF_8));
             try{compiler.compile(hhp,out,5);throw new AssertionError("Compiler error exit accepted");}catch(CliFailure e){check(e.code().equals("COMPILER_FAILED"),"Compiler exit contract");}
             Files.delete(out);
+            Files.write(hhp,(success+"process.stdout.write('x'.repeat(100000)+'HHC6003: Error: simulated late compiler error');").getBytes(StandardCharsets.UTF_8));
+            try{compiler.compile(hhp,out,5);throw new AssertionError("Late compiler diagnostic ignored");}catch(CliFailure e){check(e.code().equals("COMPILER_FAILED"),"Late compiler diagnostic code");}
+            Files.delete(out);
             Files.write(hhp,"setTimeout(()=>{},10000);".getBytes(StandardCharsets.UTF_8));
             try{compiler.compile(hhp,out,1);throw new AssertionError("Compiler timeout ignored");}catch(CliFailure e){check(e.exitCode()==124,"Compiler timeout code");}
             Path destination=root.resolve("published");
