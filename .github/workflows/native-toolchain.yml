@@ -6,8 +6,34 @@ on:
 permissions:
   contents: read
 jobs:
+  application:
+    name: Build shared Java payload twice
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+      - name: Build twice and require identical application bytes
+        run: |
+          mvn --batch-mode --no-transfer-progress -DskipTests package
+          cp target/db2chm.jar target/first-build.jar
+          mvn --batch-mode --no-transfer-progress -DskipTests package
+          cmp target/first-build.jar target/db2chm.jar
+          sha256sum target/db2chm.jar > target/application-sha256.txt
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: shared-java-runtime
+          path: |
+            target/db2chm.jar
+            target/application-sha256.txt
+          if-no-files-found: error
+          retention-days: 14
   native:
     name: Build source and application CHM / ${{ matrix.platform }}
+    needs: application
     runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
@@ -46,8 +72,10 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: ./scripts/build-native-windows.ps1
-      - name: Build application
-        run: mvn --batch-mode --no-transfer-progress -DskipTests package
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: shared-java-runtime
+          path: target/
       - name: Complete Java to CHM, filtered and 1000 tables x 20 columns
         run: node scripts/check-application.cjs target/native/${{ matrix.platform }}/${{ runner.os == 'Windows' && 'chmcmd.exe' || 'chmcmd' }} target/application/${{ matrix.platform }}
       - name: Pack and install private prototype with its real native compiler
