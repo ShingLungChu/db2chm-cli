@@ -1,6 +1,6 @@
 program chmnavdump;
 {$mode objfpc}{$H+}
-uses {$ifdef Unix}cthreads,cwstring,{$endif} Classes,SysUtils,chmreader,chmfiftimain;
+uses {$ifdef Unix}cthreads,cwstring,{$endif} Classes,SysUtils,chmreader,chmfiftimain,chmencoding;
 const objects:array[0..11] of string=('/#STRINGS','/#SYSTEM','/#TOCIDX',
  '/$WWKeywordLinks/BTree','/#TOPICS','/#URLTBL','/#URLSTR','/$FIftiMain','/#WINDOWS',
  '/contents.hhc','/index.hhk','/$OBJINST');
@@ -19,15 +19,16 @@ begin
 end;
 var reader:TChmReader; data:TMemoryStream; i:integer; sink:TSink;
 begin
+ EnableUtf8Paths;
  if ParamCount<>2 then Halt(2);
- ForceDirectories(ParamStr(2));
- reader:=TChmReader.Create(TFileStream.Create(ParamStr(1),fmOpenRead or fmShareDenyNone),true);
+ ForceDirectories(ChmParamStr(2));
+ reader:=TChmReader.Create(TFileStream.Create(ChmParamStr(1),fmOpenRead or fmShareDenyNone),true);
  try
   if not reader.IsValidFile then Halt(3);
   for i:=0 to High(objects) do begin
    data:=reader.GetObject(objects[i]);
    if Assigned(data) then try
-    data.SaveToFile(IncludeTrailingPathDelimiter(ParamStr(2))+names[i]);
+    data.SaveToFile(IncludeTrailingPathDelimiter(ChmParamStr(2))+names[i]);
    finally data.Free; end;
   end;
   data:=reader.GetObject('/$FIftiMain');
@@ -36,7 +37,7 @@ begin
    sink:=TSink.Create;sink.Lines:=TStringList.Create;
    try
     reader.SearchReader.DumpData(@sink.Found);
-    sink.Lines.SaveToFile(IncludeTrailingPathDelimiter(ParamStr(2))+'search-words.tsv');
+    sink.Lines.SaveToFile(IncludeTrailingPathDelimiter(ChmParamStr(2))+'search-words.tsv');
    finally sink.Lines.Free;sink.Free;end;
   end;
  finally reader.Free; end;

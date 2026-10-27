@@ -41,7 +41,18 @@
    OutStream := TFileStream.Create(Project.OutputFileName, fmCreate);
    Project.WriteChm(OutStream);
    if Project.ScanHtmlContents then
-@@ -214,6 +223,7 @@
+@@ -186,6 +195,10 @@
+   verbbool : boolean;
+ 
+ begin
++  {$ifdef MSWINDOWS}
++  for optionindex:=1 to ParamCount do
++    if System.ParamStr(optionindex)='--db2chm-encoding' then EnableUtf8Paths;
++  {$endif}
+   InitOptions;
+   Writeln(stderr,'chmcmd, a CHM compiler. (c) 2010-2024 Free Pascal core.');
+   Writeln(Stderr);
+@@ -214,6 +227,7 @@
                      Usage;
                      Halt;
                     end;
@@ -49,6 +60,15 @@
                 5 : begin
                       if not trystrtoint(optarg,cores) then
                         begin
+@@ -234,7 +248,7 @@
+  until c=endofoptions;
+  if (paramcount-optind)=0 then  // if equal, then 1 parameter
+     begin
+-      name:=paramstr(optind);
++      if Db2ChmEncoding then name:=ChmParamStr(optind) else name:=paramstr(optind);
+       if not fileexists(name) then
+         begin
+           Writeln('Can''t find project file ',name);
 --- a/packages/chm/src/chmwriter.pas
 +++ b/packages/chm/src/chmwriter.pas
 @@ -247,7 +247,7 @@
@@ -481,20 +501,40 @@
  
 --- /dev/null
 +++ b/packages/chm/src/chmencoding.pas
-@@ -0,0 +1,59 @@
+@@ -0,0 +1,79 @@
 +{ db2chm UTF-8 input / Simplified Chinese CHM output profile.
 +  Copyright 2026 db2chm contributors. LGPL-2.0-or-later, as the CHM utility. }
 +unit chmencoding;
 +{$mode objfpc}{$H+}
 +interface
-+uses SysUtils, Classes;
++uses {$ifdef MSWINDOWS}uuchar,{$endif} SysUtils, Classes;
 +var Db2ChmEncoding: Boolean = False;
 +function InputUnicode(const S: string): UnicodeString;
 +function TargetBytes(const S: string): string;
 +function HtmlInputText(const S: string): string;
 +procedure EncodeNavigationStream(S: TStream);
++procedure EnableUtf8Paths;
++function ChmParamStr(I: Integer): string;
 +implementation
 +type TCP936String = type AnsiString(936);
++procedure EnableUtf8Paths;
++begin
++ {$ifdef MSWINDOWS}
++ // Process-local RTL settings; do not change Windows locale or console settings.
++ SetMultiByteConversionCodePage(CP_UTF8);
++ SetMultiByteFileSystemCodePage(CP_UTF8);
++ SetMultiByteRTLFileSystemCodePage(CP_UTF8);
++ {$endif}
++end;
++function ChmParamStr(I: Integer): string;
++{$ifdef MSWINDOWS}var U: UTF8String;{$endif}
++begin
++ {$ifdef MSWINDOWS}
++ U:=UTF8Encode(uuchar.ParamStr(I));
++ SetLength(Result,Length(U));
++ if Length(U)>0 then Move(U[1],Result[1],Length(U));
++ {$else}Result:=ParamStr(I);{$endif}
++end;
 +function HtmlInputText(const S: string): string;
 +begin
 + Result:=S;

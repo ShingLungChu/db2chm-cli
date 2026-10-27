@@ -2,7 +2,7 @@
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),crypto=require('node:crypto'),{spawnSync}=require('node:child_process'),{inspect}=require('./check-navigation.cjs');
 const compiler=path.resolve(process.argv[2]),reader=path.resolve(process.argv[3]),out=path.resolve(process.argv[4]);
 fs.mkdirSync(out,{recursive:true});
-const valid=path.join(out,'chinese 中文 output');
+const valid=path.join(out,'中文父目录','chinese 中文 output');
 const fixture=dir=>{const r=spawnSync(process.execPath,[path.join(__dirname,'create-navigation-fixture.cjs'),dir],{encoding:'utf8'});assert.equal(r.status,0,r.stderr);};
 const compile=dir=>spawnSync(compiler,['--db2chm-encoding',path.join(dir,'database.hhp')],{cwd:dir,encoding:'utf8',timeout:30000});
 fixture(valid);const run=compile(valid);assert.equal(run.status,0,run.stdout+run.stderr);
