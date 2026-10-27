@@ -32,7 +32,8 @@ async function check(bundle,output,registryMode=false){
    const timer=setTimeout(()=>{child.kill();reject(new Error('Package installation timed out'));},180000);child.on('error',e=>{clearTimeout(timer);reject(e);});child.on('close',code=>{clearTimeout(timer);code?reject(new Error('Package installation failed: '+stderr)):resolve();});
   });
   if(!registryMode)assert.deepEqual(requests,[selected.name]);
-  const moduleRoot=path.join(prefix,process.platform==='win32'?'node_modules':'lib/node_modules'),home=path.join(moduleRoot,selected.name),launcher=path.join(moduleRoot,entry.name,'bin/db2chm.cjs');
+  const moduleRoot=path.join(prefix,process.platform==='win32'?'node_modules':'lib/node_modules'),launcher=path.join(moduleRoot,entry.name,'bin/db2chm.cjs');
+  const home=path.dirname(require('node:module').createRequire(launcher).resolve(selected.name+'/package.json'));
   const jarSha256=digest(fs.readFileSync(path.join(home,'lib/db2chm.jar'))),binary=path.join(home,'native',id==='win32-x64'?'chmcmd.exe':'chmcmd'),nativeSha256=digest(fs.readFileSync(binary));
   assert.equal(jarSha256,baseline.sharedJarSha256);assert.equal(nativeSha256,baseline.acceptedBaselinePayloadIdentity.platforms.find(p=>p.platform===id).nativeSha256);
   const version=spawnSync(process.execPath,[launcher,'--version','--json'],{encoding:'utf8'});assert.equal(version.status,0);assert.equal(JSON.parse(version.stdout).data.value,report.version);
