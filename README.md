@@ -1,10 +1,12 @@
 # db2chm CLI
 
+需要逐步更换 npm 组织、build 四个平台发布包并手动发布时，请按[发布指南](发布指南.md)执行；Windows 入口为项目根目录的 `release.cmd`。
+
 提供 Oracle、MySQL、达梦、Vastbase、KingbaseES 元数据适配器，按表名过滤并生成 HTML/CHM 数据字典。真实兼容范围以版本验收记录为准，本版最低真实验收为 Oracle 和达梦。业务逻辑使用 Java，npm 提供平台选择和启动入口；用户预装 Java。
 
 ## 当前交付状态
 
-`0.2.0-beta.1` 的公开 beta 候选包已完成四平台实际安装、CHM 导出和 Windows 解包验收，最终 Windows 原包的 Oracle/达梦/Vastbase 复验也通过。**当前 npm 首包发布正在等待账号持有人完成浏览器身份验证，尚未发布到 registry。** JDBC 驱动外置，不分发 Java 或 Microsoft HHC。候选来源及完整包哈希见[验收证据](docs/evidence/beta-candidate-7507078.json)。
+`0.2.0-beta.1` 的公开 beta 候选包已完成四平台实际安装、CHM 导出和 Windows 解包验收，最终 Windows 原包的 Oracle/达梦/Vastbase 复验也通过。**npm 发布已交由账号持有人在自己的终端按发布指南执行；实际完成状态以 registry 校验和发布后验收记录为准。** JDBC 驱动外置，不分发 Java 或 Microsoft HHC。候选来源及完整包哈希见[验收证据](docs/evidence/beta-candidate-7507078.json)。
 
 正式命名采用个人 scope `@jackiechen1994`，发布账号已在本机登录并核验。用户在 2026-10-27 将原计划的 `@nstc` 改为个人 scope；新名称的四平台构建、私有安装、自动汇总与三库功能复验已通过，旧记录保留。目标包：
 

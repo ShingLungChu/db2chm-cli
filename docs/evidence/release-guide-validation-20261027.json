@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "validatedAt": "2026-10-27T08:07:53.284Z",
+  "testScope": "guide-scope-test",
+  "publishedToNpm": false,
+  "scopeOfValidation": "all four platform tarballs built and native/source hashes checked; Windows entry installation and CHM export; new target still requires CI four-platform acceptance before publishing",
+  "version": "0.2.0-beta.1",
+  "applicationBaseline": "4de172f8d950fa9f10034b885859aebbae9c9512",
+  "sharedJarSha256": "7b4ee792eb515c7422553d6491991ec5742930262ea55d59f071eb446f416d8c",
+  "packages": [
+    {
+      "name": "@guide-scope-test/db2chm-win32-x64",
+      "platform": "win32-x64",
+      "bytes": 2689243,
+      "sha256": "e19d216b3ef35b8b9f26b1ec2241a4dec2d982e608e84d50d0881204fc8359d7",
+      "private": false,
+      "nativeVerification": {
+        "compiledSources": 15,
+        "binaryUnchanged": true,
+        "sourceArchiveSha256": "e10d048ef9e0b8dbfe182de89234e79e562d43d21df10654765b6eb5e4f8b2f3"
+      }
+    },
+    {
+      "name": "@guide-scope-test/db2chm-darwin-x64",
+      "platform": "darwin-x64",
+      "bytes": 3211635,
+      "sha256": "7982b626e55c947629a6a391674cb8de0123ed7302cdf1b08419e940d9acd5b7",
+      "private": false,
+      "nativeVerification": {
+        "compiledSources": 15,
+        "binaryUnchanged": true,
+        "sourceArchiveSha256": "6a3d80359aa76e7dd9dd020e936ccac4b7e5c710e290813807789906acedcbeb"
+      }
+    },
+    {
+      "name": "@guide-scope-test/db2chm-darwin-arm64",
+      "platform": "darwin-arm64",
+      "bytes": 3169285,
+      "sha256": "7991e30050105dd30c57b0482b4600e9866bd482a1d70e92e3f555b396f39fa2",
+      "private": false,
+      "nativeVerification": {
+        "compiledSources": 15,
+        "binaryUnchanged": true,
+        "sourceArchiveSha256": "286c550db89249138cbbac07f7bb98cfa5adf578ad17852d2ea25ac0ee4ec9f0"
+      }
+    },
+    {
+      "name": "@guide-scope-test/db2chm-linux-x64",
+      "platform": "linux-x64",
+      "bytes": 2762611,
+      "sha256": "562709c5970a83dcda481f545a99234aee83a18a82376457e2597ed0156ef166",
+      "private": false,
+      "nativeVerification": {
+        "compiledSources": 15,
+        "binaryUnchanged": true,
+        "sourceArchiveSha256": "cfd892b260fbf96616eee59433d470a77328f7cb578f3fabda716c69c97f229c"
+      }
+    },
+    {
+      "name": "@guide-scope-test/db2chm",
+      "platform": null,
+      "bytes": 2454,
+      "sha256": "a9e6b8607890c5de53b43a059b89f612676cd2b017ca29fbbe38216fa2bae0cc",
+      "private": false,
+      "optionalDependencies": {
+        "@guide-scope-test/db2chm-win32-x64": "0.2.0-beta.1",
+        "@guide-scope-test/db2chm-darwin-x64": "0.2.0-beta.1",
+        "@guide-scope-test/db2chm-darwin-arm64": "0.2.0-beta.1",
+        "@guide-scope-test/db2chm-linux-x64": "0.2.0-beta.1"
+      }
+    }
+  ],
+  "sizes": [
+    {
+      "platform": "win32-x64",
+      "platformBytes": 2689243,
+      "entryBytes": 2454,
+      "totalDownloadBytes": 2691697,
+      "belowLimit": true
+    },
+    {
+      "platform": "darwin-x64",
+      "platformBytes": 3211635,
+      "entryBytes": 2454,
+      "totalDownloadBytes": 3214089,
+      "belowLimit": true
+    },
+    {
+      "platform": "darwin-arm64",
+      "platformBytes": 3169285,
+      "entryBytes": 2454,
+      "totalDownloadBytes": 3171739,
+      "belowLimit": true
+    },
+    {
+      "platform": "linux-x64",
+      "platformBytes": 2762611,
+      "entryBytes": 2454,
+      "totalDownloadBytes": 2765065,
+      "belowLimit": true
+    }
+  ],
+  "windowsInstallation": {
+    "ok": true,
+    "platform": "win32-x64",
+    "jarSha256": "7b4ee792eb515c7422553d6491991ec5742930262ea55d59f071eb446f416d8c",
+    "nativeSha256": "f332d15dea7be9c5af328b483052e5c0dce3b5e3e8e0136fdf943ad74fb736d7",
+    "filesVerified": 4,
+    "totalDownloadBytes": 2691697
+  },
+  "originalWorkspaceScope": "jackiechen1994",
+  "originalAcceptedBundlePolicyUnchanged": true,
+  "automatedChecks": {
+    "passed": 19,
+    "failed": 0
+  },
+  "existingPersonalScopeBundleRechecked": {
+    "runId": "40453737323",
+    "githubArtifactDigest": "sha256:53bfb00791299c60f6a66b83103f29ff1088b10855fe484c550db2e0a1645b06",
+    "metadataReadFromGithub": true,
+    "originalZipCacheUsed": true,
+    "safeExtractionAndReleaseVerificationPassed": true
+  },
+  "newOrganizationFourPlatformCiAcceptance": "must be executed by operator with release.cmd build before publication"
+}

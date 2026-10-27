@@ -12,4 +12,5 @@
 *.css text eol=lf
 *.ps1 text eol=lf
 *.py text eol=lf
+*.cmd text eol=crlf
 *.patch text eol=lf -whitespace

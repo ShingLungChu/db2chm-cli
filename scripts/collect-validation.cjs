@@ -7,7 +7,9 @@ const artifactName=require('./artifact-name.cjs');
 const sha=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
 const readJson=file=>JSON.parse(fs.readFileSync(file,'utf8').replace(/^\uFEFF/,''));
 const member=(file,name)=>execFileSync('tar',['-xOf',file,'package/'+name],{maxBuffer:32*1024*1024});
-function collect(input,output){
+function collect(input,output,sourceIdentity=config){
+ assert.match(sourceIdentity.scope,/^[a-z0-9][a-z0-9._-]*$/,'Invalid source scope');
+ assert.equal(sourceIdentity.version,config.version,'The accepted executable version cannot be relabeled');
  input=fs.realpathSync(input);output=path.resolve(output);
  if(fs.existsSync(output))throw new Error('Use a fresh validation bundle directory');
  const run=readJson(path.join(input,'run.json'));
@@ -24,7 +26,7 @@ function collect(input,output){
  }
  const provenance={runId:String(run.id),sourceCommit:run.head_sha,workflowRunUrl:run.html_url,kind:'private-validation-bundle',releaseEligible:false};
  const packages=[],natives=[],entries=[];
- const entryName='@'+config.scope+'/'+config.name;
+ const entryName='@'+sourceIdentity.scope+'/'+config.name;
  const entryPayloads=['package.json','README.md','help.txt','bin/db2chm.cjs','bin/info.cjs'];
  for(const target of config.platforms){
   const name='private-native-npm-'+target.id,artifact=artifactIndex.filter(a=>a.name===name&&!a.expired);

@@ -8,7 +8,9 @@ assert.equal(config.version,policy.version);assert.equal(config.scope,policy.sco
 const run=read(path.join(input,'run.json'));assert.equal(run.head_sha,policy.acceptedBaseline);assert.equal(run.conclusion,'success');
 // Packaging/licensing changes can reuse the accepted executable code, never a changed application.
 execFileSync('git',['diff','--exit-code',policy.acceptedBaseline,'HEAD','--','src/main/java','src/main/resources','npm','pom.xml'],{cwd:root,stdio:'pipe'});
-const checked=require('./collect-validation.cjs')(input,path.join(root,'target/beta-input-check'));
+const baseline=read(path.join(root,policy.requiredEvidence));
+assert.equal(baseline.sourceCommit,policy.acceptedBaseline);
+const checked=require('./collect-validation.cjs')(input,path.join(root,'target/beta-input-check'),{scope:baseline.scope,version:config.version});
 const python=process.env.PYTHON||(process.platform==='win32'?'python':'python3');
 for(const p of config.platforms){
  const out=path.join(root,'target/native',p.id);
