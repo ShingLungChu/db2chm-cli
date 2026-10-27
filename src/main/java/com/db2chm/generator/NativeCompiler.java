@@ -13,9 +13,15 @@ public final class NativeCompiler {
     public final String kind;
     public final Path executable;
     public final Charset charset;
+    public final Charset htmlCharset;
+    public final Charset projectCharset;
+    public final Charset navigationCharset = Charset.forName("GBK");
+    public final int localeId = 0x804;
     private NativeCompiler(String kind, Path executable) {
         this.kind = kind; this.executable = executable;
-        this.charset = Charset.forName("hhc".equals(kind) ? "GBK" : "UTF-8");
+        this.htmlCharset = Charset.forName("hhc".equals(kind) ? "GBK" : "UTF-8");
+        this.projectCharset = htmlCharset;
+        this.charset = htmlCharset; // Retained for callers of the previous API.
     }
     public static NativeCompiler resolve(String requested, String explicit) throws CliFailure {
         String kind = "auto".equals(requested) ? (isWindows() ? "hhc" : "chmcmd") : requested;
@@ -56,13 +62,27 @@ public final class NativeCompiler {
     }
     public static boolean isWindows() { return System.getProperty("os.name", "").toLowerCase(Locale.ROOT).startsWith("windows"); }
     public Map<String, Object> describe() {
-        Map<String, Object> result = new LinkedHashMap<>(); result.put("kind", kind); result.put("path", executable.toString()); result.put("charset", charset.name()); return result;
+        Map<String, Object> result = new LinkedHashMap<>(); result.put("kind", kind); result.put("path", executable.toString()); result.put("charset", charset.name());
+        result.put("htmlCharset",htmlCharset.name()); result.put("projectCharset",projectCharset.name());
+        result.put("navigationCodepage",936); result.put("localeId",localeId);
+        result.put("encodingProfile","hhc".equals(kind)?"hhc-cp936":"db2chm-utf8-cp936-v1"); return result;
+    }
+    public void validateNavigation(String title, Collection<String> names) throws CliFailure {
+        java.nio.charset.CharsetEncoder encoder=navigationCharset.newEncoder();
+        if(!encoder.canEncode(title))throw encodingFailure();
+        for(String name:names)if(!encoder.canEncode(name))throw encodingFailure();
+    }
+    private static CliFailure encodingFailure() {
+        return new CliFailure(6,"ENCODING_UNREPRESENTABLE","The Chinese CHM profile requires text representable in CP936. Change unsupported characters or use --html-only for Unicode HTML.");
     }
     public Map<String, Object> compile(Path hhp, Path output, int timeoutSeconds) throws Exception {
         if (Files.exists(output)) throw new CliFailure(6, "STALE_CHM", "Compiler workspace already contains a CHM.");
         Process process;
         try {
-            process = new ProcessBuilder(executable.toString(), hhp.toAbsolutePath().toString()).directory(hhp.getParent().toFile()).redirectErrorStream(true).start();
+            List<String> argv=new ArrayList<>(); argv.add(executable.toString());
+            if("chmcmd".equals(kind))argv.add("--db2chm-encoding");
+            argv.add(hhp.toAbsolutePath().toString());
+            process = new ProcessBuilder(argv).directory(hhp.getParent().toFile()).redirectErrorStream(true).start();
         } catch (IOException e) { throw new CliFailure(3, "COMPILER_START_FAILED", "CHM compiler could not start; check its platform and runtime dependencies."); }
         Capture capture = new Capture(process.getInputStream());
         Thread reader = new Thread(capture, "db2chm-compiler-log"); reader.setDaemon(true); reader.start();
@@ -77,6 +97,8 @@ public final class NativeCompiler {
             Set<String> diagnostics = capture.diagnostics();
             boolean fatal = capture.fatal || capture.readFailed || !capture.finished;
             int code = process.exitValue();
+            if(capture.encodingError)throw encodingFailure();
+            if("chmcmd".equals(kind)&&capture.unsupportedProfile)throw new CliFailure(3,"COMPILER_PROFILE_UNSUPPORTED","This chmcmd does not support the required db2chm encoding profile. Use the compiler bundled with the platform package.");
             boolean expectedCode = code == 0 || ("hhc".equals(kind) && code == 1);
             byte[] signature = new byte[4];
             boolean valid = Files.isRegularFile(output) && Files.size(output) >= 96;
@@ -96,7 +118,7 @@ public final class NativeCompiler {
     private static final class Capture implements Runnable {
         private final InputStream input;
         private final Set<String> codes = new LinkedHashSet<>();
-        volatile boolean fatal, readFailed, finished;
+        volatile boolean fatal, readFailed, finished, encodingError, unsupportedProfile;
         Capture(InputStream input) { this.input = input; }
         public void run() {
             byte[] buffer = new byte[4096]; int n; String tail = "";
@@ -105,6 +127,8 @@ public final class NativeCompiler {
                 Matcher matcher = Pattern.compile("HHC[0-9]{4}").matcher(chunk);
                 synchronized(codes) { while (matcher.find()) if(codes.size()<128) codes.add(matcher.group()); }
                 fatal |= Pattern.compile("HHC[0-9]{4}:\\s*Error:",Pattern.CASE_INSENSITIVE).matcher(chunk).find();
+                encodingError |= chunk.contains("DB2CHM_ENCODING:");
+                unsupportedProfile |= chunk.toLowerCase(Locale.ROOT).contains("unknown option") || chunk.toLowerCase(Locale.ROOT).contains("unrecognized option");
                 tail = chunk.substring(Math.max(0,chunk.length()-512));
             } } catch (IOException ignored) { readFailed=true; }
             finally { finished=true; }

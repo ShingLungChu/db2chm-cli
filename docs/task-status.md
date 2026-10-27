@@ -9,7 +9,7 @@
 - 预装 Java，整个安装下载链严格小于 15,000,000 字节。
 - Windows 已确定优先已安装 HHC，缺席时使用包内 chmcmd.exe；不分发微软文件。已找到的 HHC 报错保留失败，显式 HHC 不回退。
 - 用户更新：本版环境优先 Oracle、达梦、Vastbase；最低真实验收为 Oracle 和达梦。MySQL/Kingbase 适配器保留，未验证组合不作正式支持承诺。
-- 已创建本机 .local/databases/oracle.json、dm.json、vastbase.json、versions.json；等待填写，Git/npm 均排除。
+- 本机三库配置已完成；Windows 真实元数据读取、筛选和 CHM 生成已实测，原始证据仅存本机。已发现中文 TOC 乱码，当前完整阅读功能未通过。
 
 ## 任务交付
 
@@ -20,17 +20,19 @@
 | T02 | 部分完成 | 固定源码、补丁、Windows bootstrap ZIP/EXE 哈希、四平台构建、源码/许可/依赖报告已交付；最低系统、完整链接组件分发和工具链复现待收口 |
 | T03 | 部分完成 | 五驱动版本/文件哈希和显式加载已交付；外置；真实兼容与厂商分发权不作已验证声明 |
 | T04 | 已交付 | CLI 契约、JSON/退出码、凭据与严格参数处理；12 个平台/运行时组合通过私有安装验证 |
-| T05 | 部分完成 | 固定查询、绑定、URL 能力许可列表、只读要求、超时、脱敏已实现并有夹具测试；Oracle/DM 真实审计待配置 |
+| T05 | 部分完成 | 固定查询、绑定、URL 能力许可列表、只读要求、超时、脱敏已实现并有夹具测试；三库环境已就绪，账号权限确认和真实 SQL 审计仍待完成 |
 | T06 | 已交付 | list/export 共用 glob，Unicode/大小写/包含排除/排序/无匹配有测试；真实环境复核属于 T09 |
-| T07 | 实现与样例验收已交付 | 四平台真实编译器、事务输出、超时/旧文件/长日志错误拒绝、中文路径和 12 份 CHM 解包比对通过；Viewer 互动归 T09 |
+| T07 | 重新打开，导航缺陷 | 编译与正文解包检查通过；六份真实样例内部导航均为 UTF-8/CP936 不一致，Windows TOC 中文乱码；按编码修复计划处理 |
 | T08 | 实现与私有验收完成 | 四平台包与统一入口安装矩阵、实际 bundled native 安装已通过，下载量均低于 15 MB；最终候选仍需 G0–G5 放行 |
-| T09 | 待真实环境 | 用户将填写 Oracle/DM/Vastbase 配置；Oracle/DM 为最低门槛。Windows Viewer 目录/索引/全文搜索互动验收未完成 |
+| T09 | 部分完成，G4 阻断 | Oracle/DM/Vastbase 的 Windows 真实读取、过滤及 CHM 生成通过；TOC 中文显示已失败，HHK/标题/全文搜索需补齐验收。权限与 SQL 审计仍待完成 |
 | T10 | 已交付 | 独立 skills/db2chm/SKILL.md、README、CLI/安全/依赖/发布文档；skill 校验通过，离线命令示例已执行 |
 | T11 | 部分完成 | 固定 Maven 插件/时间戳、runtime SBOM、哈希/体积/发布拒绝门槛、受控同产物发布；四平台共享重复构建一致的同一 JAR 已通过。native 完全复现、候选汇总和 npm 身份待收口 |
 | T12 | 未开始 | 没有已验收 RC；全部前置门槛收口后形成 beta |
 | T13 | 未开始 | 没有发布 npm；latest 未修改 |
 
 ## 已有实际证据
+
+- 2026-10-26 新增失败证据：用户截图和六份本机既有 CHM 的内部流检查确认中文导航编码不一致。既有解包/运行矩阵结果不等于 Windows 完整阅读验收通过。原因与后续标准见[编码修复计划](chm-navigation-encoding-plan.md)。
 
 - 源码对比：原项目 25 个源码文件，公开基线 24 个；差异是脱敏连接示例，原项目独有 TestRender 为本地助手，没有生产功能遗漏。
 - 提交 d1ef573 的 [CLI/npm 12 个运行组合](https://github.com/ShingLungChu/db2chm-cli/actions/runs/40274603589)全部成功。
@@ -44,7 +46,7 @@
 
 ## 下一步
 
-1. 用户填好 .local 配置后运行真实 Oracle/DM 验证；Vastbase 按本版计划补测。本机三个连接文件当前仍有占位值。
-2. 按[人工验收说明](manual-acceptance.md)完成 Windows Viewer 目录/索引/全文搜索互动验收和真实只读审计；本机记录模板已备好。
+1. 按[编码修复计划](chm-navigation-encoding-plan.md)完成最小中文样例、编码边界修复和四平台回归。
+2. 按[人工验收说明](manual-acceptance.md)完成 Windows Viewer 目录/索引/全文搜索互动验收和真实只读审计；三库的元数据读取与基础生成验证已完成。
 3. 收口 native 对应源码、链接组件与复现证据，冻结实际 OS/驱动版本范围。
 4. 形成四平台候选、检查全部证据及 npm 权限，再进入 beta/registry 验收。

@@ -50,10 +50,10 @@
 | --- | --- |
 | 0 | 成功 |
 | 2 | INVALID_ARGUMENT |
-| 3 | DRIVER_NOT_FOUND、DRIVER_MISMATCH、DRIVER_INCOMPATIBLE、COMPILER_NOT_FOUND、JAVA_NOT_FOUND |
+| 3 | DRIVER_NOT_FOUND、DRIVER_MISMATCH、DRIVER_INCOMPATIBLE、COMPILER_NOT_FOUND、COMPILER_PROFILE_UNSUPPORTED、JAVA_NOT_FOUND |
 | 4 | CONNECTION_FAILED |
 | 5 | METADATA_FAILED、METADATA_EMPTY、NO_TABLES_MATCHED |
-| 6 | EXPORT_FAILED、COMPILER_FAILED、STALE_CHM |
+| 6 | EXPORT_FAILED、COMPILER_FAILED、STALE_CHM、ENCODING_UNREPRESENTABLE |
 | 7 | OUTPUT_EXISTS、IO_FAILED |
 | 8 | CONNECTION_POLICY_REJECTED、READ_ONLY_REQUIRED |
 | 124 | OPERATION_TIMEOUT、COMPILER_TIMEOUT |
@@ -65,7 +65,11 @@
 
 export 在同级随机临时目录生成完整成果，成功后移动到新输出目录。已有目录、符号链接、并发创建的目标均拒绝覆盖。失败只清理本次拥有的临时目录。中途强制终止可能残留 `.db2chm-*` 工作目录，不自动删除其他运行的目录。
 
-Windows HHC 输出 GBK，chmcmd 输出 UTF-8；不可编码的字符会令本次导出失败，不静默丢失。编译返回码和 ITSF 文件头仅为基本校验；Windows Viewer 验收单独记录。
+当前 CHM 使用简体中文配置：LCID=0x804、导航代码页 CP936。HHC 使用 GBK 正文和工程输入；chmcmd 使用 UTF-8 正文与工程输入，并在编译时将导航、标题、文本 HHC/HHK 及搜索词项写成 CP936，将二进制关键字写成 UTF-16LE。正文编码不决定导航流的编码。不可表示的导航文字返回 ENCODING_UNREPRESENTABLE，不发布半成品；--html-only 可保留 Unicode HTML。
+
+包内 chmcmd 必须支持 `db2chm-utf8-cp936-v1` 配置。通过 --compiler-path 使用未经本包修改的上游 chmcmd 会返回 COMPILER_PROFILE_UNSUPPORTED，应使用平台包内的编译器。JSON schemaVersion 仍为 1；compiler 中保留 charset，增加 htmlCharset、projectCharset、navigationCodepage、localeId 和 encodingProfile。
+
+全文搜索按中文字符记录位置，ASCII 标识符按单词记录；支持范围以阅读器实际查询验收为准，不承诺自然语言词典分词。编译返回码和 ITSF 文件头仅为基本校验；二进制结构与 Windows Viewer 验收单独记录。
 
 Windows 的 `--compiler auto` 优先 HHC，只有没有找到 HHC 文件时才选择包内 chmcmd。显式 `--compiler hhc`、显式编译器路径或环境变量配置均不在失败后切换后端。已找到的 HHC 报错时保留编译失败；需要改用开源后端时指定 `--compiler chmcmd`。HHC 不随 npm 分发。
 

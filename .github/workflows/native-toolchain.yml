@@ -78,6 +78,8 @@ jobs:
           path: target/
       - name: Complete Java to CHM, filtered and 1000 tables x 20 columns
         run: node scripts/check-application.cjs target/native/${{ matrix.platform }}/${{ runner.os == 'Windows' && 'chmcmd.exe' || 'chmcmd' }} target/application/${{ matrix.platform }}
+      - name: Validate Chinese TOC, title, Unicode keywords, search and strict rejection
+        run: node scripts/check-navigation-suite.cjs target/native/${{ matrix.platform }}/${{ runner.os == 'Windows' && 'chmcmd.exe' || 'chmcmd' }} target/navigation-tools/${{ runner.os == 'Windows' && 'chm-nav-dump.exe' || 'chm-nav-dump' }} target/application/${{ matrix.platform }}
       - name: Pack and install private prototype with its real native compiler
         run: |
           node scripts/package.cjs --prototype --native-prototype --platform ${{ matrix.platform }}

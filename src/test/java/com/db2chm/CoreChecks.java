@@ -46,7 +46,8 @@ public final class CoreChecks {
         check(com.mysql.cj.jdbc.Driver.closed,"Refused connection leaked");
         Path root=Files.createTempDirectory(Paths.get(args[1]),"native checks 中文 ");
         try {
-            NativeCompiler compiler=NativeCompiler.resolve("chmcmd",args[0]);
+            NativeCompiler compiler=NativeCompiler.resolve("hhc",args[0]);
+            try{compiler.validateNavigation("unsupported \uD83D\uDE00",Collections.emptyList());throw new AssertionError("Silent CP936 replacement accepted");}catch(CliFailure e){check(e.code().equals("ENCODING_UNREPRESENTABLE"),"Encoding error contract");}
             Path hhp=root.resolve("project with spaces.hhp"), out=root.resolve("database.chm");
             String success="const fs=require('fs'),p=require('path');let b=Buffer.alloc(96);b.write('ITSF');fs.writeFileSync(p.join(p.dirname(process.argv[1]),'database.chm'),b);";
             Files.write(hhp,success.getBytes(StandardCharsets.UTF_8));

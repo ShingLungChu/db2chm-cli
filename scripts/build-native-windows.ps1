@@ -47,14 +47,23 @@ for ($attempt = 1; $attempt -le 3; $attempt++) {
 if (-not $fetched) { throw 'Could not fetch pinned FPC source' }
 & git -C $source checkout --detach FETCH_HEAD
 if ((& git -C $source rev-parse HEAD).Trim() -ne $commit) { throw 'Unexpected source revision' }
-$patch = Join-Path $repo 'release/patches/chmcmd-fpc322.patch'
-& git -C $source apply $patch
-Copy-Item -LiteralPath $patch -Destination (Join-Path $out 'chmcmd-fpc322.patch')
+foreach($name in @('chmcmd-fpc322.patch','chmcmd-encoding.patch')) {
+  $patch = Join-Path $repo ('release/patches/'+$name)
+  & git -C $source apply $patch
+  if($LASTEXITCODE -ne 0){throw "Source patch failed: $name"}
+  Copy-Item -LiteralPath $patch -Destination (Join-Path $out $name)
+}
 $units = Join-Path $out 'units'
 New-Item -ItemType Directory -Path $units | Out-Null
 $chmSource = Join-Path $source 'packages/chm/src'
 & $compiler '-Twin64' '-Px86_64' '-B' '-O2' ('-Fu'+(Join-Path $bootstrap 'units/x86_64-win64/*')) ('-Fu'+$chmSource) ('-FU'+$units) ('-FE'+$out) (Join-Path $chmSource 'chmcmd.lpr') 2>&1 | Tee-Object -FilePath (Join-Path $out 'build.log')
+if($LASTEXITCODE -ne 0){throw 'Native compiler build failed'}
 if (-not (Test-Path -LiteralPath (Join-Path $out 'chmcmd.exe') -PathType Leaf)) { throw 'Compiler did not produce a fresh executable' }
+# Inspection helper is a CI tool, kept outside the npm native payload.
+$verify = Join-Path $repo 'target/navigation-tools'
+New-Item -ItemType Directory -Path $verify -Force | Out-Null
+& $compiler '-Twin64' '-Px86_64' '-B' '-O2' ('-Fu'+(Join-Path $bootstrap 'units/x86_64-win64/*')) ('-Fu'+$chmSource) ('-FU'+$units) ('-FE'+$verify) (Join-Path $repo 'scripts/chm-nav-dump.pas') > (Join-Path $verify 'build.log')
+if($LASTEXITCODE -ne 0){throw 'Navigation inspector build failed'}
 $imports = & node (Join-Path $repo 'scripts/inspect-pe.cjs') (Join-Path $out 'chmcmd.exe')
 [IO.File]::WriteAllLines((Join-Path $out 'binary-dependencies.json'),[string[]]$imports,[Text.UTF8Encoding]::new($false))
 Copy-Item -LiteralPath (Join-Path $source 'LICENSE') -Destination (Join-Path $out 'FPC-LICENSE.txt')
@@ -67,7 +76,7 @@ Commit: $commit
 Bootstrap FPC: $version
 Bootstrap URL: $url
 Bootstrap archive SHA256: $expected
-Local modification: conditional rtlString alias (inactive with FPC 3.3.1).
+Local modifications: conditional rtlString alias; explicit db2chm UTF-8/CP936 navigation, keyword and search encoding profile. Included patches record all changes.
 Windows delivery: external HHC first, bundled chmcmd fallback when HHC is not found.
 Formal distribution and oldest-system validation remain pending.
 "@

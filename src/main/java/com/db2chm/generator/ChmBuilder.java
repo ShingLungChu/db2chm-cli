@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 /**
- * CHM 工程文件生成 + 调 hhc.exe 编译.
+ * CHM 工程文件生成。CLI 的后端调用与编码配置由 NativeCompiler 管理。
  *
  * <p>工作流程:
  * <ol>
@@ -22,7 +22,7 @@ import java.util.stream.Stream;
  *
  * <p>hhc.exe 查找顺序:
  * <ol>
- *   <li>程序目录 tools/hhc/hhc.exe (内置随程序分发)</li>
+ *   <li>用户自行配置的 tools/hhc/hhc.exe</li>
  *   <li>系统安装的 HTML Help Workshop</li>
  *   <li>PATH 环境变量</li>
  * </ol></p>
@@ -60,7 +60,7 @@ public class ChmBuilder {
         if (title == null || title.length() > 512 || title.chars().anyMatch(c -> c < 32 || c == 127)) throw new IllegalArgumentException("Invalid CHM title");
         this.title = title;
     }
-    /** 仅供测试覆盖; 正常链路由 HtmlGenerator 传入 ANSI 编码. */
+    /** 工程输入编码，由 CLI 的编译器配置或 GUI 调用方显式指定。 */
     public void setCharset(Charset charset) {
         if (charset != null) this.charset = charset;
     }
@@ -79,6 +79,7 @@ public class ChmBuilder {
         try (BufferedWriter w = Files.newBufferedWriter(hhpFile.toPath(), charset)) {
             w.write("[OPTIONS]\n");
             w.write("Binary TOC=Yes\n");
+            w.write("Binary Index=Yes\n");
             w.write("Compatibility=1.1 or later\n");
             w.write("Compiled file=" + compiledFileName + "\n");
             w.write("Contents file=contents.hhc\n");

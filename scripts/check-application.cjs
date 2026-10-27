@@ -1,6 +1,7 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),{spawnSync}=require('node:child_process');
 const root=path.resolve(__dirname,'..'),compiler=path.resolve(process.argv[2]),output=path.resolve(process.argv[3]);
+const reader=path.resolve('target/navigation-tools/chm-nav-dump'+(process.platform==='win32'?'.exe':''));
 fs.mkdirSync(output,{recursive:true});
 const java=process.env.JAVA_HOME?path.join(process.env.JAVA_HOME,'bin',process.platform==='win32'?'java.exe':'java'):'java';
 const scenarios=[{name:'small',count:2,extra:['--include','*ORDER*']},{name:'scale',count:1000,extra:['--mock-tables','1000','--mock-columns','20']}];
@@ -23,5 +24,6 @@ for(const scenario of scenarios){
  const hhp=fs.readFileSync(path.join(dir,'database.hhp'),'utf8');
  if(!hhp.includes('Full-text search=Yes')||!hhp.includes('Binary TOC=Yes'))throw new Error('Required project options missing');
  if(scenario.name==='scale'&&!fs.readFileSync(path.join(dir,'table_1000.html'),'utf8').includes('FIXTURE_20'))throw new Error('Scale fixture must have 20 columns');
+ require('./check-navigation.cjs').inspect(dir,reader);
  fs.writeFileSync(path.join(dir,'verification.json'),JSON.stringify({scenario:scenario.name,elapsedMs:Date.now()-started,tableCount:scenario.count,columns:scenario.name==='scale'?20:null,cli:body,files,viewerInteraction:'pending'},null,2)+'\n');
 }

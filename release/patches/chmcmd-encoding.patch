@@ -1,0 +1,543 @@
+--- a/packages/chm/src/chmcmd.lpr
++++ b/packages/chm/src/chmcmd.lpr
+@@ -27,7 +27,7 @@
+   {$ifdef Unix}UnixApi.CThreads, UnixApi.CWString, {$endif} System.Classes, System.SysUtils, Chm.FileWriter, System.GetOpts;
+ {$ELSE FPC_DOTTEDUNITS}
+ uses
+-  {$ifdef Unix}cthreads, cwstring, {$endif} Classes, Sysutils, chmfilewriter, GetOpts;
++  {$ifdef Unix}cthreads, cwstring, {$endif} Classes, Sysutils, chmfilewriter, GetOpts, chmencoding;
+ {$ENDIF FPC_DOTTEDUNITS}
+ 
+ {$if FPC_FULLVERSION < 30301}
+@@ -54,7 +54,7 @@
+ end;
+ 
+ var
+-  theopts : array[1..7] of TOption;
++  theopts : array[1..8] of TOption;
+   cores   : Integer = 0;
+ 
+ procedure InitOptions;
+@@ -101,6 +101,13 @@
+     flag:=nil;
+   end;
+   with theopts[7] do
++   begin
++    name:='db2chm-encoding';
++    has_arg:=0;
++    flag:=nil;
++    value:=#0;
++  end;
++  with theopts[8] do
+    begin
+     name:='';
+     has_arg:=0;
+@@ -165,6 +172,8 @@
+        end;
+     end;
+ //  project.SaveToHHP(changefileext(name,'.hhpsaved'));
++  if Db2ChmEncoding and (Project.LocaleID<>$804) then
++    raise Exception.Create('DB2CHM_ENCODING: profile requires Language=0x804');
+   OutStream := TFileStream.Create(Project.OutputFileName, fmCreate);
+   Project.WriteChm(OutStream);
+   if Project.ScanHtmlContents then
+@@ -214,6 +223,7 @@
+                     Usage;
+                     Halt;
+                    end;
++               6 : Db2ChmEncoding:=true;
+                5 : begin
+                      if not trystrtoint(optarg,cores) then
+                        begin
+--- a/packages/chm/src/chmwriter.pas
++++ b/packages/chm/src/chmwriter.pas
+@@ -247,7 +247,7 @@
+ {$IFDEF FPC_DOTTEDUNITS}
+ uses System.DateUtils, System.SysUtils, Chm.Lzx.Compress, Chm.FiftiMain;
+ {$ELSE FPC_DOTTEDUNITS}
+-uses dateutils, sysutils, paslzxcomp, chmFiftiMain;
++uses chmencoding, dateutils, sysutils, paslzxcomp, chmFiftiMain;
+ {$ENDIF FPC_DOTTEDUNITS}
+ 
+ const
+@@ -1062,9 +1062,10 @@
+   end;
+   // 3  Title
+   if FTitle <> '' then begin
++    TmpTitle:=TargetBytes(FTitle);
+     FSection0.WriteWordLE(3);
+-    FSection0.WriteWordLE(Length(FTitle)+1);
+-    FSection0.Write(FTitle[1], Length(FTitle));
++    FSection0.WriteWordLE(Length(TmpTitle)+1);
++    FSection0.Write(TmpTitle[1], Length(TmpTitle));
+     FSection0.WriteByte(0);
+   end;
+ 
+@@ -1406,7 +1407,7 @@
+ var
+   i: Integer;
+   ObjStream: TMemoryStream;
+-  //Flags: Word;
++  DbcsEntry: TObjInstEntry;
+ begin
+   ObjStream := TMemorystream.Create;
+   // this file is needed to enable searches for the ms reader
+@@ -1414,9 +1415,11 @@
+   ObjStream.WriteDWordLE(2); // two entries
+ 
+   ObjStream.WriteDWordLE(24); // offset into file of entry
+-  ObjStream.WriteDWordLE(2691); // size
+-
+-  ObjStream.WriteDWordLE(2715); // offset into file of entry
++  if Db2ChmEncoding then ObjStream.WriteDWordLE(2655)
++  else ObjStream.WriteDWordLE(2691); // size
++
++  if Db2ChmEncoding then ObjStream.WriteDWordLE(2679)
++  else ObjStream.WriteDWordLE(2715); // offset into file of entry
+   ObjStream.WriteDWordLE(36); // size
+ 
+   // first entry
+@@ -1433,9 +1436,12 @@
+   ObjStream.WriteByte($F7);
+ 
+   ObjStream.WriteDWordLE($04000000);
+-  ObjStream.WriteDWordLE(11);  // bit flags
+-  ObjStream.WriteDWordLE(1252);
+-  ObjStream.WriteDWordLE(1033);
++  if Db2ChmEncoding then ObjStream.WriteDWordLE(3)
++  else ObjStream.WriteDWordLE(11);  // bit flags
++  if Db2ChmEncoding then ObjStream.WriteDWordLE(936)
++  else ObjStream.WriteDWordLE(1252);
++  if Db2ChmEncoding then ObjStream.WriteDWordLE(LocaleID)
++  else ObjStream.WriteDWordLE(1033);
+   ObjStream.WriteDWordLE($00000000);
+   ObjStream.WriteDWordLE($00000000);
+   ObjStream.WriteDWordLE($00145555);
+@@ -1447,7 +1453,18 @@
+   ObjStream.WriteWord($0000);
+   // okay now the fun stuff
+   for i := 0 to $FF do
+-  ObjStream.Write(ObjInstEntries[i], SizeOF(TObjInstEntry));
++  begin
++   // CP936 lead bytes must not use the upstream Western case/accent map.
++   // The table is generated from the CP936 byte range, not copied from HHC.
++   if Db2ChmEncoding and (i>=$81) and (i<=$FE) then begin
++    FillChar(DbcsEntry,SizeOf(DbcsEntry),0);
++    DbcsEntry[0]:=$0A;
++    DbcsEntry[2]:=Byte(i);
++    DbcsEntry[4]:=Byte(i);DbcsEntry[5]:=Byte(i);
++    DbcsEntry[6]:=Byte(i);DbcsEntry[7]:=Byte(i);
++    ObjStream.Write(DbcsEntry,SizeOf(DbcsEntry));
++   end else ObjStream.Write(ObjInstEntries[i], SizeOF(TObjInstEntry));
++  end;
+   {begin
+     if i = 1 then
+       Flags := 7
+@@ -1475,6 +1492,7 @@
+   ObjStream.WriteDWordLE($656F8C73);
+   ObjStream.WriteWordLE($6F9C);
+   ObjStream.WriteByte($65);
++  if not Db2ChmEncoding then begin
+   // third bit of second entry
+   // write guid 8FA0D5A8-DEDF-11D0-9A61-00C04FB68BF7
+   ObjStream.WriteDWordLE($8FA0D5A8);
+@@ -1490,10 +1508,13 @@
+ 
+   ObjStream.WriteDWordLE($04000000);
+   ObjStream.WriteDWordLE(1);
+-  ObjStream.WriteDWordLE(1252);
+-  ObjStream.WriteDWordLE(1033);
++  if Db2ChmEncoding then ObjStream.WriteDWordLE(936)
++  else ObjStream.WriteDWordLE(1252);
++  if Db2ChmEncoding then ObjStream.WriteDWordLE(LocaleID)
++  else ObjStream.WriteDWordLE(1033);
+   ObjStream.WriteDWordLE(0);
+ 
++  end;
+   // second entry
+   // write guid 4662DAB0-D393-11D0-9A56-00C04FB68B66
+   ObjStream.WriteDWordLE($4662DAB0);
+@@ -1508,8 +1529,10 @@
+   ObjStream.WriteByte($66);
+ 
+   ObjStream.WriteDWordLE(666); // not kidding
+-  ObjStream.WriteDWordLE(1252);
+-  ObjStream.WriteDWordLE(1033);
++  if Db2ChmEncoding then ObjStream.WriteDWordLE(936)
++  else ObjStream.WriteDWordLE(1252);
++  if Db2ChmEncoding then ObjStream.WriteDWordLE(LocaleID)
++  else ObjStream.WriteDWordLE(1033);
+   ObjStream.WriteDWordLE(10031);
+   ObjStream.WriteDWordLE(0);
+ 
+@@ -1700,6 +1723,7 @@
+   n  : TAVLTreeNode;
+   StrRec : TStringIndex;
+ begin
++  AString:=TargetBytes(AString);
+   // #STRINGS starts with a null AnsiChar
+   if FStringsStream.Size = 0 then FStringsStream.WriteByte(0);
+ 
+@@ -1712,8 +1736,8 @@
+   Pos := DWord(FStringsStream.Position);
+ 
+   // Strings are contained in $1000 byte blocks and cannot cross blocks
+-  NextBlock := ($0000F000 and Pos) + $00001000;
+-  if Length(AString) + 1 > NextBlock then
++  NextBlock := ($FFFFF000 and Pos) + $00001000;
++  if Pos + Length(AString) + 1 > NextBlock then
+   begin
+     FStringsStream.Size:= NextBlock;
+     FStringsStream.Position := NextBlock;
+@@ -1905,6 +1929,7 @@
+ 
+ var tmpstr : string;
+ begin
++  EncodeNavigationStream(AStream);
+   fHasTOC := True;
+   if fTocName = '' then
+     tmpstr := defaulthhc
+@@ -2150,8 +2175,9 @@
+   p^.Length:=NToLE(Defblocksize-curind);
+   p^.NumberOfEntries:=Entries;
+   p^.IndexOfPrevBlock:=cardinal(lastblock); // lastblock can be -1, avoid rangecheck
+-  p^.IndexOfNextBlock:=Blocknr;
+-  if force and (blocknr=0) then   // only one listblock -> no indexblocks.
++  if Db2ChmEncoding then p^.IndexOfNextBlock:=NToLE(DWord(Blocknr+1))
++  else p^.IndexOfNextBlock:=Blocknr;
++  if force and (Db2ChmEncoding or (blocknr=0)) then   // only one listblock -> no indexblocks.
+     p^.IndexOfNextBlock:=dword(-1);
+   IndexStream.Write(curblock[0],Defblocksize);
+   fillchar(curblock[0],DefBlockSize,#0);
+@@ -2184,7 +2210,7 @@
+   if Indexblocknr>=length(blockn) then
+     begin
+       setlength(blockn,length(blockn)+1);  // larger increments also possible. #blocks is kept independently.
+-      fillchar(blockn[0][0],sizeof(blockn[0]),#0);
++      fillchar(blockn[IndexBlockNr][0],sizeof(blockn[IndexBlockNr]),#0);
+     end;
+   p:=@Blockn[IndexBlockNr];
+   p^.IndexOfChildBlock:=ListingBlockNr;
+@@ -2217,6 +2243,7 @@
+   pentry:=@p[indexentrysize-sizeof(dword)];         // ptr to last dword
+   writedword(pentry,blocknr);                      // patch up the "index of child field"
+   inc(blockind,indexentrysize);
++  if Db2ChmEncoding then Inc(BlockEntries);
+ end;
+ 
+ procedure WritestrNT(var p:pbyte;const str:Unicodestring);
+@@ -2259,7 +2286,7 @@
+      write('!seealso');
+      {$endif}
+      WriteDword(p,1);
+-     WritestrNT(p,item.seealso)
++     WritestrNT(p,InputUnicode(item.seealso))
+    end
+   else
+     begin
+@@ -2331,7 +2358,7 @@
+           fillchar(blocknplus1[length(blocknplus1)-1][0],sizeof(blocknplus1[0]),#0);
+         end;
+       blockInd:=Sizeof(TBTreeIndexBlockHeader);
+-      pdword(@blocknplus1[blocknplusindex][0])[4]:=NToLE(ChildBlock);  /// init 2nd level index to first 1st level index block
++      pdword(@blocknplus1[blocknplusindex][4])^:=NToLE(ChildBlock);  /// init 2nd level index to first 1st level index block
+       end;
+   {$ifdef binindex}
+     writeln(' len:',length(blocknplus1),' blockind:',blockind,' index:',blocknplusindex);
+@@ -2374,7 +2401,7 @@
+ var i    : Integer;
+     llItem : TChmSiteMapItem;
+ begin
+-   str:=StringReplace(str, '&x27;', '', [rfReplaceAll]);
++   if not Db2ChmEncoding then str:=StringReplace(str, '&x27;', '', [rfReplaceAll]);
+    {$ifdef binindex}
+      writeln('i:',level,' ',str);
+    {$endif}
+@@ -2394,7 +2421,7 @@
+ {        if level=0 Then
+           CombineWithChildren(Item,str+', '+item.text,0,level+1)
+         else}
+-          CombineWithChildren(llItem,Str+', '+llitem.text,length(str)+2,level+1);
++          CombineWithChildren(llItem,Str+', '+InputUnicode(llitem.text),length(str)+2,level+1);
+       end;
+ end;
+ 
+@@ -2441,7 +2468,7 @@
+   indexblocknr:=0;   // nr of first index block.
+   BlockEntries:=0;   // entries into current block;
+   MapEntries  :=0;   // entries before the current listing block, for MAP file
+-  TreeDepth   :=0;
++  if Db2ChmEncoding then TreeDepth:=1 else TreeDepth:=0;
+ 
+   fillchar(testblock[0],DefBlockSize,#0);
+   fillchar(curblock[0],DefBlockSize,#0);
+@@ -2458,7 +2485,7 @@
+   for i:=0 to ASiteMap.Items.Count-1 do
+     begin
+       item := TChmSiteMapItem(ASiteMap.Items.Item[i]);
+-      key  :=Item.Text;
++      key  :=InputUnicode(Item.Text);
+        {$ifdef binindex}
+         writeln('item: ',i,' ',key);
+        {$endif}
+@@ -2486,6 +2513,7 @@
+   // First we finalize the current set of blocks
+   if blocknr>1 then
+     begin
++      if Db2ChmEncoding then Inc(TreeDepth);
+       if  Blockind<>sizeof(TBtreeIndexBlockHeader) Then
+         begin
+           {$ifdef binindex}
+@@ -2506,7 +2534,7 @@
+           {$endif}
+ 
+           blockind      :=sizeof(TBtreeIndexBlockHeader);
+-          pdword(@blockn[0][4])^:=NToLE(Listingblocks);  /// init 2nd level index to first 1st level index block
++          // Child header is initialized after allocating blocknplus1 below.  /// init 2nd level index to first 1st level index block
+           blocknplusindex     :=0;
+           blocknplusentries   :=0;
+           if length(blocknplus1)<1 then
+@@ -2515,6 +2543,8 @@
+               fillchar(blocknplus1[0][0],sizeof(blocknplus1[0]),#0);
+             end;
+ 
++          FillChar(blocknplus1[0][0],SizeOf(blocknplus1[0]),0);
++          pdword(@blocknplus1[0][4])^:=NToLE(DWord(Blocknr));
+           EntryToIndex        :=True;
+           {$ifdef binindex}
+             printloopvars(2);
+@@ -2565,8 +2595,10 @@
+   hdr.nrblock        :=NToLE(blocknr);      // Number of blocks
+   hdr.treedepth      :=NToLE(word(TreeDepth));    // The depth of the tree of blocks (1 if no index blocks, 2 one level of index blocks, ...)
+   hdr.nrkeywords     :=NToLE(Totalentries); // number of keywords in the file.
+-  hdr.codepage       :=NToLE(dword(1252));         // Windows code page identifier (usually 1252 - Windows 3.1 US (ANSI))
+-  hdr.lcid           :=NToLE(0);            //  ???? LCID from the HHP file.
++  if Db2ChmEncoding then hdr.codepage:=NToLE(dword(936))
++  else hdr.codepage       :=NToLE(dword(1252));         // Windows code page identifier (usually 1252 - Windows 3.1 US (ANSI))
++  if Db2ChmEncoding then hdr.lcid:=NToLE(LocaleID)
++  else hdr.lcid           :=NToLE(0);            //  ???? LCID from the HHP file.
+   if not chw then
+     hdr.ischm        :=NToLE(dword(1))             // 0 if this a BTREE and is part of a CHW file, 1 if it is a BTree and is part of a CHI or CHM file
+   else
+@@ -2639,6 +2671,7 @@
+ procedure TChmWriter.AppendIndex(AStream: TStream);
+ var tmpstr : string;
+ begin
++  EncodeNavigationStream(AStream);
+   FHasIndex := True;
+   if fIndexName = '' then
+     tmpstr:=defaulthhk
+--- a/packages/chm/src/chmsitemap.pas
++++ b/packages/chm/src/chmsitemap.pas
+@@ -233,7 +233,7 @@
+ {$IFDEF FPC_DOTTEDUNITS}
+ uses Chm.HtmlUtil;
+ {$ELSE FPC_DOTTEDUNITS}
+-uses HTMLUtil;
++uses HTMLUtil, chmencoding;
+ {$ENDIF FPC_DOTTEDUNITS}
+ 
+ const sitemapkws : array[TChmSiteMapItemAttrName] of string = (
+@@ -260,6 +260,9 @@
+ 
+ function indexitemcompare(Item1, Item2: Pointer): Integer;
+ begin
++    if Db2ChmEncoding then
++      Exit(CompareStr(TargetBytes(LowerCase(TChmSiteMapItem(item1).name)),
++                      TargetBytes(LowerCase(TChmSiteMapItem(item2).name))));
+     Result := naturalComparetext(LowerCase(TChmSiteMapItem(item1).name), Lowercase(TChmSiteMapItem(item2).name));
+ end;
+ { TChmSiteMapSubItem }
+@@ -361,7 +364,7 @@
+          begin
+             if LowerCase(GetTagName(AActualTag)) = 'param' then begin
+               TagAttributeName := GetVal(AActualTag, 'name');
+-              TagAttributeValue := GetVal(AActualTag, 'value');
++              TagAttributeValue := HtmlInputText(GetVal(AActualTag, 'value'));
+ 
+               // a hash reduces comparisons and casing, and generics make it easy.
+               if not FLoadDict.trygetvalue(uppercase(TagAttributeName),TagAttrName) then
+@@ -390,7 +393,7 @@
+            if LowerCase(GetTagName(AActualTag)) = 'param' then begin
+              begin
+                TagAttributeName := uppercase(GetVal(AActualTag, 'name'));
+-               TagAttributeValue := GetVal(AActualTag, 'value');
++               TagAttributeValue := HtmlInputText(GetVal(AActualTag, 'value'));
+                if not FLoadDict.trygetvalue(uppercase(TagAttributeName),TagAttrName) then
+                   TagAttrName:=siteattr_none;
+                if TagAttrName <> siteattr_none then begin
+--- a/packages/chm/src/htmlindexer.pas
++++ b/packages/chm/src/htmlindexer.pas
+@@ -27,7 +27,7 @@
+ {$IFDEF FPC_DOTTEDUNITS}
+ uses System.Classes, System.SysUtils, Fcl.FastHtmlParser,{$ifdef userb}fos_redblacktree_gen{$else}Fcl.AVLTree{$endif};
+ {$ELSE FPC_DOTTEDUNITS}
+-uses Classes, SysUtils, FastHTMLParser,{$ifdef userb}fos_redblacktree_gen{$else}avl_tree{$endif};
++uses chmencoding, Classes, SysUtils, FastHTMLParser,{$ifdef userb}fos_redblacktree_gen{$else}avl_tree{$endif};
+ {$ENDIF FPC_DOTTEDUNITS}
+ 
+ Type
+@@ -106,6 +106,7 @@
+     procedure CBFoundTag(NoCaseTag, ActualTag: AnsiString);
+     procedure CBFountText(Text: AnsiString);
+ 
++    procedure EatProfileWords(Words: AnsiString; IsTitle: Boolean);
+     procedure EatWords(Words: AnsiString; IsTitle: Boolean);
+   public
+     constructor Create;
+@@ -170,7 +171,7 @@
+ {$endif}
+ begin
+   Result := nil;
+-  AWord := LowerCase(AWord);
++  if not Db2ChmEncoding then AWord := LowerCase(AWord);
+  {$ifdef userb}
+    key:=makekey(aword,istitle);
+    if not favltree.Find(key,result) then result:=nil;;
+@@ -242,7 +243,42 @@
+   if finscript or FInStyle then
+     exit;
+ 
+-  EatWords(Text, FInTitle and not FInBody);
++  EatWords(HtmlInputText(Text), FInTitle and not FInBody);
++end;
++
++procedure TIndexedWordList.EatProfileWords(Words: AnsiString; IsTitle: Boolean);
++var U: UnicodeString; i,j,k,base: Integer; B: UTF8String; S: string;
++    W: TIndexedWord;
++function Han(C: WideChar): Boolean;
++begin Result:=(Ord(C)>=$3400) and (Ord(C)<=$9FFF); end;
++function AsciiWord(C: WideChar): Boolean;
++begin Result:=(C>='a') and (C<='z') or (C>='A') and (C<='Z') or
++ (C>='0') and (C<='9') or (C='_'); end;
++procedure Add(const Text: UnicodeString; Position: Integer);
++begin
++ B:=UTF8Encode(Text);SetLength(S,Length(B));
++ if Length(B)>0 then Move(B[1],S[1],Length(B));
++ W:=AddGetWord(TargetBytes(S),IsTitle);
++ W.DocumentTopic[FTopicIndex].AddWordIndex(Position);
++end;
++begin
++ if IsTitle then FDocTitle:=Words;
++ U:=InputUnicode(Words);
++ for i:=1 to Length(U) do if (U[i]>='A') and (U[i]<='Z') then U[i]:=WideChar(Ord(U[i])+32);
++ i:=1;
++ while i<=Length(U) do begin
++  if Han(U[i]) then begin
++   j:=i;while (j<=Length(U)) and Han(U[j]) do Inc(j);
++   base:=FWordCount;
++   for k:=i to j-1 do begin
++    Add(Copy(U,k,1),base+k-i);
++   end;
++   Inc(FWordCount,j-i);i:=j;
++  end else if AsciiWord(U[i]) then begin
++   j:=i;while (j<=Length(U)) and AsciiWord(U[j]) do Inc(j);
++   Add(Copy(U,i,j-i),FWordCount);Inc(FWordCount);i:=j;
++  end else Inc(i);
++ end;
+ end;
+ 
+ procedure TIndexedWordList.EatWords ( Words: AnsiString; IsTitle: Boolean ) ;
+@@ -275,6 +311,7 @@
+     FPos: Integer;
+     i, j: Integer;
+ begin
++  if Db2ChmEncoding then begin EatProfileWords(Words,IsTitle);Exit;end;
+   if IsTitle then
+     FDocTitle := Words;
+   Words := LowerCase(Words);
+--- a/packages/chm/src/chmfiftimain.pas
++++ b/packages/chm/src/chmfiftimain.pas
+@@ -27,7 +27,7 @@
+ {$IFDEF FPC_DOTTEDUNITS}
+ uses System.Classes, Chm.HtmlIndexer;
+ {$ELSE FPC_DOTTEDUNITS}
+-uses Classes, HTMLIndexer;
++uses chmencoding, Classes, HTMLIndexer;
+ {$ENDIF FPC_DOTTEDUNITS}
+ 
+ type
+@@ -321,7 +321,10 @@
+   FHeaderRec.TotalWords := FWordList.TotalDIfferentWords;
+   FHeaderRec.TotalWordsLengthPart1 := FWordList.TotalWordLength;
+   FHeaderRec.TotalWordsLength := FWordList.TotalDifferentWordLength;
+-  FHeaderRec.WindowsCodePage := 1252;
++  if Db2ChmEncoding then begin
++    FHeaderRec.WindowsCodePage:=936;
++    FHeaderRec.LocalID:=$804;
++  end else FHeaderRec.WindowsCodePage := 1252;
+ 
+   FStream.Position := 0;
+ 
+@@ -359,7 +362,8 @@
+   FStream.WriteDWord(NtoLE(FHeaderRec.HTMLFilesCount-1));
+   for i := 0 to 23 do FStream.WriteByte(0);
+   FStream.WriteDWord(NtoLE(FHeaderRec.WindowsCodePage));
+-  FStream.WriteDWord(NtoLE(DWord(1033))); // LCID
++  if Db2ChmEncoding then FStream.WriteDWord(NtoLE(DWord($804)))
++  else FStream.WriteDWord(NtoLE(DWord(1033))); // LCID
+   for i := 0 to 893 do FStream.WriteByte(0);
+ end;
+ 
+--- /dev/null
++++ b/packages/chm/src/chmencoding.pas
+@@ -0,0 +1,59 @@
++{ db2chm UTF-8 input / Simplified Chinese CHM output profile.
++  Copyright 2026 db2chm contributors. LGPL-2.0-or-later, as the CHM utility. }
++unit chmencoding;
++{$mode objfpc}{$H+}
++interface
++uses SysUtils, Classes;
++var Db2ChmEncoding: Boolean = False;
++function InputUnicode(const S: string): UnicodeString;
++function TargetBytes(const S: string): string;
++function HtmlInputText(const S: string): string;
++procedure EncodeNavigationStream(S: TStream);
++implementation
++type TCP936String = type AnsiString(936);
++function HtmlInputText(const S: string): string;
++begin
++ Result:=S;
++ if not Db2ChmEncoding then Exit;
++ Result:=StringReplace(Result,'&quot;','"',[rfReplaceAll]);
++ Result:=StringReplace(Result,'&apos;',#39,[rfReplaceAll]);
++ Result:=StringReplace(Result,'&lt;','<',[rfReplaceAll]);
++ Result:=StringReplace(Result,'&gt;','>',[rfReplaceAll]);
++ Result:=StringReplace(Result,'&amp;','&',[rfReplaceAll]);
++end;
++function InputUnicode(const S: string): UnicodeString;
++var U: UTF8String;
++begin
++ if not Db2ChmEncoding then Exit(UnicodeString(S));
++ SetLength(U,Length(S));
++ if Length(S)>0 then Move(S[1],U[1],Length(S));
++ Result:=UTF8Decode(U);
++ if UTF8Encode(Result)<>U then
++  raise Exception.Create('DB2CHM_ENCODING: invalid UTF-8 input');
++end;
++function TargetBytes(const S: string): string;
++var U: UnicodeString; B: TCP936String;
++begin
++ if not Db2ChmEncoding then Exit(S);
++ U:=InputUnicode(S);
++ B:=TCP936String(U);
++ if UnicodeString(B)<>U then
++  raise Exception.Create('DB2CHM_ENCODING: text cannot be represented in CP936');
++ // Copy bytes explicitly: assignment to a system-codepage string would recode
++ // the result on a UTF-8 host. Offsets and lengths must use these final bytes.
++ SetLength(Result,Length(B));
++ if Length(B)>0 then Move(B[1],Result[1],Length(B));
++end;
++procedure EncodeNavigationStream(S: TStream);
++var B: string;
++begin
++ if not Db2ChmEncoding then Exit;
++ S.Position:=0;SetLength(B,S.Size);
++ if Length(B)>0 then S.ReadBuffer(B[1],Length(B));
++ B:=StringReplace(B,'charset=UTF-8','charset=GBK',[rfReplaceAll,rfIgnoreCase]);
++ B:=TargetBytes(B);
++ S.Size:=0;S.Position:=0;
++ if Length(B)>0 then S.WriteBuffer(B[1],Length(B));
++ S.Position:=0;
++end;
++end.

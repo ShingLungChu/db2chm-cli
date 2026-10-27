@@ -91,3 +91,11 @@ test('whole operation deadline includes password stdin without leaking or hangin
     child.on('close',code=>{clearTimeout(timer); try {assert.equal(code,124);assert.equal(JSON.parse(out).error.code,'OPERATION_TIMEOUT');resolve();}catch(e){reject(e)}});
   });
 });
+test('Chinese CHM profile refuses unsupported navigation without publishing partial output', () => {
+  const out=path.join(scratch,'unsupported-navigation');
+  const r=cli(['export','--mock','--compiler','chmcmd','--compiler-path',process.execPath,'--title','字典😀','--out',out]);
+  assert.equal(r.status,6);assert.equal(r.body.error.code,'ENCODING_UNREPRESENTABLE');assert.equal(fs.existsSync(out),false);
+  const html=path.join(scratch,'unicode-html');
+  assert.equal(cli(['export','--mock','--html-only','--title','字典😀','--out',html]).status,0);
+  assert.match(fs.readFileSync(path.join(html,'database.hhp'),'utf8'),/字典😀/);
+});

@@ -18,6 +18,7 @@ try{
  const body=JSON.parse(run.stdout);
  if(run.status!==0||!body.ok||body.data.tableCount!==2)throw new Error(JSON.stringify(body));
  if(!body.data.compiler.path.startsWith(path.join(home,'native')+path.sep))throw new Error('Export used an external compiler instead of the installed payload');
+ require('./check-navigation.cjs').inspect(output,path.join(root,'target/navigation-tools/chm-nav-dump'+(process.platform==='win32'?'.exe':'')));
  const selectionChecks={bundledCompiler:true};
  if(process.platform==='win32'){
   if(body.data.compiler.kind!=='chmcmd')throw new Error('Windows auto mode did not select bundled chmcmd without HHC');

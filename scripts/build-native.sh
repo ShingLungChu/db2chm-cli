@@ -22,11 +22,15 @@ git -C "$work" remote add origin "$source_url"
 git -C "$work" fetch --depth=1 origin "$commit"
 git -C "$work" checkout --detach FETCH_HEAD
 test "$(git -C "$work" rev-parse HEAD)" = "$commit"
-git -C "$work" apply "$script_root/release/patches/chmcmd-fpc322.patch"
-cp "$script_root/release/patches/chmcmd-fpc322.patch" "$out/chmcmd-fpc322.patch"
+for patch in chmcmd-fpc322.patch chmcmd-encoding.patch; do
+  git -C "$work" apply "$script_root/release/patches/$patch"
+  cp "$script_root/release/patches/$patch" "$out/$patch"
+done
 mkdir -p "$out/units"
 "$fpc_bin" -B -O2 -Xs "-Fu$work/packages/chm/src" "-FU$out/units" "-FE$out" "$work/packages/chm/src/chmcmd.lpr" 2>&1 | tee "$out/build.log"
 test -s "$out/chmcmd"
+mkdir -p "$script_root/target/navigation-tools"
+"$fpc_bin" -B -O2 -Xs "-Fu$work/packages/chm/src" "-FU$out/units" "-FE$script_root/target/navigation-tools" "$script_root/scripts/chm-nav-dump.pas" > "$script_root/target/navigation-tools/build.log"
 file "$out/chmcmd" | tee "$out/binary-dependencies.txt"
 if [[ "$platform" == linux-* ]]; then
   if ! ldd "$out/chmcmd" >> "$out/binary-dependencies.txt" 2>&1; then echo 'ldd not applicable; inspect ELF headers below' >> "$out/binary-dependencies.txt"; fi
@@ -45,7 +49,7 @@ CHM utility source: $source_url
 Commit: $commit
 Bootstrap FPC: $version
 Bootstrap executable: $fpc_bin
-Local modification: chmcmd-fpc322.patch supplies the rtlString alias for FPC 3.2.2.
+Local modifications: bootstrap rtlString alias; explicit db2chm UTF-8/CP936 navigation, keyword and search profile. Included patches record all changes.
 Bootstrap library source baseline: https://github.com/fpc/FPCSource/tree/release_3_2_2
 Exact distro package/revision details: bootstrap-packages.*
 Build candidate: distribution review and oldest-system validation pending.

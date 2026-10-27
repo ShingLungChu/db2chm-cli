@@ -120,10 +120,11 @@ public final class CliRunner {
             checkCancelled(cancelled);
             try (OutputTransaction transaction = new OutputTransaction(options.out)) {
                 HtmlGenerator renderer = new HtmlGenerator();
-                renderer.setOutputCharset(compiler == null ? "UTF-8" : compiler.charset.name());
+                if(compiler!=null){List<String> names=new ArrayList<>();for(TableInfo t:tables)names.add(t.getName());compiler.validateNavigation(options.title,names);}
+                renderer.setOutputCharset(compiler == null ? "UTF-8" : compiler.htmlCharset.name());
                 Map<String, String> pages = renderer.renderAll(transaction.workspace.toFile(), options.connection, tables);
                 ChmBuilder project = new ChmBuilder(transaction.workspace.toFile());
-                project.setTitle(options.title); project.setCharset(renderer.getOutputCharset()); project.setPageMap(pages); project.setHtmlFiles(project.listHtmlFiles());
+                project.setTitle(options.title); project.setCharset(compiler==null?renderer.getOutputCharset():compiler.projectCharset); project.setPageMap(pages); project.setHtmlFiles(project.listHtmlFiles());
                 project.writeHhp(); project.writeHhc(); project.writeHhk();
                 checkCancelled(cancelled);
                 Map<String, Object> backend = compiler == null ? null : compiler.compile(project.getHhpFile().toPath(), project.getChmFile().toPath(), options.timeout);
