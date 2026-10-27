@@ -1,0 +1,798 @@
+{
+  "schemaVersion": 1,
+  "validatedAt": "2026-10-27T02:37:02.893Z",
+  "sourceCommit": "2e63e2017b12fca13bad3d334f7081414d097c65",
+  "sourceRun": "https://github.com/ShingLungChu/db2chm-cli/actions/runs/40436646789",
+  "contractRun": "https://github.com/ShingLungChu/db2chm-cli/actions/runs/40436646777",
+  "status": "partial",
+  "chineseNavigationFixture": "passed",
+  "windowsVersion": "Microsoft Windows NT 10.0.26200.0",
+  "windowsLanguage": "zh-CN",
+  "viewer": "Windows HTML Help (hh.exe)",
+  "viewerVersion": "10.0.26100.8875",
+  "backend": "chmcmd",
+  "records": [
+    {
+      "platform": "win32-x64",
+      "backend": "chmcmd",
+      "sourceCommit": "2e63e2017b12fca13bad3d334f7081414d097c65",
+      "runId": "40436646789",
+      "chmPath": "target/downloaded-40436646789/application-win32-x64/中文父目录/chinese 中文 output/database.chm",
+      "viewedPath": "target/chm-viewer-final/win32-x64.chm",
+      "chmSha256": "9909a696b0482980e8caf08f5d24aacc11a8f5903301eb96399550a3d3c7b7cc",
+      "checks": [
+        {
+          "phase": "cover",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/win32-x64-cover.txt",
+          "observed": [
+            "数据库字典 中文验证",
+            "文本 封面",
+            "中文检索 db2chmneedle 订单 用户",
+            "树项目 (selectable) 表目录",
+            "树项目 (selectable) 表结构"
+          ],
+          "evidenceSha256": "26d6ae9b5efbb3c948f640d89506061277b6b9c15cdcdf161115b47336981009"
+        },
+        {
+          "phase": "toc",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/win32-x64-toc.txt",
+          "observed": [
+            "树项目 (selectable) 订单明细",
+            "树项目 (selectable) 用户_USER",
+            "树项目 (selectable) 转义&<>\"名称",
+            "长名称_中文"
+          ],
+          "evidenceSha256": "3eb34755b66fe7068834fcfc5e5a2db4c8a35fe88650ab3c3d23ccb449d24d50"
+        },
+        {
+          "phase": "toc-jump",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/win32-x64-toc-jump.txt",
+          "observed": [
+            "win32-x64.chm::/table_1.html",
+            "窗格 订单明细"
+          ],
+          "evidenceSha256": "e61353db80b8a685c64a65587c99e50014fa260e7f906dbc35c512fabd699065"
+        },
+        {
+          "phase": "index-jump",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/win32-x64-index-jump.txt",
+          "observed": [
+            "win32-x64.chm::/table_2.html",
+            "窗格 用户_USER"
+          ],
+          "evidenceSha256": "cb7169ade570052aa3d0a1716d06ca484bca670600833888950bf37fece50182"
+        },
+        {
+          "phase": "search-chinese",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/win32-x64-search-chinese.txt",
+          "observed": [
+            "Value: 中文检索",
+            "列表项目 (selectable) 表目录",
+            "列表项目 (selectable) 订单明细",
+            "列表项目 (selectable) 封面",
+            "列表项目 (selectable) 用户_USER",
+            "列表项目 (selectable) 长名称_中文",
+            "列表项目 (selectable) 转义&<>\"名称"
+          ],
+          "evidenceSha256": "2821ff107654648a025a9ffbb99e80f5a7931ce776571e02dff4176e2ef80856"
+        },
+        {
+          "phase": "search-chinese-jump",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/win32-x64-search-chinese-jump.txt",
+          "observed": [
+            "win32-x64.chm::/table_3.html",
+            "窗格 转义&<>\"名称"
+          ],
+          "evidenceSha256": "5942b438501c9d6c5188d9c01edb00e8beb8a9062d7bdaef2f7c26e2f2a725e4"
+        },
+        {
+          "phase": "search-ascii",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/win32-x64-search-ascii.txt",
+          "observed": [
+            "Value: db2chmneedle",
+            "列表项目 (selectable) 表目录",
+            "列表项目 (selectable) 订单明细",
+            "列表项目 (selectable) 封面",
+            "列表项目 (selectable) 用户_USER",
+            "列表项目 (selectable) 长名称_中文",
+            "列表项目 (selectable) 转义&<>\"名称"
+          ],
+          "evidenceSha256": "a524acaa7b1909be7d4a55a858bae3d71f4c36ef264c66742c356ad51821cf2a"
+        },
+        {
+          "phase": "search-ascii-jump",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/win32-x64-search-ascii-jump.txt",
+          "observed": [
+            "win32-x64.chm::/index.html",
+            "窗格 封面"
+          ],
+          "evidenceSha256": "0f765980b0e3534f8c7512d388f6ee2be804f49f74be53915a9f62a247bd9fa8"
+        }
+      ],
+      "scenario": "chinese-navigation-fixture",
+      "status": "passed-for-this-scenario",
+      "chineseContent": "passed",
+      "contentsNavigation": "passed",
+      "keywordIndex": "passed",
+      "fullTextSearchChinese": "passed",
+      "fullTextSearchAscii": "passed",
+      "links": "pending",
+      "scale1000x20": "partial",
+      "searchResults": [
+        {
+          "query": "中文检索",
+          "expected": 6,
+          "observed": 6,
+          "opened": "table_3.html"
+        },
+        {
+          "query": "db2chmneedle",
+          "expected": 6,
+          "observed": 6,
+          "opened": "index.html"
+        }
+      ]
+    },
+    {
+      "platform": "linux-x64",
+      "backend": "chmcmd",
+      "sourceCommit": "2e63e2017b12fca13bad3d334f7081414d097c65",
+      "runId": "40436646789",
+      "chmPath": "target/downloaded-40436646789/application-linux-x64/中文父目录/chinese 中文 output/database.chm",
+      "viewedPath": "target/chm-viewer-final/linux-x64.chm",
+      "chmSha256": "7e4cdaa30661fb803b2eb772d99c895323e62d18c1c45e77858f3db9781d1dc1",
+      "checks": [
+        {
+          "phase": "cover",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/linux-x64-cover.txt",
+          "observed": [
+            "数据库字典 中文验证",
+            "文本 封面",
+            "中文检索 db2chmneedle 订单 用户",
+            "树项目 (selectable) 表目录",
+            "树项目 (selectable) 表结构"
+          ],
+          "evidenceSha256": "c8b091d4c5358371de22a61c3f2249c416522d18d18554f7eccfc5dcc4dd26b3"
+        },
+        {
+          "phase": "toc",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/linux-x64-toc.txt",
+          "observed": [
+            "树项目 (selectable) 订单明细",
+            "树项目 (selectable) 用户_USER",
+            "树项目 (selectable) 转义&<>\"名称",
+            "长名称_中文"
+          ],
+          "evidenceSha256": "3d519a8774754946fb2ce60ba2657e6f3e2c069840fd4735464bc10c53a0b9fc"
+        },
+        {
+          "phase": "toc-jump",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/linux-x64-toc-jump.txt",
+          "observed": [
+            "linux-x64.chm::/table_1.html",
+            "窗格 订单明细"
+          ],
+          "evidenceSha256": "c0d798763ce04e013850d16594463cd85a479d86b38ee6778e0dd941323ca31a"
+        },
+        {
+          "phase": "index-jump",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/linux-x64-index-jump.txt",
+          "observed": [
+            "linux-x64.chm::/table_2.html",
+            "窗格 用户_USER"
+          ],
+          "evidenceSha256": "64f8b754ec596e5793452848da430945401377ae7b49e74b6455e6d97bdf3a58"
+        },
+        {
+          "phase": "search-chinese",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/linux-x64-search-chinese.txt",
+          "observed": [
+            "Value: 中文检索",
+            "列表项目 (selectable) 表目录",
+            "列表项目 (selectable) 订单明细",
+            "列表项目 (selectable) 封面",
+            "列表项目 (selectable) 用户_USER",
+            "列表项目 (selectable) 长名称_中文",
+            "列表项目 (selectable) 转义&<>\"名称"
+          ],
+          "evidenceSha256": "ce8f79964774b02a759da3af1c2e59d93b116df8f470599f8e96458a3b0ea9ce"
+        },
+        {
+          "phase": "search-chinese-jump",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/linux-x64-search-chinese-jump.txt",
+          "observed": [
+            "linux-x64.chm::/table_3.html",
+            "窗格 转义&<>\"名称"
+          ],
+          "evidenceSha256": "2c51804b88535aa101e718f733a22b28ab5cc6022b6d705e6d1420f6d06bd172"
+        },
+        {
+          "phase": "search-ascii",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/linux-x64-search-ascii.txt",
+          "observed": [
+            "Value: db2chmneedle",
+            "列表项目 (selectable) 表目录",
+            "列表项目 (selectable) 订单明细",
+            "列表项目 (selectable) 封面",
+            "列表项目 (selectable) 用户_USER",
+            "列表项目 (selectable) 长名称_中文",
+            "列表项目 (selectable) 转义&<>\"名称"
+          ],
+          "evidenceSha256": "088ff94cc4739c13207c8305be9a75cf095e157c9a047d46d2abfd2dc1af0888"
+        },
+        {
+          "phase": "search-ascii-jump",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/linux-x64-search-ascii-jump.txt",
+          "observed": [
+            "linux-x64.chm::/index.html",
+            "窗格 封面"
+          ],
+          "evidenceSha256": "6d9e2b049ec13376af69c95f9f1d0c5c252dcfea3ee4933b294a9aaa86c8cf74"
+        }
+      ],
+      "scenario": "chinese-navigation-fixture",
+      "status": "passed-for-this-scenario",
+      "chineseContent": "passed",
+      "contentsNavigation": "passed",
+      "keywordIndex": "passed",
+      "fullTextSearchChinese": "passed",
+      "fullTextSearchAscii": "passed",
+      "links": "pending",
+      "scale1000x20": "not-performed",
+      "searchResults": [
+        {
+          "query": "中文检索",
+          "expected": 6,
+          "observed": 6,
+          "opened": "table_3.html"
+        },
+        {
+          "query": "db2chmneedle",
+          "expected": 6,
+          "observed": 6,
+          "opened": "index.html"
+        }
+      ]
+    },
+    {
+      "platform": "darwin-x64",
+      "backend": "chmcmd",
+      "sourceCommit": "2e63e2017b12fca13bad3d334f7081414d097c65",
+      "runId": "40436646789",
+      "chmPath": "target/downloaded-40436646789/application-darwin-x64/中文父目录/chinese 中文 output/database.chm",
+      "viewedPath": "target/chm-viewer-final/darwin-x64.chm",
+      "chmSha256": "10200cf968538ab69633d0443607f1e2142512d0b88460f1229365b434a7ce22",
+      "checks": [
+        {
+          "phase": "cover",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/darwin-x64-cover.txt",
+          "observed": [
+            "数据库字典 中文验证",
+            "文本 封面",
+            "中文检索 db2chmneedle 订单 用户",
+            "树项目 (selectable) 表目录",
+            "树项目 (selectable) 表结构"
+          ],
+          "evidenceSha256": "b1cc4218f9defba7aec525a8bf97c9e3630f127df9b9dab945f9981adeca83d9"
+        },
+        {
+          "phase": "toc",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/darwin-x64-toc.txt",
+          "observed": [
+            "树项目 (selectable) 订单明细",
+            "树项目 (selectable) 用户_USER",
+            "树项目 (selectable) 转义&<>\"名称",
+            "长名称_中文"
+          ],
+          "evidenceSha256": "096cfdf60fd7acb4185a91b0e607ca62d9987c9630fd7df458bf68af573443aa"
+        },
+        {
+          "phase": "toc-jump",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/darwin-x64-toc-jump.txt",
+          "observed": [
+            "darwin-x64.chm::/table_1.html",
+            "窗格 订单明细"
+          ],
+          "evidenceSha256": "103e750b849d671e1c18d4519e7700ba82b930249170b6a59336e5934cf9e1cb"
+        },
+        {
+          "phase": "index-jump",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/darwin-x64-index-jump.txt",
+          "observed": [
+            "darwin-x64.chm::/table_2.html",
+            "窗格 用户_USER"
+          ],
+          "evidenceSha256": "7f01c0a71460d34f1ba3b3346db3d29c6d17437abd70136f0c9e8c2f2a21f3df"
+        },
+        {
+          "phase": "search-chinese",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/darwin-x64-search-chinese.txt",
+          "observed": [
+            "Value: 中文检索",
+            "列表项目 (selectable) 表目录",
+            "列表项目 (selectable) 订单明细",
+            "列表项目 (selectable) 封面",
+            "列表项目 (selectable) 用户_USER",
+            "列表项目 (selectable) 长名称_中文",
+            "列表项目 (selectable) 转义&<>\"名称"
+          ],
+          "evidenceSha256": "0d93ba58790ccc237cfc64697a4df09d3cc5bbdfbf2feab4c9b32f114bd71de5"
+        },
+        {
+          "phase": "search-chinese-jump",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/darwin-x64-search-chinese-jump.txt",
+          "observed": [
+            "darwin-x64.chm::/table_3.html",
+            "窗格 转义&<>\"名称"
+          ],
+          "evidenceSha256": "304a14c3e07050a49fd022da29308ad9ef11b8448b1e35662e63b4c018a7099b"
+        },
+        {
+          "phase": "search-ascii",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/darwin-x64-search-ascii.txt",
+          "observed": [
+            "Value: db2chmneedle",
+            "列表项目 (selectable) 表目录",
+            "列表项目 (selectable) 订单明细",
+            "列表项目 (selectable) 封面",
+            "列表项目 (selectable) 用户_USER",
+            "列表项目 (selectable) 长名称_中文",
+            "列表项目 (selectable) 转义&<>\"名称"
+          ],
+          "evidenceSha256": "f22229afc71487ef8b6a6954024a873921e19cc853bbc7dcae4c4afbee4739ad"
+        },
+        {
+          "phase": "search-ascii-jump",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/darwin-x64-search-ascii-jump.txt",
+          "observed": [
+            "darwin-x64.chm::/index.html",
+            "窗格 封面"
+          ],
+          "evidenceSha256": "11af7aa2104a556f9fb0bcf7142b06f1ddc5bcd874f2cb2647e124b1f226fef1"
+        }
+      ],
+      "scenario": "chinese-navigation-fixture",
+      "status": "passed-for-this-scenario",
+      "chineseContent": "passed",
+      "contentsNavigation": "passed",
+      "keywordIndex": "passed",
+      "fullTextSearchChinese": "passed",
+      "fullTextSearchAscii": "passed",
+      "links": "pending",
+      "scale1000x20": "not-performed",
+      "searchResults": [
+        {
+          "query": "中文检索",
+          "expected": 6,
+          "observed": 6,
+          "opened": "table_3.html"
+        },
+        {
+          "query": "db2chmneedle",
+          "expected": 6,
+          "observed": 6,
+          "opened": "index.html"
+        }
+      ]
+    },
+    {
+      "platform": "darwin-arm64",
+      "backend": "chmcmd",
+      "sourceCommit": "2e63e2017b12fca13bad3d334f7081414d097c65",
+      "runId": "40436646789",
+      "chmPath": "target/downloaded-40436646789/application-darwin-arm64/中文父目录/chinese 中文 output/database.chm",
+      "viewedPath": "target/chm-viewer-final/darwin-arm64.chm",
+      "chmSha256": "2f29d2b4460d24c34c2588c4cd97109097a050ec5aef734e75b7b1f22f612dbc",
+      "checks": [
+        {
+          "phase": "cover",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/darwin-arm64-cover.txt",
+          "observed": [
+            "数据库字典 中文验证",
+            "文本 封面",
+            "中文检索 db2chmneedle 订单 用户",
+            "树项目 (selectable) 表目录",
+            "树项目 (selectable) 表结构"
+          ],
+          "evidenceSha256": "c91e83d8fdbdd61c7634617a81b73af2ffb295467817e083d95d3256011cf35a"
+        },
+        {
+          "phase": "toc",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/darwin-arm64-toc.txt",
+          "observed": [
+            "树项目 (selectable) 订单明细",
+            "树项目 (selectable) 用户_USER",
+            "树项目 (selectable) 转义&<>\"名称",
+            "长名称_中文"
+          ],
+          "evidenceSha256": "06733914f27f4df87e64513d0aec59c121dd100ef53a9143e12c581ddb8f5a02"
+        },
+        {
+          "phase": "toc-jump",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/darwin-arm64-toc-jump.txt",
+          "observed": [
+            "darwin-arm64.chm::/table_1.html",
+            "窗格 订单明细"
+          ],
+          "evidenceSha256": "28f0249d839b09287c1ea01ab9a12481b8e5c4ebf9bd2071bca8a2bffcf41c48"
+        },
+        {
+          "phase": "index-jump",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/darwin-arm64-index-jump.txt",
+          "observed": [
+            "darwin-arm64.chm::/table_2.html",
+            "窗格 用户_USER"
+          ],
+          "evidenceSha256": "7b93a87bfd1ea5a1a30548a0333d43a75bdad66d99e4bf35aa6123a274bdade3"
+        },
+        {
+          "phase": "search-chinese",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/darwin-arm64-search-chinese.txt",
+          "observed": [
+            "Value: 中文检索",
+            "列表项目 (selectable) 表目录",
+            "列表项目 (selectable) 订单明细",
+            "列表项目 (selectable) 封面",
+            "列表项目 (selectable) 用户_USER",
+            "列表项目 (selectable) 长名称_中文",
+            "列表项目 (selectable) 转义&<>\"名称"
+          ],
+          "evidenceSha256": "803059c518b613e4d625083a465d4ce9cc4597b542a7245fb2fa83ab7a82485f"
+        },
+        {
+          "phase": "search-chinese-jump",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/darwin-arm64-search-chinese-jump.txt",
+          "observed": [
+            "darwin-arm64.chm::/table_3.html",
+            "窗格 转义&<>\"名称"
+          ],
+          "evidenceSha256": "e2625f6f9b48d05ad683df758cf3d320bb4f6bbab3ed18b3f9e169ea997ee0f5"
+        },
+        {
+          "phase": "search-ascii",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/darwin-arm64-search-ascii.txt",
+          "observed": [
+            "Value: db2chmneedle",
+            "列表项目 (selectable) 表目录",
+            "列表项目 (selectable) 订单明细",
+            "列表项目 (selectable) 封面",
+            "列表项目 (selectable) 用户_USER",
+            "列表项目 (selectable) 长名称_中文",
+            "列表项目 (selectable) 转义&<>\"名称"
+          ],
+          "evidenceSha256": "19ee19bc7225363a3fef6114475871659c18c847a8df807631d0278994916b48"
+        },
+        {
+          "phase": "search-ascii-jump",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/darwin-arm64-search-ascii-jump.txt",
+          "observed": [
+            "darwin-arm64.chm::/index.html",
+            "窗格 封面"
+          ],
+          "evidenceSha256": "9bb5719c92a213377061a58b10677155949167ae9e735c6b05dc2bbf63751979"
+        }
+      ],
+      "scenario": "chinese-navigation-fixture",
+      "status": "passed-for-this-scenario",
+      "chineseContent": "passed",
+      "contentsNavigation": "passed",
+      "keywordIndex": "passed",
+      "fullTextSearchChinese": "passed",
+      "fullTextSearchAscii": "passed",
+      "links": "pending",
+      "scale1000x20": "not-performed",
+      "searchResults": [
+        {
+          "query": "中文检索",
+          "expected": 6,
+          "observed": 6,
+          "opened": "table_3.html"
+        },
+        {
+          "query": "db2chmneedle",
+          "expected": 6,
+          "observed": 6,
+          "opened": "index.html"
+        }
+      ]
+    }
+  ],
+  "scaleRecords": [
+    {
+      "platform": "win32-x64",
+      "scenario": "scale1000x20",
+      "backend": "chmcmd",
+      "sourceCommit": "2e63e2017b12fca13bad3d334f7081414d097c65",
+      "runId": "40436646789",
+      "chmPath": "target/downloaded-40436646789/application-win32-x64/scale 中文 output/database.chm",
+      "viewedPath": "target/chm-viewer-final/win32-x64-scale.chm",
+      "checks": [
+        {
+          "phase": "cover",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/win32-x64-scale-cover.txt",
+          "observed": [
+            "窗格 全量数据字典",
+            "树项目 (selectable) 表目录",
+            "树项目 (selectable) 表结构"
+          ],
+          "evidenceSha256": "7e3de0795f6583469eef1ec077457d24da8b2cf84a4cdceaac398a5952608511"
+        },
+        {
+          "phase": "toc-scale",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/win32-x64-scale-toc-scale.txt",
+          "observed": [
+            "表结构 (truncated: child_limit, omitted 1000 children)"
+          ],
+          "evidenceSha256": "cd75ff0a2806f26eaf8bc8ee38061619736f821bace885b1f28466cf355a5592"
+        },
+        {
+          "phase": "toc-last-table",
+          "passed": true,
+          "evidence": "docs/evidence/chm-viewer-2e63e20/win32-x64-scale-toc-last-table.txt",
+          "observed": [
+            "win32-x64-scale.chm::/table_1000.html",
+            "窗格 SYS_USER_ROLE_99 - dictionary",
+            "列信息（共 20 列）",
+            "用户角色关联表(复合主键)(第99批模拟)"
+          ],
+          "evidenceSha256": "f8f3c6828e1b1489891e1e7316cd099306c239923c4e251554432b4da60c66d8"
+        }
+      ],
+      "contentsNavigation": "passed",
+      "lastTableAnd20Columns": "passed",
+      "keywordIndex": "pending",
+      "fullTextSearchChinese": "pending",
+      "fullTextSearchAscii": "pending",
+      "htmlLinks": "pending",
+      "interruption": {
+        "error": "window is minimized; call activate_window, refresh with get_window, then retry get_window_state",
+        "recovery": "activate_window + get_window + get_window_state attempted; repeated minimized error; further UI input stopped"
+      },
+      "chmSha256": "9b139d8153ebb2084c6e54e8635e1632d413f40a68b674b82ef145d866924f15"
+    }
+  ],
+  "automaticRegression": {
+    "chmScenarios": 16,
+    "extractedHtmlCssMatched": 4076
+  },
+  "pending": [
+    "html-page-link-interaction",
+    "scale-keyword-index-and-full-text-search",
+    "scale-interaction-on-other-three-platform-artifacts",
+    "real-database-artifact-viewer-interaction"
+  ],
+  "limitations": [
+    "Only Chinese Windows viewer was tested; English Windows interactive validation remains untested.",
+    "The Chinese fixture contains no HTML hyperlinks; its TOC/search jumps do not prove HTML hyperlink interaction.",
+    "Scale tree accessibility output omits 1000 children; the last table was reached using End then Enter, and its actual table_1000.html and 20-column body were observed.",
+    "Scale opening/query latency was not benchmarked; scale search was not executed.",
+    "HHC6003 remains a failed HHC compatibility result.",
+    "Search support is the current simplified-Chinese CP936 profile; no general Unicode/language guarantee."
+  ],
+  "evidenceFiles": [
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/darwin-arm64-cover.txt",
+      "bytes": 1153,
+      "sha256": "c91e83d8fdbdd61c7634617a81b73af2ffb295467817e083d95d3256011cf35a"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/darwin-arm64-index-jump.txt",
+      "bytes": 1532,
+      "sha256": "7b93a87bfd1ea5a1a30548a0333d43a75bdad66d99e4bf35aa6123a274bdade3"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/darwin-arm64-search-ascii-jump.txt",
+      "bytes": 2243,
+      "sha256": "9bb5719c92a213377061a58b10677155949167ae9e735c6b05dc2bbf63751979"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/darwin-arm64-search-ascii.txt",
+      "bytes": 2258,
+      "sha256": "19ee19bc7225363a3fef6114475871659c18c847a8df807631d0278994916b48"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/darwin-arm64-search-chinese-jump.txt",
+      "bytes": 2258,
+      "sha256": "e2625f6f9b48d05ad683df758cf3d320bb4f6bbab3ed18b3f9e169ea997ee0f5"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/darwin-arm64-search-chinese.txt",
+      "bytes": 2226,
+      "sha256": "803059c518b613e4d625083a465d4ce9cc4597b542a7245fb2fa83ab7a82485f"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/darwin-arm64-toc-jump.txt",
+      "bytes": 1856,
+      "sha256": "28f0249d839b09287c1ea01ab9a12481b8e5c4ebf9bd2071bca8a2bffcf41c48"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/darwin-arm64-toc.txt",
+      "bytes": 1847,
+      "sha256": "06733914f27f4df87e64513d0aec59c121dd100ef53a9143e12c581ddb8f5a02"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/darwin-x64-cover.txt",
+      "bytes": 1151,
+      "sha256": "b1cc4218f9defba7aec525a8bf97c9e3630f127df9b9dab945f9981adeca83d9"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/darwin-x64-index-jump.txt",
+      "bytes": 1530,
+      "sha256": "7f01c0a71460d34f1ba3b3346db3d29c6d17437abd70136f0c9e8c2f2a21f3df"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/darwin-x64-search-ascii-jump.txt",
+      "bytes": 2241,
+      "sha256": "11af7aa2104a556f9fb0bcf7142b06f1ddc5bcd874f2cb2647e124b1f226fef1"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/darwin-x64-search-ascii.txt",
+      "bytes": 2256,
+      "sha256": "f22229afc71487ef8b6a6954024a873921e19cc853bbc7dcae4c4afbee4739ad"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/darwin-x64-search-chinese-jump.txt",
+      "bytes": 2256,
+      "sha256": "304a14c3e07050a49fd022da29308ad9ef11b8448b1e35662e63b4c018a7099b"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/darwin-x64-search-chinese.txt",
+      "bytes": 2224,
+      "sha256": "0d93ba58790ccc237cfc64697a4df09d3cc5bbdfbf2feab4c9b32f114bd71de5"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/darwin-x64-toc-jump.txt",
+      "bytes": 1854,
+      "sha256": "103e750b849d671e1c18d4519e7700ba82b930249170b6a59336e5934cf9e1cb"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/darwin-x64-toc.txt",
+      "bytes": 1845,
+      "sha256": "096cfdf60fd7acb4185a91b0e607ca62d9987c9630fd7df458bf68af573443aa"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/linux-x64-cover.txt",
+      "bytes": 1150,
+      "sha256": "c8b091d4c5358371de22a61c3f2249c416522d18d18554f7eccfc5dcc4dd26b3"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/linux-x64-index-jump.txt",
+      "bytes": 1529,
+      "sha256": "64f8b754ec596e5793452848da430945401377ae7b49e74b6455e6d97bdf3a58"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/linux-x64-search-ascii-jump.txt",
+      "bytes": 2240,
+      "sha256": "6d9e2b049ec13376af69c95f9f1d0c5c252dcfea3ee4933b294a9aaa86c8cf74"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/linux-x64-search-ascii.txt",
+      "bytes": 2255,
+      "sha256": "088ff94cc4739c13207c8305be9a75cf095e157c9a047d46d2abfd2dc1af0888"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/linux-x64-search-chinese-jump.txt",
+      "bytes": 2255,
+      "sha256": "2c51804b88535aa101e718f733a22b28ab5cc6022b6d705e6d1420f6d06bd172"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/linux-x64-search-chinese.txt",
+      "bytes": 2223,
+      "sha256": "ce8f79964774b02a759da3af1c2e59d93b116df8f470599f8e96458a3b0ea9ce"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/linux-x64-toc-jump.txt",
+      "bytes": 1853,
+      "sha256": "c0d798763ce04e013850d16594463cd85a479d86b38ee6778e0dd941323ca31a"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/linux-x64-toc.txt",
+      "bytes": 1844,
+      "sha256": "3d519a8774754946fb2ce60ba2657e6f3e2c069840fd4735464bc10c53a0b9fc"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/win32-x64-cover.png",
+      "bytes": 37148,
+      "sha256": "f060d79679b1ce3018fdcc5b6907b2c9cf4c789325832dbe58f2834dbe79d94e"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/win32-x64-cover.txt",
+      "bytes": 1150,
+      "sha256": "26d6ae9b5efbb3c948f640d89506061277b6b9c15cdcdf161115b47336981009"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/win32-x64-index-jump.txt",
+      "bytes": 1224,
+      "sha256": "cb7169ade570052aa3d0a1716d06ca484bca670600833888950bf37fece50182"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/win32-x64-scale-cover.txt",
+      "bytes": 1455,
+      "sha256": "7e3de0795f6583469eef1ec077457d24da8b2cf84a4cdceaac398a5952608511"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/win32-x64-scale-toc-last-table.txt",
+      "bytes": 10874,
+      "sha256": "f8f3c6828e1b1489891e1e7316cd099306c239923c4e251554432b4da60c66d8"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/win32-x64-scale-toc-scale.txt",
+      "bytes": 2178,
+      "sha256": "cd75ff0a2806f26eaf8bc8ee38061619736f821bace885b1f28466cf355a5592"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/win32-x64-search-ascii-jump.txt",
+      "bytes": 2240,
+      "sha256": "0f765980b0e3534f8c7512d388f6ee2be804f49f74be53915a9f62a247bd9fa8"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/win32-x64-search-ascii.txt",
+      "bytes": 2255,
+      "sha256": "a524acaa7b1909be7d4a55a858bae3d71f4c36ef264c66742c356ad51821cf2a"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/win32-x64-search-chinese-jump.txt",
+      "bytes": 2255,
+      "sha256": "5942b438501c9d6c5188d9c01edb00e8beb8a9062d7bdaef2f7c26e2f2a725e4"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/win32-x64-search-chinese.txt",
+      "bytes": 2223,
+      "sha256": "2821ff107654648a025a9ffbb99e80f5a7931ce776571e02dff4176e2ef80856"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/win32-x64-toc-jump.png",
+      "bytes": 40889,
+      "sha256": "0d56eb16a63af6b16a05e7932836d22f7dfc08d54e6a7e4d1b76bc0085b5231c"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/win32-x64-toc-jump.txt",
+      "bytes": 1853,
+      "sha256": "e61353db80b8a685c64a65587c99e50014fa260e7f906dbc35c512fabd699065"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/win32-x64-toc.png",
+      "bytes": 39523,
+      "sha256": "aeecc33a3d78a7ff63981f41a682a3e4eb5fe8b73f3548da3c1e33390cef199c"
+    },
+    {
+      "file": "docs/evidence/chm-viewer-2e63e20/win32-x64-toc.txt",
+      "bytes": 1844,
+      "sha256": "3eb34755b66fe7068834fcfc5e5a2db4c8a35fe88650ab3c3d23ccb449d24d50"
+    }
+  ]
+}

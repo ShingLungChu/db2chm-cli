@@ -1,0 +1,390 @@
+Window: "数据库字典", App: hh.exe.
+	0 窗口 数据库字典 Secondary Actions: Raise
+		1 工具栏 工具栏 ID: 1006
+			2 按钮 隐藏
+			3 按钮 上一步
+			4 按钮 打印
+			5 按钮 选项(O)
+		6 窗格
+			7 窗格
+				8 窗格
+					9 窗格 mk:@MSITStore:D:\workspace\allFlow\db2chm-cli-publish\target\chm-viewer-final\win32-x64-scale.chm::/table_1000.html
+						401 窗格 SYS_USER_ROLE_99 - dictionary
+							402 文本 表结构详情
+							403 链接 封面 Value: mk:@MSITStore:D:\workspace\allFlow\db2chm-cli-publish\target\chm-viewer-final\win32-x64-scale.chm::/index.html
+								404 文本 封面 Value: mk:@MSITStore:D:\workspace\allFlow\db2chm-cli-publish\target\chm-viewer-final\win32-x64-scale.chm::/index.html
+							405 文本 >
+							406 链接 表目录 Value: mk:@MSITStore:D:\workspace\allFlow\db2chm-cli-publish\target\chm-viewer-final\win32-x64-scale.chm::/catalog.html
+								407 文本 表目录 Value: mk:@MSITStore:D:\workspace\allFlow\db2chm-cli-publish\target\chm-viewer-final\win32-x64-scale.chm::/catalog.html
+							408 文本 >
+							409 文本 SYS_USER_ROLE_99
+							410 文本 SYS_USER_ROLE_99
+							411 文本 用户角色关联表(复合主键)(第99批模拟)
+							412 文本 列信息（共 20 列）
+							413 表格
+								414 标头项目 序号
+									415 文本 序号
+								416 标头项目 列名
+									417 文本 列名
+								418 标头项目 数据类型
+									419 文本 数据类型
+								420 标头项目 长度
+									421 文本 长度
+								422 标头项目 主键
+									423 文本 主键
+								424 标头项目 自增
+									425 文本 自增
+								426 标头项目 允许空
+									427 文本 允许空
+								428 标头项目 列说明
+									429 文本 列说明
+								430 项 1
+									431 文本 1
+								432 项 ID
+									433 文本 ID
+								434 项 bigint
+									435 文本 bigint
+								436 项 18
+									437 文本 18
+								438 项 PK
+									439 文本 PK
+								440 项 Y
+									441 文本 Y
+								442 项 N
+									443 文本 N
+								444 项 主键ID
+									445 文本 主键ID
+								446 项 2
+									447 文本 2
+								448 项 CODE
+									449 文本 CODE
+								450 项 varchar
+									451 文本 varchar
+								452 项 32
+									453 文本 32
+								454 项 —
+									455 文本 —
+								456 项 —
+									457 文本 —
+								458 项 N
+									459 文本 N
+								460 项 业务编码
+									461 文本 业务编码
+								462 项 3
+									463 文本 3
+								464 项 NAME_CN
+									465 文本 NAME_CN
+								466 项 varchar
+									467 文本 varchar
+								468 项 128
+									469 文本 128
+								470 项 —
+									471 文本 —
+								472 项 —
+									473 文本 —
+								474 项 N
+									475 文本 N
+								476 项 中文名称
+									477 文本 中文名称
+								478 项 4
+									479 文本 4
+								480 项 VALUE
+									481 文本 VALUE
+								482 项 decimal
+									483 文本 decimal
+								484 项 18,2
+									485 文本 18,2
+								486 项 —
+									487 文本 —
+								488 项 —
+									489 文本 —
+								490 项 Y
+									491 文本 Y
+								492 项 数值(允许为空)
+									493 文本 数值(允许为空)
+								494 项 5
+									495 文本 5
+								496 项 DESCRIPTION
+									497 文本 DESCRIPTION
+								498 项 text
+									499 文本 text
+								500 项
+								501 项 —
+									502 文本 —
+								503 项 —
+									504 文本 —
+								505 项 Y
+									506 文本 Y
+								507 项 描述说明
+									508 文本 描述说明
+								509 项 6
+									510 文本 6
+								511 项 CREATED_AT
+									512 文本 CREATED_AT
+								513 项 datetime
+									514 文本 datetime
+								515 项
+								516 项 —
+									517 文本 —
+								518 项 —
+									519 文本 —
+								520 项 Y
+									521 文本 Y
+								522 项 创建时间
+									523 文本 创建时间
+								524 项 7
+									525 文本 7
+								526 项 UPDATED_AT
+									527 文本 UPDATED_AT
+								528 项 datetime
+									529 文本 datetime
+								530 项
+								531 项 —
+									532 文本 —
+								533 项 —
+									534 文本 —
+								535 项 Y
+									536 文本 Y
+								537 项 更新时间
+									538 文本 更新时间
+								539 项 8
+									540 文本 8
+								541 项 FIXTURE_8
+									542 文本 FIXTURE_8
+								543 项 varchar
+									544 文本 varchar
+								545 项 128
+									546 文本 128
+								547 项 —
+									548 文本 —
+								549 项 —
+									550 文本 —
+								551 项 Y
+									552 文本 Y
+								553 项 规模验证字段
+									554 文本 规模验证字段
+								555 项 9
+									556 文本 9
+								557 项 FIXTURE_9
+									558 文本 FIXTURE_9
+								559 项 varchar
+									560 文本 varchar
+								561 项 128
+									562 文本 128
+								563 项 —
+									564 文本 —
+								565 项 —
+									566 文本 —
+								567 项 Y
+									568 文本 Y
+								569 项 规模验证字段
+									570 文本 规模验证字段
+								571 项 10
+									572 文本 10
+								573 项 FIXTURE_10
+									574 文本 FIXTURE_10
+								575 项 varchar
+									576 文本 varchar
+								577 项 128
+									578 文本 128
+								579 项 —
+									580 文本 —
+								581 项 —
+									582 文本 —
+								583 项 Y
+									584 文本 Y
+								585 项 规模验证字段
+									586 文本 规模验证字段
+								587 项 11
+									588 文本 11
+								589 项 FIXTURE_11
+									590 文本 FIXTURE_11
+								591 项 varchar
+									592 文本 varchar
+								593 项 128
+									594 文本 128
+								595 项 —
+									596 文本 —
+								597 项 —
+									598 文本 —
+								599 项 Y
+									600 文本 Y
+								601 项 规模验证字段
+									602 文本 规模验证字段
+								603 项 12
+									604 文本 12
+								605 项 FIXTURE_12
+									606 文本 FIXTURE_12
+								607 项 varchar
+									608 文本 varchar
+								609 项 128
+									610 文本 128
+								611 项 —
+									612 文本 —
+								613 项 —
+									614 文本 —
+								615 项 Y
+									616 文本 Y
+								617 项 规模验证字段
+									618 文本 规模验证字段
+								619 项 13
+									620 文本 13
+								621 项 FIXTURE_13
+									622 文本 FIXTURE_13
+								623 项 varchar
+									624 文本 varchar
+								625 项 128
+									626 文本 128
+								627 项 —
+									628 文本 —
+								629 项 —
+									630 文本 —
+								631 项 Y
+									632 文本 Y
+								633 项 规模验证字段
+									634 文本 规模验证字段
+								635 项 14
+									636 文本 14
+								637 项 FIXTURE_14
+									638 文本 FIXTURE_14
+								639 项 varchar
+									640 文本 varchar
+								641 项 128
+									642 文本 128
+								643 项 —
+									644 文本 —
+								645 项 —
+									646 文本 —
+								647 项 Y
+									648 文本 Y
+								649 项 规模验证字段
+									650 文本 规模验证字段
+								651 项 15
+									652 文本 15
+								653 项 FIXTURE_15
+									654 文本 FIXTURE_15
+								655 项 varchar
+									656 文本 varchar
+								657 项 128
+									658 文本 128
+								659 项 —
+									660 文本 —
+								661 项 —
+									662 文本 —
+								663 项 Y
+									664 文本 Y
+								665 项 规模验证字段
+									666 文本 规模验证字段
+								667 项 16
+									668 文本 16
+								669 项 FIXTURE_16
+									670 文本 FIXTURE_16
+								671 项 varchar
+									672 文本 varchar
+								673 项 128
+									674 文本 128
+								675 项 —
+									676 文本 —
+								677 项 —
+									678 文本 —
+								679 项 Y
+									680 文本 Y
+								681 项 规模验证字段
+									682 文本 规模验证字段
+								683 项 17
+									684 文本 17
+								685 项 FIXTURE_17
+									686 文本 FIXTURE_17
+								687 项 varchar
+									688 文本 varchar
+								689 项 128
+									690 文本 128
+								691 项 —
+									692 文本 —
+								693 项 —
+									694 文本 —
+								695 项 Y
+									696 文本 Y
+								697 项 规模验证字段
+									698 文本 规模验证字段
+								699 项 18
+									700 文本 18
+								701 项 FIXTURE_18
+									702 文本 FIXTURE_18
+								703 项 varchar
+									704 文本 varchar
+								705 项 128
+									706 文本 128
+								707 项 —
+									708 文本 —
+								709 项 —
+									710 文本 —
+								711 项 Y
+									712 文本 Y
+								713 项 规模验证字段
+									714 文本 规模验证字段
+								715 项 19
+									716 文本 19
+								717 项 FIXTURE_19
+									718 文本 FIXTURE_19
+								719 项 varchar
+									720 文本 varchar
+								721 项 128
+									722 文本 128
+								723 项 —
+									724 文本 —
+								725 项 —
+									726 文本 —
+								727 项 Y
+									728 文本 Y
+								729 项 规模验证字段
+									730 文本 规模验证字段
+								731 项 20
+									732 文本 20
+								733 项 FIXTURE_20
+									734 文本 FIXTURE_20
+								735 项 varchar
+									736 文本 varchar
+								737 项 128
+									738 文本 128
+								739 项 —
+									740 文本 —
+								741 项 —
+									742 文本 —
+								743 项 Y
+									744 文本 Y
+								745 项 规模验证字段
+									746 文本 规模验证字段
+							747 文本 数据库：MySQL · 连接：MySQL metadata · 生成时间：2026-10-27 02:09:31
+		20 窗格
+		21 窗格
+			22 选项卡 ID: 1007
+				23 旋转图标 ID: 1
+					24 按钮 多 ID: MoreButton
+					25 按钮 少 ID: LessButton
+				26 树
+					40 滚动条 (settable, float) 垂直滚动条 Value: 100 ID: NonClientVerticalScrollBar
+						41 按钮 上一行 ID: UpButton
+						42 按钮 向上翻页 ID: UpPageButton
+						43 缩略图 位置 ID: ScrollbarThumb
+						45 按钮 下一行 ID: DownButton
+					46 滚动条 (settable, float) 水平滚动条 Value: 0 ID: NonClientHorizontalScrollBar
+						47 按钮 左移一列 ID: UpButton
+						48 缩略图 位置 ID: ScrollbarThumb
+						49 按钮 向右翻页 ID: DownPageButton
+						50 按钮 右移一列 ID: DownButton
+					51 缩略图 (disabled)
+					27 树项目 (selectable) 封面
+					28 树项目 (selectable) 表目录
+					29 树项目 (selectable) 表结构 (truncated: child_limit, omitted 1000 children)
+				30 选项卡项目 (selectable) 目录(C)
+				31 选项卡项目 (selectable) 索引(N)
+				32 选项卡项目 (selectable) 搜索(S)
+		33 标题栏 (settable, string) Value: 数据库字典
+			34 菜单栏 系统 ID: MenuBar
+				35 菜单项 系统
+			36 按钮 最小化
+			37 按钮 还原
+			38 按钮 关闭
+
+The focused UI element is 401 窗格 SYS_USER_ROLE_99 - dictionary.

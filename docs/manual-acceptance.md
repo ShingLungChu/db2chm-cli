@@ -50,3 +50,11 @@ Oracle 驱动的 setReadOnly 仅是客户端标志，不能据此认定数据库
 本机 `.local/acceptance/viewer.json` 已准备记录框架。记录 Windows/Viewer 版本、CHM SHA-256、后端、各项结果和必要的脱敏截图。自动解包哈希匹配不能替代这些交互操作。
 
 以上完成后，再冻结支持矩阵、审查 native 分发与对应源码，汇总候选并验证 npm 发布权限。当前没有正式 RC 或 npm 版本。
+
+## 4. 本次执行记录（2026-10-27）
+
+已使用修复提交 `2e63e2017b12fca13bad3d334f7081414d097c65` 的最终 CI 产物，在中文 Windows HTML Help 实际操作四个平台的中文夹具。标题、目录展开/跳转、中文 HHK 定位、中英文全文搜索（各 6 个结果）和结果打开全部通过，共 32 个检查点。每份 CHM 均绑定 SHA-256。
+
+Windows 1,000×20 场景另完成封面、千表目录、末端表页和 20 列正文检查。随后查看窗口最小化，恢复尝试后工具仍报告 `window is minimized`，停止继续操作；页内链接、规模索引/搜索及真实数据库 CHM 原件交互保持 pending，整体为部分完成。
+
+详细结果见[交互验收报告](chm-viewer-acceptance.md)及[机器记录](evidence/chm-viewer-2e63e20.json)。本机 `.local/acceptance/viewer.json` 和真实数据库功能报告已同步更新。自动解包工具生成的 `viewerInteraction: pending` 为其原始记录，不改写成 UI 通过；本次交互状态另存并通过文件哈希关联。

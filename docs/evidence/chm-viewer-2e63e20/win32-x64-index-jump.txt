@@ -1,0 +1,35 @@
+Window: "数据库字典 中文验证", App: hh.exe.
+	0 窗口 数据库字典 中文验证 Secondary Actions: Raise
+		1 工具栏 工具栏 ID: 1006
+			2 按钮 隐藏
+			3 按钮 上一步
+			4 按钮 打印
+			5 按钮 选项(O)
+		6 窗格
+			7 窗格
+				8 窗格
+					9 窗格 mk:@MSITStore:D:\workspace\allFlow\db2chm-cli-publish\target\chm-viewer-final\win32-x64.chm::/table_2.html
+						56 窗格 用户_USER
+							57 文本 用户_USER
+							58 文本 中文检索 db2chmneedle 订单 用户
+		13 窗格
+		14 窗格
+			15 选项卡 ID: 1007
+				16 旋转图标 ID: 1
+					17 按钮 多 ID: MoreButton
+					18 按钮 少 ID: LessButton
+				23 选项卡项目 (selectable) 目录(C)
+				24 选项卡项目 (selectable) 索引(N)
+				25 选项卡项目 (selectable) 搜索(S)
+			44 文本 键入关键字进行查找(W): ID: 3018
+			45 编辑 (settable, string) 键入关键字进行查找(W): Value: 用户_USER ID: 3003
+			46 按钮 显示(D) ID: 3006
+			47 窗格 ID: 222
+		26 标题栏 (settable, string) Value: 数据库字典 中文验证
+			27 菜单栏 系统 ID: MenuBar
+				55 菜单项 系统
+			29 按钮 最小化
+			30 按钮 还原
+			31 按钮 关闭
+
+The focused UI element is 56 窗格 用户_USER.

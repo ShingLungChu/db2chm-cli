@@ -1,0 +1,50 @@
+Window: "数据库字典 中文验证", App: hh.exe.
+	0 窗口 数据库字典 中文验证 Secondary Actions: Raise
+		1 工具栏 工具栏 ID: 1006
+			2 按钮 隐藏
+			3 按钮 上一步
+			4 按钮 打印
+			5 按钮 选项(O)
+		6 窗格
+			7 窗格
+				8 窗格
+					9 窗格 mk:@MSITStore:D:\workspace\allFlow\db2chm-cli-publish\target\chm-viewer-final\darwin-arm64.chm::/table_3.html
+						75 窗格 转义&<>"名称
+							76 文本 转义&<>"名称
+							77 文本 中文检索
+							78 文本 db2chmneedle 订单 用户
+		13 窗格
+		14 窗格
+			57 列表 ID: 3013
+				63 列表项目 (selectable) 表目录
+					64 文本 表目录
+				65 列表项目 (selectable) 订单明细
+					66 文本 订单明细
+				67 列表项目 (selectable) 封面
+					68 文本 封面
+				69 列表项目 (selectable) 用户_USER
+					70 文本 用户_USER
+				71 列表项目 (selectable) 长名称_中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文
+					72 文本 长名称_中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文中文
+				73 列表项目 (selectable) 转义&<>"名称
+					74 文本 转义&<>"名称
+			15 选项卡 ID: 1007
+				16 旋转图标 ID: 1
+					17 按钮 多 ID: MoreButton
+					18 按钮 少 ID: LessButton
+				23 选项卡项目 (selectable) 目录(C)
+				24 选项卡项目 (selectable) 索引(N)
+				25 选项卡项目 (selectable) 搜索(S)
+			58 文本 键入关键字进行查找(W): ID: 3018
+			59 编辑 (settable, string) 键入关键字进行查找(W): Value: db2chmneedle ID: 3024
+			60 按钮 列出主题(L) ID: 3015
+			61 文本 选择要显示的主题(T): ID: 3017
+			62 按钮 显示(D) ID: 3006
+		26 标题栏 (settable, string) Value: 数据库字典 中文验证
+			27 菜单栏 系统 ID: MenuBar
+				28 菜单项 系统
+			29 按钮 最小化
+			30 按钮 还原
+			31 按钮 关闭
+
+The focused UI element is 75 窗格 转义&<>"名称.
