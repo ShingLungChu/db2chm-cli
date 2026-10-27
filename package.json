@@ -1,5 +1,5 @@
 {
-  "name": "@nstc/db2chm-development",
+  "name": "@jackiechen1994/db2chm-development",
   "version": "0.2.0-beta.1",
   "private": true,
   "engines": { "node": ">=22" },

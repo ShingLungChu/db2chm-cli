@@ -1,6 +1,6 @@
 # 依赖、来源与分发清单
 
-更新：2026-10-26。所有 JDBC 二进制和微软 HHC 均未进入本仓库/npm 原型。原始文件位于调用者本机，下面的哈希用于识别候选，不能代替许可或真实兼容验收。
+更新：2026-10-27。所有 JDBC 二进制和微软 HHC 均未进入本仓库/npm 原型。驱动由调用者按厂商条款显式外置；三库实测范围见[支持矩阵](support-matrix.md)，不扩展到其他组合。
 
 ## 应用依赖
 
@@ -18,9 +18,9 @@ Maven 资源、编译、归档、测试、shade 插件均固定版本；归档�
 
 | 类型 | 本机文件 / 识别版本 | 字节数 | 分发与兼容状态 |
 | --- | --- | ---: | --- |
-| Oracle | ojdbc7-12.1.0.2.0.jar / 12.1.0.2.0 | 3,698,857 | 外置；本版必须真实验收 |
-| 达梦 | DmJdbcDriver18-8.1.2.192.jar / 8.1.2.192 | 1,063,595 | 外置；本版必须真实验收 |
-| Vastbase | Vastbase-G100-2.14_pg_2026011411.jar | 981,328 | 外置；本版计划环境，待版本核验 |
+| Oracle | ojdbc7-12.1.0.2.0.jar / 12.1.0.2.0 | 3,698,857 | 外置；Windows/Java 8/19c 的功能验证通过，权限审计独立待补 |
+| 达梦 | DmJdbcDriver18-8.1.2.192.jar / 8.1.2.192 | 1,063,595 | 外置；Windows/Java 8/8.1.4.80 功能验证通过，权限审计独立待补 |
+| Vastbase | Vastbase-G100-2.14_pg_2026011411.jar / 2.14 | 981,328 | 外置；Windows/Java 8/G100 V2.2 (Build 15) 功能验证通过 |
 | MySQL | mysql-connector-java-8.0.17.jar / 8.0.17 | 2,321,813 | 外置；适配器保留，本版尚未纳入最低真实验收 |
 | KingbaseES | kingbase8-9.0.0.jar / manifest V009R002C016 | 1,459,652 | 外置；文件名版本不作权威依据；未验证 |
 
@@ -34,7 +34,7 @@ MySQL    073c395ec325ac68dcda6f5534167ba40de5b0fe4b459f7636ac6c44e4ace5a7
 Kingbase 1250ce0c47cb68da8385ed6ee62ea79258a577473c463d29f5c8dbe045321037
 ```
 
-使用 --driver-jar 或配置 driverJar 显式加载；驱动类必须匹配类型。doctor 能检查 JAR 可读性、对应类和加载错误，不能证明某驱动/服务器版本已受支持。Java 最低版本还需结合所选 JAR 实测；本次没有将候选版本称为已验证支持版本。
+使用 --driver-jar 或配置 driverJar 显式加载；驱动类必须匹配类型。doctor 的类加载检查本身不能证明驱动/服务器兼容性；上述三库另有真实功能证据，其余组合仍未验证。驱动不随包分发，不自动下载；使用者负责取得合法驱动与授权。
 
 GUI 的旧文件名兼容只查业务 JAR 同目录下 lib/；不扫描当前工作目录。CLI 推荐始终显式指定。
 
@@ -61,4 +61,6 @@ Windows 构建入口为 scripts/build-native-windows.ps1；验证官方 ZIP SHA-
 
 来源：[固定源码](https://github.com/fpc/FPCSource/tree/de69d52048cf52c72ebfeef61617c04c9bc2005c/packages/chm)。
 
-四平台 native runner 已从固定源码编译，并通过完整 Java 过滤导出、1000×20、真实编译器 npm 安装和 Windows 解包。四个平台复用同一份重复构建一致的业务 JAR。Windows Viewer 交互验收仍待记录。最新 hosted runner 通过不代表旧版 macOS/glibc 已通过；Linux arm64/musl 未列入首期。
+四平台 native 已从固定源码编译，通过完整 Java 过滤导出、1000×20、私有 npm 安装和 Windows 解包；同一份共享 JAR 已下载复核。Windows 中文夹具交互通过，用户确认生成文档验收通过。最新 hosted runner 不代表全部旧系统，Linux arm64/musl 未列入首期。
+
+Windows bootstrap 的完整版本为 `3.3.1-21298-g814ece0205`，可追溯到 `814ece0205a6b9c2c6dad74c8069ebb2ae50d1c7`。新构建记录捕获 PPU/源码输入；当前本机 41 个预编译单元、15 个工具源码和 Windows 字节复现证据已保存。编译输入清单不能代替库来源/许可/完整链接清单，[分发核查](native-distribution-review.md)仍有未闭合项，`redistributionApproved` 保持 false。

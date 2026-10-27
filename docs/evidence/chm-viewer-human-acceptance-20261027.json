@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-27T03:07:37.677Z",
+  "status": "passed",
+  "method": "human-user-confirmation",
+  "statement": "生成的文档验收发现是已经通过了，可以继续执行",
+  "scope": "generated-document-functional-acceptance",
+  "sourceCommit": "2e63e2017b12fca13bad3d334f7081414d097c65",
+  "automatedEvidence": {
+    "path": "docs/evidence/chm-viewer-2e63e20.json",
+    "sha256": "bd6694d6930e4acef08a58cbf6cc2565d795abe99784442901fd22ea3909c207",
+    "status": "partial"
+  },
+  "notes": [
+    "The user confirmed generated-document acceptance passed and authorized continuation.",
+    "This confirmation closes the generated-document acceptance item. It does not add fabricated agent observations, per-artifact test steps, timings or screenshots.",
+    "Database privilege/SQL audit, HHC compatibility, source distribution, minimum OS and npm publishing identity remain independent gates."
+  ]
+}

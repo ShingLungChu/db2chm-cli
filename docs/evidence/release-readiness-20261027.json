@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-27T03:25:55.224Z",
+  "sourceCommit": "2e63e2017b12fca13bad3d334f7081414d097c65",
+  "runId": "40436646789",
+  "bundleDirectory": "target/release-review-2e63e20",
+  "bundleKind": "private-validation-bundle",
+  "releaseEligible": false,
+  "status": "preparation-in-progress",
+  "gates": {
+    "G0": {
+      "status": "partial",
+      "reason": "Validated support matrix recorded; oldest supported OS and exact bootstrap/source distribution still require closure."
+    },
+    "G1": {
+      "status": "technical-validation-passed-distribution-review-pending",
+      "evidence": "docs/evidence/native-validation-2e63e20.json"
+    },
+    "G2": {
+      "status": "partial",
+      "reason": "CLI safety tests and three real database functional runs passed; account privileges, server-side SQL audit and before/after evidence remain pending."
+    },
+    "G3": {
+      "status": "private-package-installation-and-size-passed",
+      "sizes": [
+        {
+          "platform": "win32-x64",
+          "platformBytes": 2648639,
+          "entryBytes": 2471,
+          "totalDownloadBytes": 2651110,
+          "belowLimit": true
+        },
+        {
+          "platform": "darwin-x64",
+          "platformBytes": 3159839,
+          "entryBytes": 2471,
+          "totalDownloadBytes": 3162310,
+          "belowLimit": true
+        },
+        {
+          "platform": "darwin-arm64",
+          "platformBytes": 3126311,
+          "entryBytes": 2471,
+          "totalDownloadBytes": 3128782,
+          "belowLimit": true
+        },
+        {
+          "platform": "linux-x64",
+          "platformBytes": 2717964,
+          "entryBytes": 2471,
+          "totalDownloadBytes": 2720435,
+          "belowLimit": true
+        }
+      ]
+    },
+    "G4": {
+      "status": "passed-user-accepted",
+      "evidence": "docs/evidence/chm-viewer-human-acceptance-20261027.json"
+    },
+    "G5": {
+      "status": "pending",
+      "reason": "Private prototypes remain private; source distribution, fixed inputs/minimum OS and exact candidate acceptance are not complete."
+    },
+    "G6": {
+      "status": "not-started",
+      "reason": "No registry version or dist-tag has been published."
+    }
+  },
+  "remaining": [
+    "native-component-source-and-license-closure",
+    "pinned-unix-bootstrap-and-oldest-system-validation",
+    "database-account-privilege-and-server-sql-audit-evidence",
+    "clean-exact-candidate-and-registry-acceptance",
+    "new-personal-scope-packaging-and-publishing-authentication"
+  ],
+  "sourceReview": "docs/native-distribution-review.md",
+  "artifactScope": "nstc",
+  "plannedScope": "jackiechen1994",
+  "publisherIdentityVerified": true,
+  "scopeChangeRequiresRepackAndInstallValidation": true
+}

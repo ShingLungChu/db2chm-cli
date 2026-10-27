@@ -27,8 +27,10 @@ for patch in chmcmd-fpc322.patch chmcmd-encoding.patch; do
   cp "$script_root/release/patches/$patch" "$out/$patch"
 done
 mkdir -p "$out/units"
-"$fpc_bin" -B -O2 -Xs "-Fu$work/packages/chm/src" "-FU$out/units" "-FE$out" "$work/packages/chm/src/chmcmd.lpr" 2>&1 | tee "$out/build.log"
+"$fpc_bin" -B -O2 -Xs -viu "-Fu$work/packages/chm/src" "-FU$out/units" "-FE$out" "$work/packages/chm/src/chmcmd.lpr" 2>&1 | tee "$out/build.log"
 test -s "$out/chmcmd"
+for patch in chmcmd-fpc322.patch chmcmd-encoding.patch; do test -s "$out/$patch"; done
+node "$script_root/scripts/record-native-inputs.cjs" "$out" "$fpc_bin" "$work" "$platform"
 mkdir -p "$script_root/target/navigation-tools"
 "$fpc_bin" -B -O2 -Xs "-Fu$work/packages/chm/src" "-FU$out/units" "-FE$script_root/target/navigation-tools" "$script_root/scripts/chm-nav-dump.pas" > "$script_root/target/navigation-tools/build.log"
 file "$out/chmcmd" | tee "$out/binary-dependencies.txt"

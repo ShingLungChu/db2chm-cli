@@ -56,9 +56,11 @@ foreach($name in @('chmcmd-fpc322.patch','chmcmd-encoding.patch')) {
 $units = Join-Path $out 'units'
 New-Item -ItemType Directory -Path $units | Out-Null
 $chmSource = Join-Path $source 'packages/chm/src'
-& $compiler '-Twin64' '-Px86_64' '-B' '-O2' ('-Fu'+(Join-Path $bootstrap 'units/x86_64-win64/*')) ('-Fu'+$chmSource) ('-FU'+$units) ('-FE'+$out) (Join-Path $chmSource 'chmcmd.lpr') 2>&1 | Tee-Object -FilePath (Join-Path $out 'build.log')
+& $compiler '-Twin64' '-Px86_64' '-B' '-O2' '-viu' ('-Fu'+(Join-Path $bootstrap 'units/x86_64-win64/*')) ('-Fu'+$chmSource) ('-FU'+$units) ('-FE'+$out) (Join-Path $chmSource 'chmcmd.lpr') 2>&1 | Tee-Object -FilePath (Join-Path $out 'build.log')
 if($LASTEXITCODE -ne 0){throw 'Native compiler build failed'}
 if (-not (Test-Path -LiteralPath (Join-Path $out 'chmcmd.exe') -PathType Leaf)) { throw 'Compiler did not produce a fresh executable' }
+& node (Join-Path $repo 'scripts/record-native-inputs.cjs') $out $compiler $source win32-x64
+if($LASTEXITCODE -ne 0){throw 'Native input provenance failed'}
 # Inspection helper is a CI tool, kept outside the npm native payload.
 $verify = Join-Path $repo 'target/navigation-tools'
 New-Item -ItemType Directory -Path $verify -Force | Out-Null

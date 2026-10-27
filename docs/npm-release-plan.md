@@ -5,7 +5,7 @@
 
 ## 2026-10-26 执行决策更新
 
-npm scope 为 @nstc，发布账号 jackiechen1994。统一入口 @nstc/db2chm，平台包为 @nstc/db2chm-PLATFORM。
+npm scope 于 2026-10-27 根据用户明确选择从 @nstc 改为个人 @jackiechen1994，发布账号 jackiechen1994 已登录核验。统一入口 @jackiechen1994/db2chm，平台包为 @jackiechen1994/db2chm-PLATFORM。旧 scope 的哈希/验收保留为历史，新名称重新打包及安装验收。
 
 用户调整本版真实环境验收范围：先准备 Oracle、达梦、Vastbase；最低通过标准为 Oracle 和达梦。原计划中五种适配器继续保留，MySQL/Kingbase 的未验证组合不作正式支持声明。本文较早的五数据库全量验收要求在本版按此决策执行。
 
@@ -53,13 +53,13 @@ Actions 证据：https://github.com/ShingLungChu/db2chm-cli/actions/runs/4025353
 
 建议平台包自包含业务 JAR、该平台已获准分发的编译器、轻量 Node 启动器及必要许可。统一入口通过精确版本的 optionalDependencies 选择当前平台包。
 
-| 正式包名，scope 已确认为 nstc | npm os / cpu | 内容与定位 |
+| 正式包名，个人 scope 已确认为 jackiechen1994 | npm os / cpu | 内容与定位 |
 | --- | --- | --- |
-| @nstc/db2chm | 入口根据平台分派 | 创建 db2chm 命令，选择平台包，报告缺失依赖 |
-| @nstc/db2chm-win32-x64 | win32 / x64 | JAR、x64 chmcmd.exe、源码/许可与启动器；HHC 优先使用外置安装，不捆绑 |
-| @nstc/db2chm-darwin-x64 | darwin / x64 | JAR、Intel chmcmd、启动器 |
-| @nstc/db2chm-darwin-arm64 | darwin / arm64 | JAR、Apple Silicon chmcmd、启动器 |
-| @nstc/db2chm-linux-x64 | linux / x64 | JAR、Linux chmcmd、启动器 |
+| @jackiechen1994/db2chm | 入口根据平台分派 | 创建 db2chm 命令，选择平台包，报告缺失依赖 |
+| @jackiechen1994/db2chm-win32-x64 | win32 / x64 | JAR、x64 chmcmd.exe、源码/许可与启动器；HHC 优先使用外置安装，不捆绑 |
+| @jackiechen1994/db2chm-darwin-x64 | darwin / x64 | JAR、Intel chmcmd、启动器 |
+| @jackiechen1994/db2chm-darwin-arm64 | darwin / arm64 | JAR、Apple Silicon chmcmd、启动器 |
+| @jackiechen1994/db2chm-linux-x64 | linux / x64 | JAR、Linux chmcmd、启动器 |
 
 目标调用链：
 

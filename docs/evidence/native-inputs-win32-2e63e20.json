@@ -1,0 +1,800 @@
+{
+  "schemaVersion": 1,
+  "platform": "win32-x64",
+  "utilitySourceCommit": "de69d52048cf52c72ebfeef61617c04c9bc2005c",
+  "compiler": {
+    "version": "3.3.1",
+    "revision": "3.3.1-21298-g814ece0205",
+    "date": "2026/10/12",
+    "cpu": "x86_64",
+    "os": "win64",
+    "executableSha256": "3c230fa579aaa595382b7e7e9daddd00adfd196e9743112bd551141de260b0bc",
+    "upstreamSourceCommit": "814ece0205a6b9c2c6dad74c8069ebb2ae50d1c7",
+    "sourceIdentity": "revision-reported-by-pinned-bootstrap"
+  },
+  "traceSha256": "423a43f546e7991f386d2ae9a6a2e225cbae63926f7516b22321f2370138a710",
+  "compilationInputs": [
+    {
+      "unit": "AVL_TREE",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "fcl-base",
+      "ppu": {
+        "name": "avl_tree.ppu",
+        "bytes": 51342,
+        "sha256": "db63d711af8bd12201594011a792acf7a10357cdc9d19bc65ec5407f213a8554"
+      },
+      "objectCandidates": [
+        {
+          "name": "avl_tree.o",
+          "bytes": 110613,
+          "sha256": "d6c2c94dc5c1291b332a86591fa9f98e56b773aa986fe23ee5d83403dd40b197"
+        }
+      ]
+    },
+    {
+      "unit": "CLASSES",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "rtl",
+      "ppu": {
+        "name": "classes.ppu",
+        "bytes": 1021968,
+        "sha256": "f4014e04a7e16f40eb8b38589de1b2f53848ffe18e67d36a41da757abe2e4f4a"
+      },
+      "objectCandidates": [
+        {
+          "name": "classes.o",
+          "bytes": 2110142,
+          "sha256": "c836422e1ab41c32dfcec38494fd3a62e1b1da81982a343cba09bbee1bdb8682"
+        }
+      ]
+    },
+    {
+      "unit": "CONTNRS",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "fcl-base",
+      "ppu": {
+        "name": "contnrs.ppu",
+        "bytes": 205039,
+        "sha256": "81bbdff2c92ba7c2c1ebf561c7a741af43c1b299b9f2d813e96ed82993fe6447"
+      },
+      "objectCandidates": [
+        {
+          "name": "contnrs.o",
+          "bytes": 301920,
+          "sha256": "0a641ad4f267dab27aa5a08773b282261b04e0c072e9d472c4bd609d31ebb562"
+        }
+      ]
+    },
+    {
+      "unit": "CPU",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "rtl",
+      "ppu": {
+        "name": "cpu.ppu",
+        "bytes": 60355,
+        "sha256": "2baac66eb3e639e1069ace8dfdd0d471edaa6a91d42d46462584bbf4689485fc"
+      },
+      "objectCandidates": [
+        {
+          "name": "cpu.o",
+          "bytes": 22619,
+          "sha256": "f34438ac64cd593dc08c318caaa352abe47ff96e791d17a31716e74e583a6bbc"
+        }
+      ]
+    },
+    {
+      "unit": "DATEUTILS",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "rtl-objpas",
+      "ppu": {
+        "name": "dateutils.ppu",
+        "bytes": 216710,
+        "sha256": "454e935850b8895a358d9836654931627e5979204a33b892dce5031a1eca02c3"
+      },
+      "objectCandidates": [
+        {
+          "name": "dateutils.o",
+          "bytes": 375459,
+          "sha256": "bb0d4b848da29afe0ac0daf44f54e280383925b9973af032967d1549bd4b4389"
+        }
+      ]
+    },
+    {
+      "unit": "DOM",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "fcl-xml",
+      "ppu": {
+        "name": "dom.ppu",
+        "bytes": 244124,
+        "sha256": "c6a721f9f3edd46649600cfb98049dddfd4680547fdf0a968e7433f90cdf9b34"
+      },
+      "objectCandidates": [
+        {
+          "name": "dom.o",
+          "bytes": 352686,
+          "sha256": "2f5cc244dc7ff8dd57832a841f657519e2630395cb90e9baee54b996fabb35ba"
+        }
+      ]
+    },
+    {
+      "unit": "DTDMODEL",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "fcl-xml",
+      "ppu": {
+        "name": "dtdmodel.ppu",
+        "bytes": 35071,
+        "sha256": "38d95c44ff83eaee533e084b4786f92d043649a6676d54cc5eef935561ec5cdd"
+      },
+      "objectCandidates": [
+        {
+          "name": "dtdmodel.o",
+          "bytes": 41426,
+          "sha256": "60f3562cd307d141197a771fa9ab0c5c0cec280d4b7f27f784b117ef29f43c03"
+        }
+      ]
+    },
+    {
+      "unit": "FGL",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "rtl",
+      "ppu": {
+        "name": "fgl.ppu",
+        "bytes": 198478,
+        "sha256": "c93f2c84997f90468097e89ccfd59702591c7f56a82d54fb9f5faaf63100c2e7"
+      },
+      "objectCandidates": [
+        {
+          "name": "fgl.o",
+          "bytes": 72630,
+          "sha256": "bb1b1a9b9ae82f3003bed134cf66edeee50924292d06e9243d8812711cb60edc"
+        }
+      ]
+    },
+    {
+      "unit": "FPINTRES",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "rtl",
+      "ppu": {
+        "name": "fpintres.ppu",
+        "bytes": 5179,
+        "sha256": "4f51ada321e9af8c36a78230ad46741e699a9ace6bde6b4b44c00ba55a0f7c76"
+      },
+      "objectCandidates": [
+        {
+          "name": "fpintres.o",
+          "bytes": 11925,
+          "sha256": "95b25cdd5cb4fcffd39b03b1aa98a142ad7c75d53629de83203687cfa1798917"
+        }
+      ]
+    },
+    {
+      "unit": "GENERICS.COLLECTIONS",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "rtl-generics",
+      "ppu": {
+        "name": "generics.collections.ppu",
+        "bytes": 40736949,
+        "sha256": "7f33341d92917a4f185c61465b59946a54da8f3c7d977b192aea4313cc09d84e"
+      },
+      "objectCandidates": [
+        {
+          "name": "generics.collections.o",
+          "bytes": 18447,
+          "sha256": "87ebb7e52a74bbc360d4aff101a8fbff0846b770fc275478c07dd18db026945a"
+        }
+      ]
+    },
+    {
+      "unit": "GENERICS.DEFAULTS",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "rtl-generics",
+      "ppu": {
+        "name": "generics.defaults.ppu",
+        "bytes": 1390909,
+        "sha256": "df371709f19942520476accd2ded3c32da3d90e72f2fef628f1d3978a1d7845a"
+      },
+      "objectCandidates": [
+        {
+          "name": "generics.defaults.o",
+          "bytes": 1110625,
+          "sha256": "88e964eadfca8d0cc5635085fc8e8badfb0353aa10cc1e1edbc191e4acb824fa"
+        }
+      ]
+    },
+    {
+      "unit": "GENERICS.HASHES",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "rtl-generics",
+      "ppu": {
+        "name": "generics.hashes.ppu",
+        "bytes": 8077,
+        "sha256": "2dd364d25b963f0e88d0467220fc75ead410fc42d00a31c94d17f13612cc8ff3"
+      },
+      "objectCandidates": [
+        {
+          "name": "generics.hashes.o",
+          "bytes": 24348,
+          "sha256": "c497a8bcc332c24fe9042b1a34c5e92269df4beec74a618d5e68227285604c1a"
+        }
+      ]
+    },
+    {
+      "unit": "GENERICS.HELPERS",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "rtl-generics",
+      "ppu": {
+        "name": "generics.helpers.ppu",
+        "bytes": 13954,
+        "sha256": "bf343cf238a4c9cdef86bfc66b7838ab85907399642cfd87fe7b06aad45deb8b"
+      },
+      "objectCandidates": [
+        {
+          "name": "generics.helpers.o",
+          "bytes": 17684,
+          "sha256": "0db5bffa622ac28bc4483c1101fbd09a2fb490a1c8f29a1e4981455056a47f9e"
+        }
+      ]
+    },
+    {
+      "unit": "GENERICS.MEMORYEXPANDERS",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "rtl-generics",
+      "ppu": {
+        "name": "generics.memoryexpanders.ppu",
+        "bytes": 32300,
+        "sha256": "e64542d712a110d6566da77c8482e2bcf9d43ba7803d489df4716f6f52107c0d"
+      },
+      "objectCandidates": [
+        {
+          "name": "generics.memoryexpanders.o",
+          "bytes": 24435,
+          "sha256": "d0f6527ff87362adc26a8f414e345a3052dafeb9e332fdd759d080b96df0de24"
+        }
+      ]
+    },
+    {
+      "unit": "GENERICS.STRINGS",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "rtl-generics",
+      "ppu": {
+        "name": "generics.strings.ppu",
+        "bytes": 4018,
+        "sha256": "28f6ef7ed62e9e9bc404169ab68365883fc04a7f2cd815c810ae8a6aec8d8c36"
+      },
+      "objectCandidates": [
+        {
+          "name": "generics.strings.o",
+          "bytes": 8793,
+          "sha256": "3f19d02dc8626add0688b6cd2dca9edc9f6e6cf6f13be50194b1a997b41d75ec"
+        }
+      ]
+    },
+    {
+      "unit": "GETOPTS",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "rtl",
+      "ppu": {
+        "name": "getopts.ppu",
+        "bytes": 6219,
+        "sha256": "6aa3176d1c0b0cfd5ed1d9fca7635e826ce21bd656d5f51c904b70ef98816997"
+      },
+      "objectCandidates": [
+        {
+          "name": "getopts.o",
+          "bytes": 24761,
+          "sha256": "92114e897a9d42511792d3522fdf3d9d136b7d914f6d2deb4fe002069a3a3b32"
+        }
+      ]
+    },
+    {
+      "unit": "MATH",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "rtl",
+      "ppu": {
+        "name": "math.ppu",
+        "bytes": 133678,
+        "sha256": "8c849ed4dcf7835d05b00e1102cd52cae9337b93435029d5820883611ec6daf6"
+      },
+      "objectCandidates": [
+        {
+          "name": "math.o",
+          "bytes": 187973,
+          "sha256": "230c0541a83e5eaea12dc1dbcda8a9c37684b5207ba6cffb1a35f3645168ccd8"
+        }
+      ]
+    },
+    {
+      "unit": "OBJPAS",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "rtl",
+      "ppu": {
+        "name": "objpas.ppu",
+        "bytes": 18892,
+        "sha256": "af975ea6f0162cee4d63250b8e7163cf751480a7b1442ad002ff1a3c5cb836c1"
+      },
+      "objectCandidates": [
+        {
+          "name": "objpas.o",
+          "bytes": 32345,
+          "sha256": "d4a20965dbb45b452c83410876737bc37d5e74bc388e0e11da57c72d5d9c07ce"
+        }
+      ]
+    },
+    {
+      "unit": "RTLCONSTS",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "rtl",
+      "ppu": {
+        "name": "rtlconsts.ppu",
+        "bytes": 121267,
+        "sha256": "6dfb136a73977052994e8c74c1e17c599cfa9ffc20c7b37002081112fa445551"
+      },
+      "objectCandidates": [
+        {
+          "name": "rtlconsts.o",
+          "bytes": 386475,
+          "sha256": "6477102c8e11a8cc0a087eca3b4ad375aced30288ee66b084c2a0cfc781a6068"
+        }
+      ]
+    },
+    {
+      "unit": "RTTI",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "rtl-objpas",
+      "ppu": {
+        "name": "rtti.ppu",
+        "bytes": 551962,
+        "sha256": "a9a9bc0ecce3705158a1c637aaba55c7cb1865832b57154e4dc6797cb2687154"
+      },
+      "objectCandidates": [
+        {
+          "name": "rtti.o",
+          "bytes": 1001858,
+          "sha256": "f647cd60c7013833f512c8ac233b72414c02ee6b0c2443fb0b673eadf4150cb2"
+        }
+      ]
+    },
+    {
+      "unit": "SORTBASE",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "rtl",
+      "ppu": {
+        "name": "sortbase.ppu",
+        "bytes": 10812,
+        "sha256": "deb39ccf7212e1b617fb5a7a045de5a172cc5ae1f73b0ae8d3e7b16e550bd5e9"
+      },
+      "objectCandidates": [
+        {
+          "name": "sortbase.o",
+          "bytes": 19753,
+          "sha256": "aef0e81baac967078e0a0f1dccbb9d8f4ae2d2ddbf4b2569141e5c4b38c6f32f"
+        }
+      ]
+    },
+    {
+      "unit": "STRUTILS",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "rtl-objpas",
+      "ppu": {
+        "name": "strutils.ppu",
+        "bytes": 131800,
+        "sha256": "7dbafe331e58f060ac4b0a8456e2d13e324e187e53d6d25fe2b33c0d15bb0bd1"
+      },
+      "objectCandidates": [
+        {
+          "name": "strutils.o",
+          "bytes": 260094,
+          "sha256": "d799df7fed8c49968a703778b82d7ea56b4e046204a36e0f8467dfbd40302c99"
+        }
+      ]
+    },
+    {
+      "unit": "SYSCONST",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "rtl",
+      "ppu": {
+        "name": "sysconst.ppu",
+        "bytes": 44741,
+        "sha256": "6ad8f46de1198ab68a18be537c39bf2758395ac028968f64c7735f0e5f2d9969"
+      },
+      "objectCandidates": [
+        {
+          "name": "sysconst.o",
+          "bytes": 127858,
+          "sha256": "7d913f112bc438f7a34ee9ca5d411487d3e1bbdbb77a2e0c74a165c797a6d0c3"
+        }
+      ]
+    },
+    {
+      "unit": "SYSINIT",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "rtl",
+      "ppu": {
+        "name": "sysinit.ppu",
+        "bytes": 9472,
+        "sha256": "20712a61c1d0473b10c403d47cee9ca9e71771f56f7e2ff89ca354520bc91571"
+      },
+      "objectCandidates": [
+        {
+          "name": "sysinit.o",
+          "bytes": 9010,
+          "sha256": "e1e7eff6af9c65fdd3b7c8d032ac4ce23697f21168bea5e8ee2ece4d1d8e6b83"
+        }
+      ]
+    },
+    {
+      "unit": "SYSTEM",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "rtl",
+      "ppu": {
+        "name": "system.ppu",
+        "bytes": 1308921,
+        "sha256": "e8a90db974411fe153ea2d09e94d3700c4a762b7796a4bedc9b867d085e5e810"
+      },
+      "objectCandidates": [
+        {
+          "name": "system.o",
+          "bytes": 1685506,
+          "sha256": "83803aee9ff12b2e249c7aba50c9c588fcebf2149e5e86d8c03835f7e4ebdf7d"
+        }
+      ]
+    },
+    {
+      "unit": "SYSTEM.TIMESPAN",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "rtl-objpas",
+      "ppu": {
+        "name": "system.timespan.ppu",
+        "bytes": 20156,
+        "sha256": "58d3d8501c882f8edd9048de948a6aca858fbd66ff12372261f1515977bfff8b"
+      },
+      "objectCandidates": [
+        {
+          "name": "system.timespan.o",
+          "bytes": 33336,
+          "sha256": "77010fcee9527306cabc6706b8983f7f4245c9c5176e849965223e67e787b2b2"
+        }
+      ]
+    },
+    {
+      "unit": "SYSUTILS",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "rtl",
+      "ppu": {
+        "name": "sysutils.ppu",
+        "bytes": 1704046,
+        "sha256": "99e79ca7d09fd5f8a57fc15cc809549839f9f45028c1cf6e64bf70012d88dfd6"
+      },
+      "objectCandidates": [
+        {
+          "name": "sysutils.o",
+          "bytes": 3101037,
+          "sha256": "df339489d71d226d0f2f560f8ce1e30a5c8810ce8c5b6c9ca8dd90f689c2d5f9"
+        }
+      ]
+    },
+    {
+      "unit": "TYPES",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "rtl",
+      "ppu": {
+        "name": "types.ppu",
+        "bytes": 149448,
+        "sha256": "3d9ccf7fefab37265222808fcbd0e82cf2c1914377dc1664f5bfe5e3bba73dee"
+      },
+      "objectCandidates": [
+        {
+          "name": "types.o",
+          "bytes": 180226,
+          "sha256": "a74999b728b8a83dbf4225f5f7234f60c68fc784df78e6ae5911f8858815e654"
+        }
+      ]
+    },
+    {
+      "unit": "TYPINFO",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "rtl",
+      "ppu": {
+        "name": "typinfo.ppu",
+        "bytes": 241087,
+        "sha256": "af6906d0d99fe81b8c993695a6d1414a38b5d602d057a24d9c33a30a90692684"
+      },
+      "objectCandidates": [
+        {
+          "name": "typinfo.o",
+          "bytes": 373470,
+          "sha256": "6963c9fc6f822bdb194ef90d50c835c827cc74e124846a8e2ae9b3525d27afee"
+        }
+      ]
+    },
+    {
+      "unit": "URIPARSER",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "fcl-base",
+      "ppu": {
+        "name": "uriparser.ppu",
+        "bytes": 10756,
+        "sha256": "d2b267e0275bffe8ccc8f5a440e594f42491c6168de61e0ea27cf3008bfe7165"
+      },
+      "objectCandidates": [
+        {
+          "name": "uriparser.o",
+          "bytes": 41595,
+          "sha256": "da7cd5ed3957f4b491e3eed213accff22794e7955d12d91c5c00442ff0833db9"
+        }
+      ]
+    },
+    {
+      "unit": "UUCHAR",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "rtl",
+      "ppu": {
+        "name": "uuchar.ppu",
+        "bytes": 1486,
+        "sha256": "792679cf9ce7e6bc460a57b82bd74664f5c485c0bbf3458b8fed5dcd13928693"
+      },
+      "objectCandidates": [
+        {
+          "name": "uuchar.o",
+          "bytes": 771,
+          "sha256": "b84a781e301087ce3cc1f6ab92e4c0db0343331e353348403f482b4932192726"
+        }
+      ]
+    },
+    {
+      "unit": "VARIANTS",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "rtl-objpas",
+      "ppu": {
+        "name": "variants.ppu",
+        "bytes": 191477,
+        "sha256": "b801c44a3cd9726fd624559127773c5fad4e8f181025d74213e78dce237d4903"
+      },
+      "objectCandidates": [
+        {
+          "name": "variants.o",
+          "bytes": 408436,
+          "sha256": "dd704f91bce43224b0659514ef703b6fb9e878ea5b23fc9de65d27991d12e451"
+        }
+      ]
+    },
+    {
+      "unit": "VARUTILS",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "rtl-objpas",
+      "ppu": {
+        "name": "varutils.ppu",
+        "bytes": 32664,
+        "sha256": "ec8996ee833d6faac8f1acba833f4345ac371d13c1ba80153f1eb105a74e397b"
+      },
+      "objectCandidates": [
+        {
+          "name": "varutils.o",
+          "bytes": 128702,
+          "sha256": "64166ca5b237dc9f6aa03b313c03faffef1ccea873e1d1644b6049b53e42cc85"
+        }
+      ]
+    },
+    {
+      "unit": "WINDIRS",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "rtl",
+      "ppu": {
+        "name": "windirs.ppu",
+        "bytes": 36634,
+        "sha256": "f3421392b85baffefece253b9e3cc6d88840699a17956f96f52f07e880d526c1"
+      },
+      "objectCandidates": [
+        {
+          "name": "windirs.o",
+          "bytes": 54582,
+          "sha256": "0b9fc709cebf82dc9b3f0bc51c54fe7254a08e64243cfe4d3b72427284e2f34b"
+        }
+      ]
+    },
+    {
+      "unit": "WINDOWS",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "rtl",
+      "ppu": {
+        "name": "windows.ppu",
+        "bytes": 3308818,
+        "sha256": "3cdca4f5fc503769171c289827b8c756f6d68ad6bb1b43449980e4bc443ebb4c"
+      },
+      "objectCandidates": [
+        {
+          "name": "windows.o",
+          "bytes": 1390589,
+          "sha256": "f604f4b3998cb9bab2bc7ea4a39862a37059c40306a6da9fd74d8971fc75832c"
+        }
+      ]
+    },
+    {
+      "unit": "XMLCFG",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "fcl-xml",
+      "ppu": {
+        "name": "xmlcfg.ppu",
+        "bytes": 29903,
+        "sha256": "ceea3b1452f71881e67d3152172ad4e5f94c8af49b7348f12f75f6e531295cc6"
+      },
+      "objectCandidates": [
+        {
+          "name": "xmlcfg.o",
+          "bytes": 50532,
+          "sha256": "d593859acade10a6d1aea5885a8542ddba60e018a25b14acfaec766b7f54df86"
+        }
+      ]
+    },
+    {
+      "unit": "XMLREAD",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "fcl-xml",
+      "ppu": {
+        "name": "xmlread.ppu",
+        "bytes": 20473,
+        "sha256": "5d0f1aa8e1ed1261c13288eac6b5351ca21f465c81d25d6c55c48b12d143a656"
+      },
+      "objectCandidates": [
+        {
+          "name": "xmlread.o",
+          "bytes": 65270,
+          "sha256": "13c270ce01870851dc80ccf9a1486ac1613e87d84edb7c010d6da8f9e35b7850"
+        }
+      ]
+    },
+    {
+      "unit": "XMLREADER",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "fcl-xml",
+      "ppu": {
+        "name": "xmlreader.ppu",
+        "bytes": 43123,
+        "sha256": "33ab9b93a2d3b13ee94837c9cc47bb45a3dfda14f5270612ca3a9e1c68b90147"
+      },
+      "objectCandidates": [
+        {
+          "name": "xmlreader.o",
+          "bytes": 62443,
+          "sha256": "4ae1e5a7955090b28d86a78fe774563e0ba77b491a72108e79139264f0b5b28a"
+        }
+      ]
+    },
+    {
+      "unit": "XMLTEXTREADER",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "fcl-xml",
+      "ppu": {
+        "name": "xmltextreader.ppu",
+        "bytes": 112318,
+        "sha256": "84db47396ccb15aeb84cb0876ef9c827f0232236efe7e8d822d72693bb03e9e2"
+      },
+      "objectCandidates": [
+        {
+          "name": "xmltextreader.o",
+          "bytes": 275584,
+          "sha256": "e622b745c1bf37fe3b36186c01106875bcff4c6cbb87d082ea9aada0547ff2cc"
+        }
+      ]
+    },
+    {
+      "unit": "XMLUTILS",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "fcl-xml",
+      "ppu": {
+        "name": "xmlutils.ppu",
+        "bytes": 51754,
+        "sha256": "97d01024830dcca109b9bcf9bbad1f31bbadbe1910832caa1d96df11bef5f1a2"
+      },
+      "objectCandidates": [
+        {
+          "name": "xmlutils.o",
+          "bytes": 81489,
+          "sha256": "6eb0bb945da7731bbcfdc0b787bd2ab5189a92dfc8d2aeef9a29fd9c95b3420f"
+        }
+      ]
+    },
+    {
+      "unit": "XMLWRITE",
+      "origin": "bootstrap-precompiled-unit",
+      "packageDirectory": "fcl-xml",
+      "ppu": {
+        "name": "xmlwrite.ppu",
+        "bytes": 40524,
+        "sha256": "add2062223a2a8a5eb0b81b373160c30df3163415702c0b3b266054bd5094537"
+      },
+      "objectCandidates": [
+        {
+          "name": "xmlwrite.o",
+          "bytes": 88461,
+          "sha256": "1576bd21d8a5f196cc2a8b4b4b2cb836271a36d7949428ee3bf95287ff840f5e"
+        }
+      ]
+    }
+  ],
+  "compiledUtilitySources": [
+    {
+      "path": "packages/chm/src/chmbase.pas",
+      "sha256": "9f0f33e056487a03f77f8ed6dd67d84fb12cf015b1198dcb17d213f0245bf4b8"
+    },
+    {
+      "path": "packages/chm/src/chmcmd.lpr",
+      "sha256": "8940e0685a63077203728313c030793d5b8f695020a4da300bccd78f45998e35"
+    },
+    {
+      "path": "packages/chm/src/chmencoding.pas",
+      "sha256": "58b96deef92bf88b4694302fb3793091835655f0ba1059c7159b49973404e97e"
+    },
+    {
+      "path": "packages/chm/src/chmfiftimain.pas",
+      "sha256": "a1c5c1d85a389c57b47568baa8018e32d72f492ac26db28d1964bae53c474b11"
+    },
+    {
+      "path": "packages/chm/src/chmfilewriter.pas",
+      "sha256": "faf9132ed5f8b28f0bc0caf499c9e37fff8e7daecfe55d3495f436e0628268d0"
+    },
+    {
+      "path": "packages/chm/src/chmsitemap.pas",
+      "sha256": "a7f399c84226bf1b03a5cd5749307b33207513627b83f188cc7337e1dbb15d98"
+    },
+    {
+      "path": "packages/chm/src/chmspecialfiles.pas",
+      "sha256": "9a58fb96022db4624560613f02dc71f9bc38b9ba278a00e2460d187c9f2d1785"
+    },
+    {
+      "path": "packages/chm/src/chmtypes.pas",
+      "sha256": "98ca9407f510ef8c72b0adf9c9f161e82f6a05b394149ffb3da0f9bec451335c"
+    },
+    {
+      "path": "packages/chm/src/chmwriter.pas",
+      "sha256": "9032ff205a2aa3896ec6c179a3b40f3a3b55a361e28bce8c4741a91f596325ed"
+    },
+    {
+      "path": "packages/chm/src/fasthtmlparser.pas",
+      "sha256": "868d4558f506a52b152ac1147a1318f55cafb46f83e5f5af3207e5ba9864b552"
+    },
+    {
+      "path": "packages/chm/src/htmlindexer.pas",
+      "sha256": "2a4641de837e9b563d02670928fadf70e1ece209eec52ca48cae2c593d0c001c"
+    },
+    {
+      "path": "packages/chm/src/htmlutil.pas",
+      "sha256": "b0cdc3aee12a7e4a0a972520536f574691717fb6f3f1ea57cf5cbf055c115f32"
+    },
+    {
+      "path": "packages/chm/src/lzxcompressthread.pas",
+      "sha256": "31f47291478816cc5d2dc8b38e17b06c00d8edc3932e816fc3b43d3af8d7ca73"
+    },
+    {
+      "path": "packages/chm/src/paslznonslide.pas",
+      "sha256": "8002b68f1cbbde8cb070a88e6fbfad61183108080e0f57b1fe9b8b6faa7002a3"
+    },
+    {
+      "path": "packages/chm/src/paslzxcomp.pas",
+      "sha256": "c4f20c6deec979401f6e428422cecc1992f50834a04feb5f5d9ac7208ff7c8ee"
+    }
+  ],
+  "patches": [
+    {
+      "name": "chmcmd-fpc322.patch",
+      "sha256": "c9272544c8a4207446dc3f9e6bbacaa207de68689b7a119e0a938bd4ed47a061"
+    },
+    {
+      "name": "chmcmd-encoding.patch",
+      "sha256": "4a7284dcd7cd8b095f84549e395fcfc71ad101a64ecc7379d06a95ecfa391da5"
+    }
+  ],
+  "sourceDistributionReview": "pending",
+  "limits": [
+    "PPU loading is a compilation-input inventory, not proof that every loaded unit contributed linked code.",
+    "Object candidates are identified by location; this is not a linker-map claim.",
+    "Compiler revision does not prove precompiled library source identity; per-unit source/CRC mapping and distro patches still require review."
+  ],
+  "applicationSourceCommit": "2e63e2017b12fca13bad3d334f7081414d097c65",
+  "localRebuild": {
+    "binarySha256": "f332d15dea7be9c5af328b483052e5c0dce3b5e3e8e0136fdf943ad74fb736d7",
+    "matchesCiNative": true,
+    "ciRunId": "40436646789",
+    "claim": "Windows byte identity for this pinned utility/bootstrap and these commands; no claim of four-platform full source/toolchain reproducibility."
+  }
+}

@@ -1,6 +1,8 @@
 # Windows CHM 交互验收记录
 
-2026-10-27：**中文导航夹具四平台通过，整体交互验收部分完成。** 原中文目录乱码在本轮最终产物中未再出现。页内链接、千表索引/搜索及真实数据库原件交互仍待补齐。
+2026-10-27：**文档功能验收通过（用户人工确认）。** 用户确认“生成的文档验收发现是已经通过了，可以继续执行”，本项据此关闭。原中文目录乱码在已观测的最终产物中未再出现。
+
+[人工确认记录](evidence/chm-viewer-human-acceptance-20261027.json)与[此前自动化/交互证据](evidence/chm-viewer-2e63e20.json)分别保留。原始机器报告的 partial 和未执行步骤保持历史事实；用户确认不被改写成新增的逐平台测试、截图或性能数据。下面记录的是 agent 实际执行范围。
 
 源码为 `2e63e2017b12fca13bad3d334f7081414d097c65`，产物来自[四平台构建流水线 40436646789](https://github.com/ShingLungChu/db2chm-cli/actions/runs/40436646789)。查看器为 Windows HTML Help `hh.exe 10.0.26100.8875`，系统为中文 Windows `10.0.26200.0`。本轮所有编译后端均为修补后的 chmcmd。
 
@@ -28,7 +30,7 @@ Windows 实际 Java 渲染的 1,000 表 × 20 列产物另外完成 3 个检查�
 
 目录的辅助功能输出受工具子节点数量限制，记录为 `omitted 1000 children`。验收使用目录键盘导航 End、Enter，确认实际末端页面 URL 和正文；没有把被省略的节点树当作逐项 UI 检查。
 
-随后窗口关闭/最小化。重新打开并尝试恢复后，工具仍返回 `window is minimized; call activate_window, refresh with get_window, then retry get_window_state`，因此停止继续输入。以下保持待验收：
+此前窗口关闭/最小化。重新打开并尝试恢复后，工具仍返回 `window is minimized; call activate_window, refresh with get_window, then retry get_window_state`，因此停止继续输入。以下为未补齐的 agent 逐项操作记录，用户人工确认后不再作为本次文档验收阻断：
 
 - 实际 HTML 页面“封面—目录—表页”的链接点击。
 - 千表关键字索引、中英文全文搜索及查询表现。
@@ -55,6 +57,6 @@ Windows 实际 Java 渲染的 1,000 表 × 20 列产物另外完成 3 个检查�
 
 同一修复提交的四平台 CI 完成 16 个正文/中文场景，4,076 个 HTML/CSS 解包哈希一致；200 个长中文索引样例覆盖深度 3 的 BTree。[Java/Node 的 12 组合验证](https://github.com/ShingLungChu/db2chm-cli/actions/runs/40436646777)通过。这些与 UI 结果独立记录。
 
-最终本机私有包三库的 doctor、列表、精确过滤、三表导出和集合一致性通过；新导出的 18 个 HTML/CSS、六份旧文档重编译后的 30 个 HTML/CSS 均解包匹配，内部导航检查通过。原失败件保留，真实原件的 UI 状态仍为 pending。
+最终本机私有包三库的 doctor、列表、精确过滤、三表导出和集合一致性通过；新导出的 18 个 HTML/CSS、六份旧文档重编译后的 30 个 HTML/CSS 均解包匹配，内部导航检查通过。原失败件保留；文档功能由用户人工确认通过，未新增原件逐页机器操作记录。
 
 HHC6003 仍为失败；英文 Windows 没有交互验收。中文搜索使用当前简体中文 CP936 配置，不作其他语言或全部 Unicode 字符的承诺。账号权限/SQL 审计、native 分发与最低 OS、复现及 npm 权限等门槛继续保留，当前没有 RC/正式 npm 发布。

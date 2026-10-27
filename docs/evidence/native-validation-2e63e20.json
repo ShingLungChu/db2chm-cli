@@ -1,0 +1,446 @@
+{
+  "schemaVersion": 1,
+  "runId": "40436646789",
+  "sourceCommit": "2e63e2017b12fca13bad3d334f7081414d097c65",
+  "workflowRunUrl": "https://github.com/ShingLungChu/db2chm-cli/actions/runs/40436646789",
+  "kind": "private-validation-bundle",
+  "releaseEligible": false,
+  "version": "0.2.0-beta.1",
+  "prototype": true,
+  "nativePrototype": true,
+  "maxDownloadBytes": 15000000,
+  "jarSha256": "7b4ee792eb515c7422553d6491991ec5742930262ea55d59f071eb446f416d8c",
+  "packages": [
+    {
+      "name": "@nstc/db2chm-win32-x64",
+      "platform": "win32-x64",
+      "tarball": "nstc-db2chm-win32-x64-0.2.0-beta.1.tgz",
+      "bytes": 2648639,
+      "sha256": "09ff702896a200a5f387f757e3e8b16f5a3bb5b7efc5cf684e8484160e0399cf",
+      "jarSha256": "7b4ee792eb515c7422553d6491991ec5742930262ea55d59f071eb446f416d8c",
+      "nativeSha256": "f332d15dea7be9c5af328b483052e5c0dce3b5e3e8e0136fdf943ad74fb736d7",
+      "artifactId": 12704178737
+    },
+    {
+      "name": "@nstc/db2chm-darwin-x64",
+      "platform": "darwin-x64",
+      "tarball": "nstc-db2chm-darwin-x64-0.2.0-beta.1.tgz",
+      "bytes": 3159839,
+      "sha256": "a0e4112bef5146d3b6ee17582976ce96613eb6434896642c5ee82aa2c9e66eb4",
+      "jarSha256": "7b4ee792eb515c7422553d6491991ec5742930262ea55d59f071eb446f416d8c",
+      "nativeSha256": "4fe1eaba612fe519785f6742e78e2ca3e6e8c5885c82ec49e26141838c029069",
+      "artifactId": 12704612136
+    },
+    {
+      "name": "@nstc/db2chm-darwin-arm64",
+      "platform": "darwin-arm64",
+      "tarball": "nstc-db2chm-darwin-arm64-0.2.0-beta.1.tgz",
+      "bytes": 3126311,
+      "sha256": "3646f66a8bd41b63617e41a288746ebc7648e1b03671cc2427c1169465bbcf00",
+      "jarSha256": "7b4ee792eb515c7422553d6491991ec5742930262ea55d59f071eb446f416d8c",
+      "nativeSha256": "b27184841c9c920e9379d0fb57b28263437739b93c9927eb96e828a7b217d6fa",
+      "artifactId": 12703653593
+    },
+    {
+      "name": "@nstc/db2chm-linux-x64",
+      "platform": "linux-x64",
+      "tarball": "nstc-db2chm-linux-x64-0.2.0-beta.1.tgz",
+      "bytes": 2717964,
+      "sha256": "e6ebe1b4e22d3b02eb64d9a9130e94e65d135d07e081868f4d651a3228f6c906",
+      "jarSha256": "7b4ee792eb515c7422553d6491991ec5742930262ea55d59f071eb446f416d8c",
+      "nativeSha256": "d6f9d0d4440dc8d40781eefd8ef47009cd52d5ccb28609b75d2da651e7dd39c1",
+      "artifactId": 12703588648
+    },
+    {
+      "platform": null,
+      "tarball": "nstc-db2chm-0.2.0-beta.1.tgz",
+      "bytes": 2471,
+      "sha256": "bbc43327088617a24f3cc584efaba8470b7798beb373993d6942b67166f63d77",
+      "name": "@nstc/db2chm"
+    }
+  ],
+  "sizes": [
+    {
+      "platform": "win32-x64",
+      "platformBytes": 2648639,
+      "entryBytes": 2471,
+      "totalDownloadBytes": 2651110,
+      "belowLimit": true
+    },
+    {
+      "platform": "darwin-x64",
+      "platformBytes": 3159839,
+      "entryBytes": 2471,
+      "totalDownloadBytes": 3162310,
+      "belowLimit": true
+    },
+    {
+      "platform": "darwin-arm64",
+      "platformBytes": 3126311,
+      "entryBytes": 2471,
+      "totalDownloadBytes": 3128782,
+      "belowLimit": true
+    },
+    {
+      "platform": "linux-x64",
+      "platformBytes": 2717964,
+      "entryBytes": 2471,
+      "totalDownloadBytes": 2720435,
+      "belowLimit": true
+    }
+  ],
+  "natives": [
+    {
+      "platform": "win32-x64",
+      "sourceCommit": "de69d52048cf52c72ebfeef61617c04c9bc2005c",
+      "bootstrapVersion": "3.3.1",
+      "bootstrapSha256": "3c230fa579aaa595382b7e7e9daddd00adfd196e9743112bd551141de260b0bc",
+      "redistributionApproved": false,
+      "files": [
+        {
+          "path": "binary-dependencies.json",
+          "sha256": "7fd9a673e2bac84d993da8c29805fa205f56c7c2d1fcbbb13712a7c8993ec4b7",
+          "bytes": 314
+        },
+        {
+          "path": "build.log",
+          "sha256": "ec86668846c790b5932cbe4f0bb2feb8d2ee56c2d2195006e86d436ea7a26e61",
+          "bytes": 141
+        },
+        {
+          "path": "chm-source.tar.gz",
+          "sha256": "ce582d62520ff71396846f542fe2d1d8099da3e5d23a1601161aa882d24cd306",
+          "bytes": 141076
+        },
+        {
+          "path": "chmcmd-encoding.patch",
+          "sha256": "4a7284dcd7cd8b095f84549e395fcfc71ad101a64ecc7379d06a95ecfa391da5",
+          "bytes": 21319
+        },
+        {
+          "path": "chmcmd-fpc322.patch",
+          "sha256": "c9272544c8a4207446dc3f9e6bbacaa207de68689b7a119e0a938bd4ed47a061",
+          "bytes": 395
+        },
+        {
+          "path": "chmcmd.exe",
+          "sha256": "f332d15dea7be9c5af328b483052e5c0dce3b5e3e8e0136fdf943ad74fb736d7",
+          "bytes": 2385072
+        },
+        {
+          "path": "FPC-LICENSE.txt",
+          "sha256": "9884a46111f1346b915f01d3ff56108754a60d7af105459d31d6db31e7fc280d",
+          "bytes": 19284
+        },
+        {
+          "path": "RTL-COPYING.FPC",
+          "sha256": "f65c27c43c289a842185f7948820a01b8eda29021cb0ec0dcdd3d646def9cf69",
+          "bytes": 1213
+        },
+        {
+          "path": "RTL-COPYING.txt",
+          "sha256": "21ac7048f5802388f5a4ce2e64afe922eb4f7fc7daa9d01d9b206e277b8169c9",
+          "bytes": 26434
+        },
+        {
+          "path": "SOURCE.txt",
+          "sha256": "bd789e35f78fc2bc7f17597ade3181073f61da45c7f2316ac49dd1728cb504b0",
+          "bytes": 658
+        }
+      ]
+    },
+    {
+      "platform": "darwin-x64",
+      "sourceCommit": "de69d52048cf52c72ebfeef61617c04c9bc2005c",
+      "bootstrapVersion": "3.2.2",
+      "bootstrapSha256": "f129616a01de6a3f6c33a54b2edba8dc88ddefed0b0070b7f1397343c73d1479",
+      "redistributionApproved": false,
+      "files": [
+        {
+          "path": "FPC-LICENSE.txt",
+          "sha256": "9884a46111f1346b915f01d3ff56108754a60d7af105459d31d6db31e7fc280d",
+          "bytes": 19284
+        },
+        {
+          "path": "RTL-COPYING.FPC",
+          "sha256": "f65c27c43c289a842185f7948820a01b8eda29021cb0ec0dcdd3d646def9cf69",
+          "bytes": 1213
+        },
+        {
+          "path": "RTL-COPYING.txt",
+          "sha256": "21ac7048f5802388f5a4ce2e64afe922eb4f7fc7daa9d01d9b206e277b8169c9",
+          "bytes": 26434
+        },
+        {
+          "path": "SOURCE.txt",
+          "sha256": "0c3af6b18fba4c6af45b9b21cad0591ba06c7bea13498c3480ac7278552774fb",
+          "bytes": 543
+        },
+        {
+          "path": "binary-dependencies.txt",
+          "sha256": "10cb8f79db55b41c6e82ffc37513fc6dab91679a755404f791b9baddb96cd630",
+          "bytes": 6182
+        },
+        {
+          "path": "bootstrap-packages.json",
+          "sha256": "cc5e89e0d8a89ccec354e1f3a351617011561ec3c920e1e2313b3ae79f973894",
+          "bytes": 3366
+        },
+        {
+          "path": "build.log",
+          "sha256": "022cff007424992eefc5e16dcc9879e7606c514044a00dbe34c3e274f0d5fd8f",
+          "bytes": 24590
+        },
+        {
+          "path": "chm-source.tar.gz",
+          "sha256": "c00d725056f304949f6c7d78f0b197ef6012f7c2b6bb8bc96077ce079e7c7059",
+          "bytes": 142776
+        },
+        {
+          "path": "chmcmd",
+          "sha256": "4fe1eaba612fe519785f6742e78e2ca3e6e8c5885c82ec49e26141838c029069",
+          "bytes": 3854224
+        },
+        {
+          "path": "chmcmd-encoding.patch",
+          "sha256": "4a7284dcd7cd8b095f84549e395fcfc71ad101a64ecc7379d06a95ecfa391da5",
+          "bytes": 21319
+        },
+        {
+          "path": "chmcmd-fpc322.patch",
+          "sha256": "c9272544c8a4207446dc3f9e6bbacaa207de68689b7a119e0a938bd4ed47a061",
+          "bytes": 395
+        }
+      ]
+    },
+    {
+      "platform": "darwin-arm64",
+      "sourceCommit": "de69d52048cf52c72ebfeef61617c04c9bc2005c",
+      "bootstrapVersion": "3.2.2",
+      "bootstrapSha256": "014a217e848fa070f4e358999bcb06f79742fda89f0231371f8686d97ec503ae",
+      "redistributionApproved": false,
+      "files": [
+        {
+          "path": "FPC-LICENSE.txt",
+          "sha256": "9884a46111f1346b915f01d3ff56108754a60d7af105459d31d6db31e7fc280d",
+          "bytes": 19284
+        },
+        {
+          "path": "RTL-COPYING.FPC",
+          "sha256": "f65c27c43c289a842185f7948820a01b8eda29021cb0ec0dcdd3d646def9cf69",
+          "bytes": 1213
+        },
+        {
+          "path": "RTL-COPYING.txt",
+          "sha256": "21ac7048f5802388f5a4ce2e64afe922eb4f7fc7daa9d01d9b206e277b8169c9",
+          "bytes": 26434
+        },
+        {
+          "path": "SOURCE.txt",
+          "sha256": "7542f822e55dfbd44fe492cf7ad8000fd8be0631f0fdb7cd9628bae7ca538da0",
+          "bytes": 546
+        },
+        {
+          "path": "binary-dependencies.txt",
+          "sha256": "ca5bc086f4faf97b5ed1c28d744e019f59c01bad91d83cea5aba48d74defcce7",
+          "bytes": 6133
+        },
+        {
+          "path": "bootstrap-packages.json",
+          "sha256": "0b0bf19302dc96496949f3cf957a7885c52f5fa466bba4874f4fb3ff28a8eaf5",
+          "bytes": 3397
+        },
+        {
+          "path": "build.log",
+          "sha256": "921ae481462d8312880d9ba50e00f26655d7fcd458bef73b924ebf0d2185655d",
+          "bytes": 24594
+        },
+        {
+          "path": "chm-source.tar.gz",
+          "sha256": "b303114ab7d37f3c3426725a5d0ba5f1d7d7d73a55819f20413f196a5209cf1e",
+          "bytes": 142786
+        },
+        {
+          "path": "chmcmd",
+          "sha256": "b27184841c9c920e9379d0fb57b28263437739b93c9927eb96e828a7b217d6fa",
+          "bytes": 3999624
+        },
+        {
+          "path": "chmcmd-encoding.patch",
+          "sha256": "4a7284dcd7cd8b095f84549e395fcfc71ad101a64ecc7379d06a95ecfa391da5",
+          "bytes": 21319
+        },
+        {
+          "path": "chmcmd-fpc322.patch",
+          "sha256": "c9272544c8a4207446dc3f9e6bbacaa207de68689b7a119e0a938bd4ed47a061",
+          "bytes": 395
+        }
+      ]
+    },
+    {
+      "platform": "linux-x64",
+      "sourceCommit": "de69d52048cf52c72ebfeef61617c04c9bc2005c",
+      "bootstrapVersion": "3.2.2",
+      "bootstrapSha256": "2211168cace0fecdb4f526edd2b1755f3249608962083b3ca8fdbc67dac9cb47",
+      "redistributionApproved": false,
+      "files": [
+        {
+          "path": "FPC-LICENSE.txt",
+          "sha256": "9884a46111f1346b915f01d3ff56108754a60d7af105459d31d6db31e7fc280d",
+          "bytes": 19284
+        },
+        {
+          "path": "RTL-COPYING.FPC",
+          "sha256": "f65c27c43c289a842185f7948820a01b8eda29021cb0ec0dcdd3d646def9cf69",
+          "bytes": 1213
+        },
+        {
+          "path": "RTL-COPYING.txt",
+          "sha256": "21ac7048f5802388f5a4ce2e64afe922eb4f7fc7daa9d01d9b206e277b8169c9",
+          "bytes": 26434
+        },
+        {
+          "path": "SOURCE.txt",
+          "sha256": "54b540c2d359a6f587fed10cb0d1a8252a591ad8aabf0948d3e172ab4d96302e",
+          "bytes": 537
+        },
+        {
+          "path": "binary-dependencies.txt",
+          "sha256": "97717d2061c3883da2c4920258df4362c996439aca1e46f79deedef10b85e646",
+          "bytes": 4782
+        },
+        {
+          "path": "bootstrap-packages.txt",
+          "sha256": "a9d7305ad66b47bbaed6f153fda338cebf2d54f593a5a5852bcf4b55b8a80197",
+          "bytes": 243
+        },
+        {
+          "path": "build.log",
+          "sha256": "5a8bae71331edf3d806d38eb08e26c94b2dc7229be7e775bd7afb889a72812b0",
+          "bytes": 7476
+        },
+        {
+          "path": "chm-source.tar.gz",
+          "sha256": "0598b544ce1dbea944c562066f35e2b8a941ad78c90a1262339662f4953dea72",
+          "bytes": 141720
+        },
+        {
+          "path": "chmcmd",
+          "sha256": "d6f9d0d4440dc8d40781eefd8ef47009cd52d5ccb28609b75d2da651e7dd39c1",
+          "bytes": 1945384
+        },
+        {
+          "path": "chmcmd-encoding.patch",
+          "sha256": "4a7284dcd7cd8b095f84549e395fcfc71ad101a64ecc7379d06a95ecfa391da5",
+          "bytes": 21319
+        },
+        {
+          "path": "chmcmd-fpc322.patch",
+          "sha256": "c9272544c8a4207446dc3f9e6bbacaa207de68689b7a119e0a938bd4ed47a061",
+          "bytes": 395
+        }
+      ]
+    }
+  ],
+  "artifactDigests": [
+    {
+      "name": "shared-java-runtime",
+      "id": 12704412561,
+      "sha256": "8c5144f0b74618deed7ce7cb2f87ca1ed1904a9d5b4808cb24168c00c1f68626"
+    },
+    {
+      "name": "private-native-npm-win32-x64",
+      "id": 12704178737,
+      "sha256": "f39d341ccc9ffa359bfa1784df3c4cd96226e931a3cc6bbc7a38066144b7db66"
+    },
+    {
+      "name": "native-win32-x64",
+      "id": 12704676694,
+      "sha256": "24b2be8ad841ff88f0457aaf174b9286471863b59c032163414fb5bb4a1c2877"
+    },
+    {
+      "name": "private-native-npm-darwin-x64",
+      "id": 12704612136,
+      "sha256": "50c31fea3d2f0cb266625289ef0d04f8168539d79020e00f3255e58329b13b9e"
+    },
+    {
+      "name": "native-darwin-x64",
+      "id": 12704711630,
+      "sha256": "00ece8b30378d5666eb1c4ee3ca2f7940e595198b004a2766dbbecdc3ff377a0"
+    },
+    {
+      "name": "private-native-npm-darwin-arm64",
+      "id": 12703653593,
+      "sha256": "293f5aa76f3b4a1c0d88c30e25901c495c3a2b2b60682b0d34b8994d2cb26e3d"
+    },
+    {
+      "name": "native-darwin-arm64",
+      "id": 12703813374,
+      "sha256": "8e079cfdf8a04468f39a707b0341f054920760071b7f7b795c776428d3017f86"
+    },
+    {
+      "name": "private-native-npm-linux-x64",
+      "id": 12703588648,
+      "sha256": "3a3e14d60c1f31d9d9d1f8c8b6b1d0b9bafc173eeec2e344dfbad7cdf28b6185"
+    },
+    {
+      "name": "native-linux-x64",
+      "id": 12703967966,
+      "sha256": "f1934eaf0a1136648b4bed1d9be3ebe8e6c9a0ae4cb68858c343d51f81ca01a9"
+    }
+  ],
+  "entryAlternatives": [
+    {
+      "platform": "win32-x64",
+      "tarball": "nstc-db2chm-0.2.0-beta.1.tgz",
+      "bytes": 2471,
+      "sha256": "bbc43327088617a24f3cc584efaba8470b7798beb373993d6942b67166f63d77",
+      "payload": {
+        "package.json": "bad06c396eb761f2cd44cb84c8dc1b45dd63458323f70191f52f3a3062ce6af5",
+        "README.md": "a4ad2d11529869c7a89216b9bff7a7c89236b1a758ec07aab6a56870ee95c2d7",
+        "help.txt": "980b5dc864c14ec3602f1b0b421bb74ea631c2bbcac305dd03883f88342d7df0",
+        "bin/db2chm.cjs": "1a13a72d74a9cffbe7f1439fcde5d444b148921a15d9dd84ff875dd3b89a98dd",
+        "bin/info.cjs": "0911b6cd36008db50fc48604a01ad26fadabbae08ad01977005c837b5a11b043"
+      }
+    },
+    {
+      "platform": "darwin-x64",
+      "tarball": "nstc-db2chm-0.2.0-beta.1.tgz",
+      "bytes": 2483,
+      "sha256": "d0e73d8b8f215bf81546f98da88820707405754bdb51a236a5051493abbf0fe8",
+      "payload": {
+        "package.json": "bad06c396eb761f2cd44cb84c8dc1b45dd63458323f70191f52f3a3062ce6af5",
+        "README.md": "a4ad2d11529869c7a89216b9bff7a7c89236b1a758ec07aab6a56870ee95c2d7",
+        "help.txt": "980b5dc864c14ec3602f1b0b421bb74ea631c2bbcac305dd03883f88342d7df0",
+        "bin/db2chm.cjs": "1a13a72d74a9cffbe7f1439fcde5d444b148921a15d9dd84ff875dd3b89a98dd",
+        "bin/info.cjs": "0911b6cd36008db50fc48604a01ad26fadabbae08ad01977005c837b5a11b043"
+      }
+    },
+    {
+      "platform": "darwin-arm64",
+      "tarball": "nstc-db2chm-0.2.0-beta.1.tgz",
+      "bytes": 2478,
+      "sha256": "dfa86d5070bd3d126f42262d95f42dfa9cc036d0c4369930c215a29e15decc01",
+      "payload": {
+        "package.json": "bad06c396eb761f2cd44cb84c8dc1b45dd63458323f70191f52f3a3062ce6af5",
+        "README.md": "a4ad2d11529869c7a89216b9bff7a7c89236b1a758ec07aab6a56870ee95c2d7",
+        "help.txt": "980b5dc864c14ec3602f1b0b421bb74ea631c2bbcac305dd03883f88342d7df0",
+        "bin/db2chm.cjs": "1a13a72d74a9cffbe7f1439fcde5d444b148921a15d9dd84ff875dd3b89a98dd",
+        "bin/info.cjs": "0911b6cd36008db50fc48604a01ad26fadabbae08ad01977005c837b5a11b043"
+      }
+    },
+    {
+      "platform": "linux-x64",
+      "tarball": "nstc-db2chm-0.2.0-beta.1.tgz",
+      "bytes": 2478,
+      "sha256": "dfa86d5070bd3d126f42262d95f42dfa9cc036d0c4369930c215a29e15decc01",
+      "payload": {
+        "package.json": "bad06c396eb761f2cd44cb84c8dc1b45dd63458323f70191f52f3a3062ce6af5",
+        "README.md": "a4ad2d11529869c7a89216b9bff7a7c89236b1a758ec07aab6a56870ee95c2d7",
+        "help.txt": "980b5dc864c14ec3602f1b0b421bb74ea631c2bbcac305dd03883f88342d7df0",
+        "bin/db2chm.cjs": "1a13a72d74a9cffbe7f1439fcde5d444b148921a15d9dd84ff875dd3b89a98dd",
+        "bin/info.cjs": "0911b6cd36008db50fc48604a01ad26fadabbae08ad01977005c837b5a11b043"
+      }
+    }
+  ]
+}

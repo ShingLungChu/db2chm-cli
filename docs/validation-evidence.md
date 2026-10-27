@@ -2,11 +2,15 @@
 
 更新：2026-10-27。本记录只包含合成元数据和公开构建证据，不包含真实数据库信息。私有验证包不是 RC，不能据此认定已完成正式 npm 发布。
 
-**当前状态：** 中文导航编码修复已通过四平台自动回归和 Windows 中文夹具的实际交互。整体阅读验收部分完成，HTML 页内链接、千表索引/搜索和真实原件 UI 仍待补齐；G4 与正式发布资格未放行。详见[交互验收报告](chm-viewer-acceptance.md)和[编码修复计划](chm-navigation-encoding-plan.md)。
+**当前状态：** 中文导航编码修复已通过四平台自动回归和 Windows 中文夹具交互；用户进一步确认生成文档验收通过，文档功能验收关闭。[人工确认](evidence/chm-viewer-human-acceptance-20261027.json)与原始机器记录分别保留。账号权限/SQL 审计、native 分发与 npm 身份等发布门槛未由此放行。详见[交互验收报告](chm-viewer-acceptance.md)。
 
 ## 当前修复版本的证据
 
 源码提交：`2e63e2017b12fca13bad3d334f7081414d097c65`。
+
+本轮已下载并核对该次 CI 的四个平台原始 tgz、native 和共享 JAR，共 9 个 artifact ZIP digest。五个未改写的 tgz 汇总至本机 `target/release-review-2e63e20/`；四个平台包内 JAR 均为 `7b4ee792eb515c7422553d6491991ec5742930262ea55d59f071eb446f416d8c`，Windows/Intel/Apple Silicon/Linux 总下载链分别为 2,651,110 / 3,162,310 / 3,128,782 / 2,720,435 字节。[当前完整汇总](evidence/native-validation-2e63e20.json)和[验证矩阵](support-matrix.md)绑定这批文件。
+
+同一 CI Windows 原包已完成三库 doctor、列表、精确过滤、三表导出及集合一致性，内部导航和 18 个正文文件解包比对通过。Windows 编译器使用当前补丁与已校验 bootstrap 另行重建，二进制与该 CI native 哈希相同；[输入记录](evidence/native-inputs-win32-2e63e20.json)含 41 个预编译单元与 15 个工具源码，仍不宣称四平台工具链和对应源码全部闭合。全部 tgz 仍为私有验证包，正式校验按预期拒绝发布。
 
 - [共享业务 JAR、四平台 native、私有 npm 安装、导航与 Windows 解包](https://github.com/ShingLungChu/db2chm-cli/actions/runs/40436646789)：全部通过。四平台 small/scale/installed/chinese 共 16 份 CHM，4,076 个 HTML/CSS 哈希全部匹配；深层中文 HHK 单独覆盖 200 个长关键字、BTree 深度 3。
 - [四平台 × Java/Node 三组合](https://github.com/ShingLungChu/db2chm-cli/actions/runs/40436646777)：12 组合通过，当前 13 项测试通过。
@@ -64,4 +68,4 @@ Windows 安装验证额外确认：无 HHC 时实际执行包内 chmcmd；仅定
 
 首轮四平台独立构建时，Windows JAR 中模板、CSS、properties 和 Maven 生成描述使用 CRLF，其他平台使用 LF；业务 class 内容一致。已补充源文件换行约定，并调整流水线：在一个环境重复构建并比较业务 JAR，随后四平台复用同一份 JAR。该改进已通过，下载后对四个平台 tarball 内的 JAR 重新计算 SHA-256，均为 `d3b0d706bb74481614c66c6f87eb5f7b8658b52303529aa9e640bb89ac94e561`。这是同环境重复构建和同产物复用证据，尚不等于所有环境/工具链完全复现。
 
-截至本次更新，三库的最终包元数据读取/精确过滤/生成和四平台中文夹具 UI 已通过。仍未完成：实际 HTML 页内链接、千表索引/搜索、真实数据库原件 UI、数据库账号权限和 SQL 审计、最低 OS/libc、完整 native 分发/链接源码审查、所有构建输入的字节级固定与复现、npm 权限及 beta registry 安装。native manifest 的 `redistributionApproved` 仍为 false；正式打包和发布拒绝门槛保持生效。
+截至本次更新，三库元数据读取/精确过滤/生成、四平台中文夹具 UI 及用户文档人工验收已通过；原机器记录未执行的步骤仍按历史范围保留。仍未完成：数据库账号权限和 SQL 审计、最低 OS/libc、完整 native 分发/链接源码审查、所有构建输入的字节级固定与复现、npm 权限及 beta registry 安装。native manifest 的 `redistributionApproved` 仍为 false；正式打包和发布拒绝门槛保持生效。

@@ -12,7 +12,7 @@
 | VastbaseAdapter | pg_class、pg_namespace、pg_attribute、pg_type；obj_description、col_description、format_type、pg_get_serial_sequence；information_schema.TABLE_CONSTRAINTS/KEY_COLUMN_USAGE | schema、tableName；序列查询标识符经数据库 quote_ident 处理 |
 | KingbaseAdapter | pg_class/pg_namespace；information_schema.COLUMNS、TABLE_CONSTRAINTS、KEY_COLUMN_USAGE | schema、tableName |
 
-PG 系主键查询同时绑定 schema 和表名。数据库方言和特定视图列是否存在需要真实版本验证，尤其 Kingbase 的 COMMENT/IFNULL 与 Oracle 的 IDENTITY_COLUMN；当前没有真实数据库兼容承诺。所有表的数据行均不读取。字段默认值目前主要用于判断自增，尚未作为独立内容展示。
+PG 系主键查询同时绑定 schema 和表名。Oracle 19c、达梦 8.1.4.80、Vastbase G100 V2.2 (Build 15) 已在本机组合验证读取和导出；其他驱动/服务器/运行时组合不能由此推定。Kingbase 的 COMMENT/IFNULL 等方言仍需独立验证。所有表的数据行均不读取。字段默认值目前主要用于判断自增，尚未作为独立内容展示。
 
 查询入口额外拒绝非 SELECT、分隔符和注释，这只是对固定查询的补充断言。连接接口没有接受用户 SQL 或写操作的命令。DELETE 为写 DML，同 CREATE/DROP、DCL、存储过程执行均不在产品能力中。
 
@@ -32,7 +32,7 @@ CLI 密码仅来自环境或 stdin，ConnectionInfo.password 不序列化；帮�
 
 ## 真实数据库审计尚待交付
 
-目前自动化只使用 test-classes 中的测试 JDBC 驱动；该类不会打进生产 JAR。它能验证只读调用、绑定和超时约定，不能证明五种真实驱动行为。
+契约自动化使用 test-classes 中的测试 JDBC 驱动，该类不会打进生产 JAR；另有 Oracle、达梦、Vastbase 的真实读取、筛选和导出证据。两类证据均不能单独证明数据库账号无写权限或服务端实际 SQL 审计通过。
 
 每个实际支持的数据库版本须用非生产最小权限账号记录：
 
@@ -42,4 +42,4 @@ CLI 密码仅来自环境或 stdin，ConnectionInfo.password 不序列化；帮�
 4. 恶意 schema、表名、URL 属性与权限不足输入的结果。
 5. 测试数据准备由独立夹具账号完成，产品账号不执行建表或授权。
 
-本版优先 Oracle、达梦、Vastbase，最低真实验收为 Oracle 和达梦。本机配置已经创建，尚待填写；该部分是 T05/T09 的未完成验收项。
+本版优先 Oracle、达梦、Vastbase，最低真实验收为 Oracle 和达梦。本机配置已完成，三库功能验证通过；`.local/databases/versions.json` 的 accountPermissionsConfirmed 仍为 false，`.local/acceptance/database-audit.json` 尚无权限、实际会话 SQL 和前后摘要证据。该部分继续保留为 T05/T09 的安全验收余项，用户文档人工验收通过不改变它。

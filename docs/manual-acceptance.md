@@ -58,3 +58,9 @@ Oracle 驱动的 setReadOnly 仅是客户端标志，不能据此认定数据库
 Windows 1,000×20 场景另完成封面、千表目录、末端表页和 20 列正文检查。随后查看窗口最小化，恢复尝试后工具仍报告 `window is minimized`，停止继续操作；页内链接、规模索引/搜索及真实数据库 CHM 原件交互保持 pending，整体为部分完成。
 
 详细结果见[交互验收报告](chm-viewer-acceptance.md)及[机器记录](evidence/chm-viewer-2e63e20.json)。本机 `.local/acceptance/viewer.json` 和真实数据库功能报告已同步更新。自动解包工具生成的 `viewerInteraction: pending` 为其原始记录，不改写成 UI 通过；本次交互状态另存并通过文件哈希关联。
+
+## 5. 用户人工确认（2026-10-27）
+
+用户进一步明确确认“生成的文档验收发现是已经通过了，可以继续执行”。文档功能验收据此通过，[人工确认记录](evidence/chm-viewer-human-acceptance-20261027.json)关联此前机器报告。原先未完成的 agent 步骤保留原始记录，不再作为本次文档验收阻断；没有补写未观测到的逐平台结果、截图或耗时。
+
+该确认不代替账号权限/真实 SQL 审计，也不代替 native 分发、系统基线、构建复现与 npm 发布权限核验。

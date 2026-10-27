@@ -6,15 +6,15 @@
 
 本仓库处于 npm 发布实施阶段。CLI、只读访问约束、表过滤、HHC/chmcmd 后端和私有 npm 原型已实现。**尚未发布 npm RC 或正式版。** 私有验证包分为无编译器原型和含实际 chmcmd 的平台原型；JDBC 驱动均外置。原型验证不代替正式发布验收。
 
-正式命名采用组织 `@nstc`，发布账号为 `jackiechen1994`。组织发布权限尚未核验。目标包：
+正式命名采用个人 scope `@jackiechen1994`，发布账号已在本机登录并核验。用户在 2026-10-27 将原计划的 `@nstc` 改为个人 scope；旧名称产物仅保留历史验证，新包将重新打包/安装验收。目标包：
 
 | 包 | 平台 |
 | --- | --- |
-| @nstc/db2chm | 统一入口，自动选择当前平台依赖 |
-| @nstc/db2chm-win32-x64 | Windows x64，优先已安装 HHC，缺席时用包内 chmcmd |
-| @nstc/db2chm-darwin-x64 | macOS Intel |
-| @nstc/db2chm-darwin-arm64 | macOS Apple Silicon |
-| @nstc/db2chm-linux-x64 | Linux x64/glibc |
+| @jackiechen1994/db2chm | 统一入口，自动选择当前平台依赖 |
+| @jackiechen1994/db2chm-win32-x64 | Windows x64，优先已安装 HHC，缺席时用包内 chmcmd |
+| @jackiechen1994/db2chm-darwin-x64 | macOS Intel |
+| @jackiechen1994/db2chm-darwin-arm64 | macOS Apple Silicon |
+| @jackiechen1994/db2chm-linux-x64 | Linux x64/glibc |
 
 安装压缩下载总量严格小于 15,000,000 字节，计入入口、所选平台包和默认依赖。Java 不随包分发；目前五种 JDBC 驱动均外置。Linux arm64、Alpine/musl 进入后续版本。目标运行环境为 Node 22/24、Java 8/17/21；操作系统最低版本和各数据库版本仍待实测冻结。
 
