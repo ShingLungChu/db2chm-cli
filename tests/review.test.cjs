@@ -16,3 +16,12 @@ test('review collection rejects a damaged CI archive before reading its payload 
  fs.writeFileSync(path.join(f.dir,'shared-java-runtime.zip'),'damaged archive');
  assert.throws(()=>collect(f.dir,f.out),/Artifact archive digest mismatch/);assert(!fs.existsSync(f.out));
 });
+test('Windows tarball report paths resolve on the POSIX collection host',()=>{
+ const artifactName=require('../scripts/artifact-name.cjs'),previous=path.basename;
+ try{
+  path.basename=path.posix.basename;
+  assert.equal(artifactName('D:\\a\\db2chm-cli\\target\\npm\\publisher-db2chm-win32-x64-0.2.0-beta.1.tgz'),'publisher-db2chm-win32-x64-0.2.0-beta.1.tgz');
+  assert.equal(artifactName('/home/runner/target/npm/publisher-db2chm-linux-x64-0.2.0-beta.1.tgz'),'publisher-db2chm-linux-x64-0.2.0-beta.1.tgz');
+  assert.throws(()=>artifactName('package.tgz\n'),/Invalid tarball report path/);
+ }finally{path.basename=previous;}
+});

@@ -3,6 +3,7 @@
 // Preserve successful CI tarballs as a review bundle; never turn prototypes into releases.
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),assert=require('node:assert/strict'),{execFileSync}=require('node:child_process');
 const config=require('../release/config.json');
+const artifactName=require('./artifact-name.cjs');
 const sha=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
 const readJson=file=>JSON.parse(fs.readFileSync(file,'utf8').replace(/^\uFEFF/,''));
 const member=(file,name)=>execFileSync('tar',['-xOf',file,'package/'+name],{maxBuffer:32*1024*1024});
@@ -42,7 +43,7 @@ function collect(input,output){
   const platformReport=report.packages.find(p=>p.platform===target.id),entryReport=report.packages.find(p=>p.platform===null);
   assert(platformReport&&entryReport);
   for(const [item,platform] of [[platformReport,target.id],[entryReport,null]]){
-   const file=path.join(directory,path.basename(item.tarball)),bytes=fs.readFileSync(file);
+   const file=path.join(directory,artifactName(item.tarball)),bytes=fs.readFileSync(file);
    assert.equal(bytes.length,item.bytes);assert.equal(sha(bytes),item.sha256);
    const manifest=JSON.parse(member(file,'package.json'));
    assert.equal(manifest.name,platform?entryName+'-'+platform:entryName);assert.equal(manifest.version,config.version);assert.equal(manifest.private,true);
@@ -55,11 +56,11 @@ function collect(input,output){
     const sbom=JSON.parse(member(file,'runtime-sbom.cdx.json'));
     assert.equal(sbom.metadata.component.properties.find(p=>p.name==='sourceCommit').value,run.head_sha);
     for(const f of native.files)assert.equal(sha(member(file,'native/'+f.path)),f.sha256,'Packaged native payload differs');
-    const result={name:manifest.name,platform,tarball:path.basename(file),bytes:bytes.length,sha256:item.sha256,jarSha256:report.jarSha256,nativeSha256:native.files.find(f=>f.path===target.compiler)?.sha256,artifactId:artifact[0].id};
+    const result={name:manifest.name,platform,tarball:artifactName(file),bytes:bytes.length,sha256:item.sha256,jarSha256:report.jarSha256,nativeSha256:native.files.find(f=>f.path===target.compiler)?.sha256,artifactId:artifact[0].id};
     assert(result.nativeSha256);packages.push({...result,sourceFile:file});
    }else{
     assert.deepEqual(manifest.optionalDependencies,Object.fromEntries(config.platforms.map(p=>[entryName+'-'+p.id,config.version])));
-    entries.push({platform:target.id,sourceFile:file,tarball:path.basename(file),bytes:bytes.length,sha256:item.sha256,payload:Object.fromEntries(entryPayloads.map(n=>[n,sha(member(file,n))]))});
+    entries.push({platform:target.id,sourceFile:file,tarball:artifactName(file),bytes:bytes.length,sha256:item.sha256,payload:Object.fromEntries(entryPayloads.map(n=>[n,sha(member(file,n))]))});
    }
   }
   natives.push({platform:target.id,sourceCommit:native.sourceCommit,bootstrapVersion:native.bootstrapVersion,bootstrapSha256:native.bootstrapSha256,redistributionApproved:native.redistributionApproved,files:native.files});

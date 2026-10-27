@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),{execFileSync}=require('node:child_process'),config=require('../release/config.json');
+const artifactName=require('./artifact-name.cjs');
 function verify(bundle,acceptancePath){
  bundle=path.resolve(bundle);
  const report=JSON.parse(fs.readFileSync(path.join(bundle,'report.json'),'utf8'));
@@ -10,7 +11,7 @@ function verify(bundle,acceptancePath){
  const expected=['@'+config.scope+'/'+config.name,...config.platforms.map(p=>'@'+config.scope+'/'+config.name+'-'+p.id)].sort();
  if(JSON.stringify(report.packages.map(p=>p.name).sort())!==JSON.stringify(expected))throw new Error('Release needs exactly the entry and four platform packages');
  const packages=report.packages.map(item=>{
-  const tarball=path.join(bundle,path.basename(item.tarball)),bytes=fs.readFileSync(tarball);
+  const tarball=path.join(bundle,artifactName(item.tarball)),bytes=fs.readFileSync(tarball);
   if(crypto.createHash('sha256').update(bytes).digest('hex')!==item.sha256||bytes.length!==item.bytes)throw new Error('Package hash/size mismatch');
   const manifest=JSON.parse(execFileSync('tar',['-xOf',tarball,'package/package.json'],{encoding:'utf8',maxBuffer:1024*1024}));
   if(manifest.private===true||manifest.name!==item.name||manifest.version!==report.version||manifest.scripts)throw new Error('Unexpected package manifest or lifecycle hooks');
