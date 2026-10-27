@@ -1,0 +1,171 @@
+{
+  "schemaVersion": 1,
+  "status": "accepted-beta-candidate",
+  "published": false,
+  "stableReleaseApproved": false,
+  "version": "0.2.0-beta.1",
+  "sourceCommit": "7507078106c0e8b998efc8ac9d701bff60460fe3",
+  "run": "https://github.com/ShingLungChu/db2chm-cli/actions/runs/40453737323",
+  "artifactId": 12711326806,
+  "artifactDigest": "sha256:53bfb00791299c60f6a66b83103f29ff1088b10855fe484c550db2e0a1645b06",
+  "reportSha256": "c52ace929482258c6b45244dac4b1dbb3b52fa3b3f80db837f466f0aed2ba86f",
+  "acceptanceSha256": "7aff39899b7aaf7dc80d21a361ff73101567bd67a34974bc4ac9ae1ede0d70ed",
+  "sharedJarSha256": "7b4ee792eb515c7422553d6491991ec5742930262ea55d59f071eb446f416d8c",
+  "packages": [
+    {
+      "name": "@jackiechen1994/db2chm-win32-x64",
+      "version": "0.2.0-beta.1",
+      "platform": "win32-x64",
+      "bytes": 2696108,
+      "sha256": "abb2676361f110a7208ed03074fdbf17abcd231b04d8e10235e8cbff452d57a3"
+    },
+    {
+      "name": "@jackiechen1994/db2chm-darwin-x64",
+      "version": "0.2.0-beta.1",
+      "platform": "darwin-x64",
+      "bytes": 3218648,
+      "sha256": "18a281b8576642c51c7c90493b1490bcbc7b0807fcd1fe2fa106627640d875ff"
+    },
+    {
+      "name": "@jackiechen1994/db2chm-darwin-arm64",
+      "version": "0.2.0-beta.1",
+      "platform": "darwin-arm64",
+      "bytes": 3175864,
+      "sha256": "d8be9091ac24314a2243e85c585b2229213fc5e7388dcfdcfa8e54e5ec65cf3d"
+    },
+    {
+      "name": "@jackiechen1994/db2chm-linux-x64",
+      "version": "0.2.0-beta.1",
+      "platform": "linux-x64",
+      "bytes": 2769674,
+      "sha256": "740e04bcee34217d312247c17c6923a71f188477b7ac8547370ee8708ab84162"
+    },
+    {
+      "name": "@jackiechen1994/db2chm",
+      "version": "0.2.0-beta.1",
+      "platform": null,
+      "bytes": 2461,
+      "sha256": "1bb6b763cc6386d5c5ca5f44874cc428faf52da9bb363f5a02123c834f559b0a"
+    }
+  ],
+  "sizes": [
+    {
+      "platform": "win32-x64",
+      "platformBytes": 2696108,
+      "entryBytes": 2461,
+      "totalDownloadBytes": 2698569,
+      "belowLimit": true
+    },
+    {
+      "platform": "darwin-x64",
+      "platformBytes": 3218648,
+      "entryBytes": 2461,
+      "totalDownloadBytes": 3221109,
+      "belowLimit": true
+    },
+    {
+      "platform": "darwin-arm64",
+      "platformBytes": 3175864,
+      "entryBytes": 2461,
+      "totalDownloadBytes": 3178325,
+      "belowLimit": true
+    },
+    {
+      "platform": "linux-x64",
+      "platformBytes": 2769674,
+      "entryBytes": 2461,
+      "totalDownloadBytes": 2772135,
+      "belowLimit": true
+    }
+  ],
+  "installation": [
+    {
+      "ok": true,
+      "platform": "darwin-arm64",
+      "jarSha256": "7b4ee792eb515c7422553d6491991ec5742930262ea55d59f071eb446f416d8c",
+      "nativeSha256": "b27184841c9c920e9379d0fb57b28263437739b93c9927eb96e828a7b217d6fa",
+      "totalDownloadBytes": 3178325,
+      "filesVerified": 4
+    },
+    {
+      "ok": true,
+      "platform": "darwin-x64",
+      "jarSha256": "7b4ee792eb515c7422553d6491991ec5742930262ea55d59f071eb446f416d8c",
+      "nativeSha256": "4fe1eaba612fe519785f6742e78e2ca3e6e8c5885c82ec49e26141838c029069",
+      "totalDownloadBytes": 3221109,
+      "filesVerified": 4
+    },
+    {
+      "ok": true,
+      "platform": "linux-x64",
+      "jarSha256": "7b4ee792eb515c7422553d6491991ec5742930262ea55d59f071eb446f416d8c",
+      "nativeSha256": "d6f9d0d4440dc8d40781eefd8ef47009cd52d5ccb28609b75d2da651e7dd39c1",
+      "totalDownloadBytes": 2772135,
+      "filesVerified": 4
+    },
+    {
+      "ok": true,
+      "platform": "win32-x64",
+      "jarSha256": "7b4ee792eb515c7422553d6491991ec5742930262ea55d59f071eb446f416d8c",
+      "nativeSha256": "f332d15dea7be9c5af328b483052e5c0dce3b5e3e8e0136fdf943ad74fb736d7",
+      "totalDownloadBytes": 2698569,
+      "filesVerified": 4
+    }
+  ],
+  "windowsExtraction": [
+    {
+      "scenario": "candidate",
+      "tableCount": 1,
+      "extractedVerified": 4,
+      "hhExitCode": 0
+    },
+    {
+      "scenario": "candidate",
+      "tableCount": 1,
+      "extractedVerified": 4,
+      "hhExitCode": 0
+    },
+    {
+      "scenario": "candidate",
+      "tableCount": 1,
+      "extractedVerified": 4,
+      "hhExitCode": 0
+    },
+    {
+      "scenario": "candidate",
+      "tableCount": 1,
+      "extractedVerified": 4,
+      "hhExitCode": 0
+    }
+  ],
+  "gates": {
+    "G0": {
+      "status": "passed-beta-tested-scope",
+      "limitations": [
+        "older-operating-systems-not-validated"
+      ]
+    },
+    "G1": {
+      "status": "passed"
+    },
+    "G2": {
+      "status": "passed-beta-functional-audit-unverified",
+      "limitations": [
+        "database-account-and-server-sql-audit-unverified"
+      ]
+    },
+    "G3": {
+      "status": "passed"
+    },
+    "G4": {
+      "status": "passed"
+    },
+    "G5": {
+      "status": "passed-beta-candidate",
+      "limitations": [
+        "full-runtime-source-reconstruction-and-toolchain-pinning-not-complete"
+      ]
+    }
+  },
+  "databaseAccountAndSqlAudit": "unverified; user has no evidence"
+}

@@ -1,5 +1,19 @@
 # 构建、验收、发布与回滚
 
+## 0.2.0-beta.1 的候选与发布路径
+
+本版 beta 的验收范围以 [beta 决定](beta-release-decision.md)和 `release/beta-policy.json` 为准。下文早期 private 审查资料和 stable 强标准保留为历史/后续目标，不将数据库服务端审计、更老系统测试或全部 runtime 源码重建写成已完成。
+
+本次可分发 native 的完整工具源、修改日期、独立组件许可和实际重建方法已经补齐；[Windows 源码重建](evidence/native-beta-windows-rebuild-20261027.json)与已验收 binary 字节相同。FPC 未修改运行库使用其独立模块链接例外；具体边界见[许可核查](native-beta-distribution-review.md)。
+
+1. `beta-candidate.yml` 从已验收的 `40445394922` 下载并校验原始 native/JAR，要求业务和启动器源码与该基线一致；在干净 checkout 生成 `private:false` 的候选包。
+2. 同一份五个 tgz 在四个原生 runner 上实际安装，入口只下载本平台依赖，生成 CHM；Windows 解包四份文档并比较正文。`accept-beta.cjs` 仅按固定 beta policy 形成验收，未验证项目保留明确限制。
+3. [候选验收运行 40453737323](https://github.com/ShingLungChu/db2chm-cli/actions/runs/40453737323)已通过，源提交 `7507078106c0e8b998efc8ac9d701bff60460fe3`。`accepted-npm-release` ZIP 的 SHA-256 为 `53bfb00791299c60f6a66b83103f29ff1088b10855fe484c550db2e0a1645b06`。下载校验后只能发布其中的原 tgz，不重新构建。
+4. 本机初次发布使用已登录 npm 身份；npm 可能要求浏览器完成发布验证。命令为 `node scripts/publish.cjs BUNDLE beta --publish`，四个平台先、入口最后，并逐包核对 registry integrity。只设置 beta，不设置 latest。本机发布不声称具有 CI provenance；trusted publisher 配置完成后才使用对应 CI 身份与 attestation。
+5. `npm-registry-validation.yml` 接收上述候选 run id，从真实 npm registry 安装入口及本平台依赖，验证已发布 integrity、内含 JAR/native，并导出 CHM；Windows 再次解包比较四份文档。发布结果和未完成项统一记录到版本证据及任务状态。
+
+本机最终 Windows 候选原包已再次通过 Oracle/达梦/Vastbase 的 doctor、表列表、精确过滤和三表 CHM 导出；18 个 HTML/CSS 解包一致。真实业务资料仍仅存本机，不随发布上传。
+
 ## 当前范围与外部依赖
 
 正式 scope：个人 @jackiechen1994，账号已登录并通过 npm whoami 核验。原 @nstc 组织成员列表不含该账号，用户已明确改用个人 scope；不再将组织授权作为当前包名的前提。代码不保存 npm 凭据。配置 npm trusted publisher 时绑定本仓库和 npm-publish.yml；GitHub 的 npm-release 环境可设置保护规则。实际发布/2FA 与 CI 身份仍需验证。
