@@ -2,6 +2,8 @@
 
 更新：2026-10-27。源码实施仓库为本仓库；原始参考目录不覆盖迁移。本表按实现、文档、实际验证及剩余依赖分别记录，原型不称为 RC。
 
+当前 beta 候选已验收：源提交 `7507078`，[四平台原包安装/导出/解包](https://github.com/ShingLungChu/db2chm-cli/actions/runs/40453737323)全部通过。五个 tgz 已下载核对 GitHub digest，本机最终 Windows 原包三库复验和 18 个正文文件解包一致。npm 首包发布正在等待账号持有人完成浏览器身份验证，尚未发布；详见[候选证据](evidence/beta-candidate-7507078.json)及[beta 范围决定](beta-release-decision.md)。
+
 ## 范围决策
 
 - npm 个人 scope @jackiechen1994，发布账号已登录并核验。用户于 2026-10-27 明确从 @nstc 改为个人 scope；新包重新构建/安装验收，旧包记录保留，不改写历史哈希。
@@ -17,18 +19,18 @@
 | --- | --- | --- |
 | T00 | 部分完成 | 源码差异、包名、字节口径已冻结；Node/Java 矩阵实跑通过；三库实测版本已记录，OS/libc 下限及最终支持组合待冻结 |
 | T01 | 方案与接入已交付 | 用户确认 HHC 优先、包内 chmcmd 兜底；Windows 实际 npm 安装导出和选择规则通过；不再分发微软编译器；最终 native 审查归 T02/G0 |
-| T02 | 部分完成 | 四平台新记录全部通过 CI：Windows/Linux/macOS Intel/ARM 载入单元 41/53/52/52、工具源码均 15 文件；四平台 native 均与原验收基线字节相同。完整对应源/许可、Unix 输入固定和最低系统仍待收口 |
+| T02 | beta 分发材料已交付，stable 复现部分完成 | 四平台独立 chmcmd 的完整工具源、修改日期、LGPL/FPC/FastHTMLParser 许可、补丁、来源和重建脚本随最终 tgz 交付；15 个编译源与验收基线对应，Windows 从交付源重建与原 binary 同 SHA。全部 runtime 源复现、Unix 完全固定输入和更老系统仍未完成 |
 | T03 | 分发/加载方案已交付，支持范围部分验证 | 五驱动版本/哈希及显式外置加载齐备，不分发/自动下载驱动；三库 Windows/Java 8 组合已实测，其他组合不作承诺，见[矩阵](support-matrix.md) |
 | T04 | 已交付 | CLI 契约、JSON/退出码、凭据与严格参数处理；12 个平台/运行时组合通过私有安装验证 |
 | T05 | 功能与策略已实现，审计未验证 | 固定查询、绑定、URL 能力许可列表、只读要求、超时与脱敏通过测试及三库真实功能复验。用户明确当前没有账号/SQL 审计证据，该项保持未验证 |
 | T06 | 已交付 | list/export 共用 glob，Unicode/大小写/包含排除/排序/无匹配有测试；真实环境复核属于 T09 |
 | T07 | 已交付 | 2e63e20 的四平台中文标题、目录、中文 HHK、中英文搜索及结果跳转通过；千表末端与 20 列正文通过。用户人工确认生成文档验收通过；保留原始观测范围，见[交互记录](chm-viewer-acceptance.md) |
-| T08 | 实现与私有验收完成 | 四平台包与统一入口安装矩阵、实际 bundled native 安装已通过，下载量均低于 15 MB；最终候选仍需 G0–G5 放行 |
+| T08 | beta 候选验收通过 | 最终 private:false 的五包在四个原生 runner 通过统一入口安装及 CHM 导出；四条下载链为 2.70–3.22 MB，均严格小于 15 MB |
 | T09 | 文档功能通过，安全审计未闭合 | Oracle/DM/Vastbase 真实读取、精确过滤、导出及导航/正文自动检查通过；四平台夹具交互通过，用户确认生成文档验收通过。账号权限和真实 SQL 审计仍属 G2，不能由文档通过代替 |
 | T10 | 已交付 | 独立 skills/db2chm/SKILL.md、README、CLI/安全/依赖/发布文档；skill 校验通过，离线命令示例已执行 |
-| T11 | 部分完成 | 个人 scope 五个原始 tgz、9 个核心 artifact digest、四平台来源记录和审查自动汇总均通过；修复 Linux 解析 Windows 报告路径，Ubuntu 重跑通过。本机账号已核验；来源分发/Unix 固定输入/最低系统、候选与发布认证未闭合 |
-| T12 | 准备中，尚无 RC | 私有审查包和发布预检已交付；所有 tgz 仍 private，不能冒充已验收候选 |
-| T13 | 未开始 | 没有发布 npm；latest 未修改 |
+| T11 | beta 候选流程已交付，发布认证待完成 | 已推送代码、完整 source/license 打包、精确原包验收与可恢复发布脚本；本机初次 npm 发布等待浏览器验证。CI trusted publisher 和 stable 的完全固定输入继续待补 |
+| T12 | beta 候选通过 | accepted-npm-release 绑定源提交、五个 tgz、GitHub digest 和本次 G0–G5；按限定 beta policy 如实保留 OS/审计/runtime 复现限制，不可用于 stable |
+| T13 | 等待 npm 发布身份验证 | 首包 npm publish 已发起，npm 要求账号持有人在浏览器验证；尚无包发布。随后需完成五包 registry integrity/beta 标签和四平台真实 registry 安装验收；latest 未修改 |
 
 ## 已有实际证据
 
@@ -56,7 +58,6 @@
 
 ## 下一步
 
-1. 按[准确源锁与重建路线](native-source-lock-plan.md)落实对应 RTL/FCL 源、发行版补丁、隔离重建及源码交付，实测最终大小；个人 scope 包与自动汇总已通过。
-2. 冻结实际最低系统并验证固定构建输入；现有[矩阵](support-matrix.md)保留已实测环境与二进制下限的区别。
-3. 数据库审计当前没有证据，保持未验证；后续具备材料时按[验收说明](manual-acceptance.md)补齐。
-4. 上述门槛通过后形成正式候选并核验发布认证/2FA 或 trusted publisher，再进行 beta registry 安装验收；当前不发布 npm。
+1. 完成 npm 本次浏览器发布验证，按平台包先、入口最后发布同一批已验收 tgz，逐包核对 integrity 与 beta 标签。
+2. 触发 npm-registry-validation.yml，从真实 registry 四平台安装和导出，在 Windows 解包核验后回写最终版本证据。
+3. stable 后续工作继续包括更老系统实测、全部 runtime 源身份/固定构建输入及数据库账号/服务端 SQL 审计；本次 beta 不将其标成通过。

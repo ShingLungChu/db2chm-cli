@@ -4,7 +4,7 @@
 
 ## 当前交付状态
 
-本仓库处于 npm 发布实施阶段。CLI、只读访问约束、表过滤、HHC/chmcmd 后端和私有 npm 原型已实现。**尚未发布 npm RC 或正式版。** 私有验证包分为无编译器原型和含实际 chmcmd 的平台原型；JDBC 驱动均外置。原型验证不代替正式发布验收。
+`0.2.0-beta.1` 的公开 beta 候选包已完成四平台实际安装、CHM 导出和 Windows 解包验收，最终 Windows 原包的 Oracle/达梦/Vastbase 复验也通过。**当前 npm 首包发布正在等待账号持有人完成浏览器身份验证，尚未发布到 registry。** JDBC 驱动外置，不分发 Java 或 Microsoft HHC。候选来源及完整包哈希见[验收证据](docs/evidence/beta-candidate-7507078.json)。
 
 正式命名采用个人 scope `@jackiechen1994`，发布账号已在本机登录并核验。用户在 2026-10-27 将原计划的 `@nstc` 改为个人 scope；新名称的四平台构建、私有安装、自动汇总与三库功能复验已通过，旧记录保留。目标包：
 
@@ -20,7 +20,7 @@
 
 实施进度见 [任务状态](docs/task-status.md)，完整验收标准见 [发布计划](docs/npm-release-plan.md)。
 
-当前个人 scope 验证包安装链约 2.67–3.18 MB，全部小于 15 MB；[实际矩阵](docs/support-matrix.md)与[精确验收](docs/evidence/personal-scope-acceptance-4de172f.json)绑定同一批 CI 原始文件。文档功能已由用户人工确认通过，数据库账号/SQL 审计当前无证据；对应源码与系统基线等正式门槛仍在收口，验证包保持 private。
+当前最终 beta 候选安装链约 2.70–3.22 MB，全部小于 15 MB，已包含完整 native 工具源、许可和重建说明。文档功能已由用户人工确认通过；数据库账号/服务端 SQL 审计、更老系统测试及全部 runtime 源复现继续保持未验证或未完成。具体 beta 范围见[发布决定](docs/beta-release-decision.md)；历史 private 原型证据保留，不改写成已发布包。
 
 ## 开发构建与离线使用
 
