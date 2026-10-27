@@ -1,10 +1,15 @@
-param([Parameter(Mandatory=$true)][string]$ArtifactRoot)
+param(
+  [Parameter(Mandatory=$true)][string]$ArtifactRoot,
+  [ValidateSet('baseline','candidate','registry')][string]$ScenarioSet = 'baseline'
+)
 $ErrorActionPreference = 'Stop'
 $hh = Join-Path $env:WINDIR 'hh.exe'
 $reports = @(Get-ChildItem -LiteralPath $ArtifactRoot -Filter verification.json -Recurse -File)
-if ($reports.Count -ne 16) { throw "Expected 16 application scenarios, found $($reports.Count)" }
+$expectedCount = if ($ScenarioSet -eq 'baseline') { 16 } else { 4 }
+if ($reports.Count -ne $expectedCount) { throw "Expected $expectedCount application scenarios, found $($reports.Count)" }
 $scenarioCounts=@($reports | ForEach-Object {(Get-Content -LiteralPath $_.FullName -Raw -Encoding utf8 | ConvertFrom-Json).scenario} | Group-Object)
-foreach($name in @('small','scale','chinese','installed')) {if(@($scenarioCounts | Where-Object {$_.Name -eq $name -and $_.Count -eq 4}).Count -ne 1){throw "Expected exactly four $name scenarios"}}
+$expectedScenarios = if ($ScenarioSet -eq 'baseline') { @('small','scale','chinese','installed') } else { @($ScenarioSet) }
+foreach($name in $expectedScenarios) {if(@($scenarioCounts | Where-Object {$_.Name -eq $name -and $_.Count -eq 4}).Count -ne 1){throw "Expected exactly four $name scenarios"}}
 $results = @()
 foreach ($report in $reports) {
   $manifest = Get-Content -LiteralPath $report.FullName -Raw -Encoding utf8 | ConvertFrom-Json

@@ -12,14 +12,14 @@ for(const item of packages.sort((a,b)=>Number(!a.platform)-Number(!b.platform)))
   if(integrity!==item.integrity)throw new Error('Published version has different bytes: '+item.name);
   exists=true;
  }catch(error){if(!error.message.includes('E404'))throw error;}
- if(!exists)npm(['publish',item.tarball,'--access=public','--tag='+tag,'--provenance','--registry=https://registry.npmjs.org']);
+ if(!exists)npm(['publish',item.tarball,'--access=public','--tag='+tag,'--ignore-scripts',...(process.env.GITHUB_ACTIONS==='true'||args.includes('--provenance')?['--provenance']:[]),'--registry=https://registry.npmjs.org'],{stdio:'inherit',timeout:600000});
  const actual=JSON.parse(npm(['view',item.name+'@'+report.version,'dist.integrity','--json','--registry=https://registry.npmjs.org']).stdout);
  if(actual!==item.integrity)throw new Error('Registry integrity mismatch: '+item.name);
  console.log((exists?'Already verified: ':'Published and verified: ')+item.name);
 }
 for(const item of packages){
- npm(['dist-tag','add',item.name+'@'+report.version,tag,'--registry=https://registry.npmjs.org']);
- const tags=JSON.parse(npm(['view',item.name,'dist-tags','--json','--registry=https://registry.npmjs.org']).stdout);
+ let tags=JSON.parse(npm(['view',item.name,'dist-tags','--json','--registry=https://registry.npmjs.org']).stdout);
+ if(tags[tag]!==report.version){npm(['dist-tag','add',item.name+'@'+report.version,tag,'--registry=https://registry.npmjs.org'],{stdio:'inherit',timeout:600000});tags=JSON.parse(npm(['view',item.name,'dist-tags','--json','--registry=https://registry.npmjs.org']).stdout);}
  if(tags[tag]!==report.version)throw new Error('Dist-tag mismatch: '+item.name);
 }
 console.log('All platform packages and entry use '+report.version+' on '+tag+'. latest was not changed.');

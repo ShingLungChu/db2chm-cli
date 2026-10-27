@@ -6,6 +6,8 @@ const cp=require('node:child_process');
 const sourceCommit=cp.execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim();
 const prototype=argv.includes('--prototype'),single=argv.includes('--platform')?argv[argv.indexOf('--platform')+1]:null;
 const nativePrototype=argv.includes('--native-prototype');
+const releaseChannel=argv.includes('--channel')?argv[argv.indexOf('--channel')+1]:null;
+if(releaseChannel!==null&&(releaseChannel!=='beta'||prototype||config.version!==require('../release/beta-policy.json').version))throw new Error('Unsupported release channel/version');
 if(nativePrototype&&(!prototype||!single))throw new Error('Native prototypes require --prototype and one target');
 if(!prototype&&cp.execFileSync('git',['status','--porcelain'],{cwd:root,encoding:'utf8'}).trim())throw new Error('Candidate packaging requires a clean source checkout');
 const targets=single?config.platforms.filter(p=>p.id===single):config.platforms;
@@ -38,6 +40,7 @@ for(const platform of targets){
    const manifest=JSON.parse(fs.readFileSync(manifestPath,'utf8'));
    nativeManifest=manifest;
    if(manifest.platform!==platform.id||(!nativePrototype&&manifest.redistributionApproved!==true)||!manifest.sourceCommit||!manifest.sourceUrl?.startsWith('https://')||!manifest.files?.length)throw new Error('Native redistribution/source approval missing for '+platform.id);
+   if(!prototype&&manifest.distributionChannel==='beta'&&releaseChannel!=='beta')throw new Error('Beta native approval cannot authorize a stable package');
    if(nativePrototype)notices+='PRIVATE NATIVE VALIDATION: sources/licenses included; formal distribution review remains pending.\n';
    let executable=false;
    for(const item of manifest.files){
@@ -51,9 +54,9 @@ for(const platform of targets){
  }else notices+='\nPRIVATE PROTOTYPE: no bundled CHM compiler. Supply --compiler-path for experiments. Not a release candidate.\n';
  fs.writeFileSync(path.join(dir,'THIRD_PARTY_NOTICES.md'),notices);
  const components=[{type:'library',group:'org.freemarker',name:'freemarker',version:'2.3.32',purl:'pkg:maven/org.freemarker/freemarker@2.3.32',licenses:[{license:{id:'Apache-2.0'}}]},{type:'library',group:'com.google.code.gson',name:'gson',version:'2.10.1',purl:'pkg:maven/com.google.code.gson/gson@2.10.1',licenses:[{license:{id:'Apache-2.0'}}]}];
- if(nativeManifest)components.push({type:'application',name:platform.compiler,version:nativeManifest.sourceCommit,externalReferences:[{type:'vcs',url:nativeManifest.sourceUrl}],properties:nativeManifest.files.map(f=>({name:'payload:'+f.path,value:f.sha256}))});
+ if(nativeManifest)components.push({type:'application',name:platform.compiler,version:nativeManifest.sourceCommit,externalReferences:[{type:'vcs',url:nativeManifest.sourceUrl}],licenses:[{expression:'LGPL-2.1-only AND LicenseRef-FastHTMLParser'}],properties:nativeManifest.files.map(f=>({name:'payload:'+f.path,value:f.sha256}))});
  fs.writeFileSync(path.join(dir,'runtime-sbom.cdx.json'),JSON.stringify({bomFormat:'CycloneDX',specVersion:'1.6',version:1,metadata:{component:{type:'application',name:config.name,version:config.version,hashes:[{alg:'SHA-256',content:digest(jar)}],properties:[{name:'sourceCommit',value:sourceCommit},{name:'platform',value:platform.id}]}},components},null,2)+'\n');
- fs.writeFileSync(path.join(dir,'README.md'),'# '+config.name+'\n\nRequires Node >=22 and a preinstalled Java runtime. Use db2chm --help and db2chm doctor --json.\n'+(prototype?'\nPrivate prototype; compiler distribution gates have not passed.\n':''));
+ fs.writeFileSync(path.join(dir,'README.md'),'# '+config.name+'\n\nRequires Node >=22 and a preinstalled Java runtime. Use db2chm --help and db2chm doctor --json.\n'+(prototype?'\nPrivate prototype; compiler distribution gates have not passed.\n':releaseChannel==='beta'?'\nBeta: tested systems/runtimes only. Database account/server SQL audit and older-system validation remain unverified. Native source, licenses and rebuild instructions are in native/chm-source.tar.gz; application UNLICENSED does not restrict third-party native rights.\n':''));
  pack(dir,{...base,name:'@'+config.scope+'/'+config.name+'-'+platform.id,os:[platform.os],cpu:[platform.cpu],db2chmPlatform:platform.id});
 }
 {
@@ -67,6 +70,6 @@ for(const platform of targets){
 const entry=packages.find(p=>!p.platform);
 const sizes=packages.filter(p=>p.platform).map(p=>({platform:p.platform,platformBytes:p.bytes,entryBytes:entry?.bytes||0,totalDownloadBytes:p.bytes+(entry?.bytes||0),belowLimit:p.bytes+(entry?.bytes||0)<config.maxDownloadBytes}));
 if(sizes.some(p=>!p.belowLimit))throw new Error('Installation download budget exceeded');
-const report={version:config.version,sourceCommit,kind:prototype?'prototype':'candidate',prototype,nativePrototype,releaseEligible:false,maxDownloadBytes:config.maxDownloadBytes,jarSha256:digest(jar),packages,sizes};
+const report={version:config.version,sourceCommit,kind:prototype?'prototype':'candidate',prototype,nativePrototype,releaseChannel,releaseEligible:false,maxDownloadBytes:config.maxDownloadBytes,jarSha256:digest(jar),packages,sizes};
 fs.writeFileSync(path.join(output,single?'report-'+single+'.json':'report.json'),JSON.stringify(report,null,2)+'\n');
 console.log(JSON.stringify(report,null,2));

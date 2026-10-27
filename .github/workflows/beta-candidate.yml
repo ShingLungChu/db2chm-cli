@@ -1,0 +1,85 @@
+name: Build accepted beta candidate
+on:
+  workflow_dispatch:
+    inputs:
+      source_run_id:
+        description: Accepted executable baseline run
+        default: '40445394922'
+        required: true
+permissions:
+  contents: read
+  actions: read
+jobs:
+  package:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+      - run: node scripts/select-node.cjs 22
+      - name: Download exact accepted baseline
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BASELINE_RUN: ${{ inputs.source_run_id }}
+        run: node scripts/download-validation.cjs "$BASELINE_RUN" target/review-inputs
+      - name: Prepare complete native source/notices and public beta tarballs
+        run: node scripts/prepare-beta-release.cjs target/review-inputs
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: beta-candidate
+          path: target/npm/
+          if-no-files-found: error
+  install:
+    needs: package
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - { runner: windows-2025, platform: win32-x64 }
+          - { runner: ubuntu-24.04, platform: linux-x64 }
+          - { runner: macos-15-intel, platform: darwin-x64 }
+          - { runner: macos-26, platform: darwin-arm64 }
+    runs-on: ${{ matrix.target.runner }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad
+        with:
+          distribution: temurin
+          java-version: '17'
+      - run: node scripts/select-node.cjs 22
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333
+        with:
+          name: beta-candidate
+          path: candidate/
+      - name: Install exact beta entry and selected platform and export CHM
+        run: node scripts/check-bundle-install.cjs candidate target/candidate-check
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: beta-check-${{ matrix.target.platform }}
+          path: |
+            target/candidate-check/installed.json
+            target/candidate-check/document 中文/
+          if-no-files-found: error
+  accept:
+    needs: install
+    runs-on: windows-2025
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - run: node scripts/select-node.cjs 22
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333
+        with:
+          name: beta-candidate
+          path: accepted/
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333
+        with:
+          pattern: beta-check-*
+          path: checks/
+      - name: Extract and compare four installed CHM documents on Windows
+        shell: pwsh
+        run: ./scripts/verify-windows-chm.ps1 -ArtifactRoot ./checks -ScenarioSet candidate
+      - run: node scripts/accept-beta.cjs accepted checks
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: accepted-npm-release
+          path: accepted/
+          if-no-files-found: error

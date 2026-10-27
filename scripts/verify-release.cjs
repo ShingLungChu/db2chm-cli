@@ -2,6 +2,7 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),{execFileSync}=require('node:child_process'),config=require('../release/config.json');
 const artifactName=require('./artifact-name.cjs');
+const beta=require('./beta-policy.cjs');
 function verify(bundle,acceptancePath){
  bundle=path.resolve(bundle);
  const report=JSON.parse(fs.readFileSync(path.join(bundle,'report.json'),'utf8'));
@@ -20,6 +21,7 @@ function verify(bundle,acceptancePath){
   if(item.platform){
    const target=config.platforms.find(p=>p.id===item.platform);
    if(JSON.stringify(manifest.os)!==JSON.stringify([target.os])||JSON.stringify(manifest.cpu)!==JSON.stringify([target.cpu])||manifest.dependencies||manifest.optionalDependencies)throw new Error('Platform package constraints changed');
+   if(report.releaseChannel==='beta')require('./verify-beta-native.cjs')(tarball,item.platform,report.jarSha256);
   }else{
    const dependencies=Object.fromEntries(config.platforms.map(p=>['@'+config.scope+'/'+config.name+'-'+p.id,config.version]));
    if(manifest.dependencies||JSON.stringify(manifest.optionalDependencies)!==JSON.stringify(dependencies))throw new Error('Entry dependencies must match exact platform versions');
@@ -33,7 +35,7 @@ function verify(bundle,acceptancePath){
  const evidenceRoot=path.dirname(path.resolve(acceptancePath));
  for(const id of ['G0','G1','G2','G3','G4','G5']){
   const gate=acceptance.gates?.[id];
-  if(gate?.status!=='passed'||!gate.evidence?.length)throw new Error(id+' acceptance evidence is missing');
+  if(!gate?.evidence?.length||(gate.status!=='passed'&&!beta.permitted(report,acceptance,id,gate)))throw new Error(id+' acceptance evidence is missing');
   for(const evidence of gate.evidence){
    const file=fs.realpathSync(path.resolve(evidenceRoot,evidence.path));
    if(!file.startsWith(evidenceRoot+path.sep)||crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex')!==evidence.sha256)throw new Error('Evidence path/hash mismatch');
