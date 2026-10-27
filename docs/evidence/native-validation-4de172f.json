@@ -1,0 +1,466 @@
+{
+  "schemaVersion": 1,
+  "runId": "40445394922",
+  "sourceCommit": "4de172f8d950fa9f10034b885859aebbae9c9512",
+  "workflowRunUrl": "https://github.com/ShingLungChu/db2chm-cli/actions/runs/40445394922",
+  "kind": "private-validation-bundle",
+  "releaseEligible": false,
+  "version": "0.2.0-beta.1",
+  "prototype": true,
+  "nativePrototype": true,
+  "maxDownloadBytes": 15000000,
+  "jarSha256": "7b4ee792eb515c7422553d6491991ec5742930262ea55d59f071eb446f416d8c",
+  "packages": [
+    {
+      "name": "@jackiechen1994/db2chm-win32-x64",
+      "platform": "win32-x64",
+      "tarball": "jackiechen1994-db2chm-win32-x64-0.2.0-beta.1.tgz",
+      "bytes": 2664559,
+      "sha256": "49bd12f91d8763766803b438bd86d0fcad298a010afd448466023b6527d356d7",
+      "jarSha256": "7b4ee792eb515c7422553d6491991ec5742930262ea55d59f071eb446f416d8c",
+      "nativeSha256": "f332d15dea7be9c5af328b483052e5c0dce3b5e3e8e0136fdf943ad74fb736d7",
+      "artifactId": 12707867557
+    },
+    {
+      "name": "@jackiechen1994/db2chm-darwin-x64",
+      "platform": "darwin-x64",
+      "tarball": "jackiechen1994-db2chm-darwin-x64-0.2.0-beta.1.tgz",
+      "bytes": 3178636,
+      "sha256": "36d94fd1bc8662fdf9d50a6255c1a37a0e04d976a2005038683c799ca678d499",
+      "jarSha256": "7b4ee792eb515c7422553d6491991ec5742930262ea55d59f071eb446f416d8c",
+      "nativeSha256": "4fe1eaba612fe519785f6742e78e2ca3e6e8c5885c82ec49e26141838c029069",
+      "artifactId": 12708680369
+    },
+    {
+      "name": "@jackiechen1994/db2chm-darwin-arm64",
+      "platform": "darwin-arm64",
+      "tarball": "jackiechen1994-db2chm-darwin-arm64-0.2.0-beta.1.tgz",
+      "bytes": 3144822,
+      "sha256": "c5ef67b22801870a7e741c729956c9318aedac4d6648ba29747c45334d2d6a81",
+      "jarSha256": "7b4ee792eb515c7422553d6491991ec5742930262ea55d59f071eb446f416d8c",
+      "nativeSha256": "b27184841c9c920e9379d0fb57b28263437739b93c9927eb96e828a7b217d6fa",
+      "artifactId": 12708136513
+    },
+    {
+      "name": "@jackiechen1994/db2chm-linux-x64",
+      "platform": "linux-x64",
+      "tarball": "jackiechen1994-db2chm-linux-x64-0.2.0-beta.1.tgz",
+      "bytes": 2736622,
+      "sha256": "814980901e2325854c587ba75943af1968444a378d7f0e2cf889e4f7402a7602",
+      "jarSha256": "7b4ee792eb515c7422553d6491991ec5742930262ea55d59f071eb446f416d8c",
+      "nativeSha256": "d6f9d0d4440dc8d40781eefd8ef47009cd52d5ccb28609b75d2da651e7dd39c1",
+      "artifactId": 12707739149
+    },
+    {
+      "platform": null,
+      "tarball": "jackiechen1994-db2chm-0.2.0-beta.1.tgz",
+      "bytes": 2481,
+      "sha256": "4c905590506e29a14713fed2de43f11a4c0180e4afda4491a0dc4196a7d38ed7",
+      "name": "@jackiechen1994/db2chm"
+    }
+  ],
+  "sizes": [
+    {
+      "platform": "win32-x64",
+      "platformBytes": 2664559,
+      "entryBytes": 2481,
+      "totalDownloadBytes": 2667040,
+      "belowLimit": true
+    },
+    {
+      "platform": "darwin-x64",
+      "platformBytes": 3178636,
+      "entryBytes": 2481,
+      "totalDownloadBytes": 3181117,
+      "belowLimit": true
+    },
+    {
+      "platform": "darwin-arm64",
+      "platformBytes": 3144822,
+      "entryBytes": 2481,
+      "totalDownloadBytes": 3147303,
+      "belowLimit": true
+    },
+    {
+      "platform": "linux-x64",
+      "platformBytes": 2736622,
+      "entryBytes": 2481,
+      "totalDownloadBytes": 2739103,
+      "belowLimit": true
+    }
+  ],
+  "natives": [
+    {
+      "platform": "win32-x64",
+      "sourceCommit": "de69d52048cf52c72ebfeef61617c04c9bc2005c",
+      "bootstrapVersion": "3.3.1",
+      "bootstrapSha256": "3c230fa579aaa595382b7e7e9daddd00adfd196e9743112bd551141de260b0bc",
+      "redistributionApproved": false,
+      "files": [
+        {
+          "path": "binary-dependencies.json",
+          "sha256": "7fd9a673e2bac84d993da8c29805fa205f56c7c2d1fcbbb13712a7c8993ec4b7",
+          "bytes": 314
+        },
+        {
+          "path": "build-provenance.json",
+          "sha256": "53b9e7bceca55de51d64abbc3d2a88db24ca9b3f8590805cd8796c04cc6d2299",
+          "bytes": 23655
+        },
+        {
+          "path": "build.log",
+          "sha256": "5473cbfa3141c4c3a95723540581aa273d813eb1cfef4c5e54bb297c539402b8",
+          "bytes": 81788
+        },
+        {
+          "path": "chm-source.tar.gz",
+          "sha256": "be67d6aeb17c9c544a3f945a7780a12927d30d1d5bae3f9e40a10b25bea8ef58",
+          "bytes": 141085
+        },
+        {
+          "path": "chmcmd-encoding.patch",
+          "sha256": "4a7284dcd7cd8b095f84549e395fcfc71ad101a64ecc7379d06a95ecfa391da5",
+          "bytes": 21319
+        },
+        {
+          "path": "chmcmd-fpc322.patch",
+          "sha256": "c9272544c8a4207446dc3f9e6bbacaa207de68689b7a119e0a938bd4ed47a061",
+          "bytes": 395
+        },
+        {
+          "path": "chmcmd.exe",
+          "sha256": "f332d15dea7be9c5af328b483052e5c0dce3b5e3e8e0136fdf943ad74fb736d7",
+          "bytes": 2385072
+        },
+        {
+          "path": "FPC-LICENSE.txt",
+          "sha256": "9884a46111f1346b915f01d3ff56108754a60d7af105459d31d6db31e7fc280d",
+          "bytes": 19284
+        },
+        {
+          "path": "RTL-COPYING.FPC",
+          "sha256": "f65c27c43c289a842185f7948820a01b8eda29021cb0ec0dcdd3d646def9cf69",
+          "bytes": 1213
+        },
+        {
+          "path": "RTL-COPYING.txt",
+          "sha256": "21ac7048f5802388f5a4ce2e64afe922eb4f7fc7daa9d01d9b206e277b8169c9",
+          "bytes": 26434
+        },
+        {
+          "path": "SOURCE.txt",
+          "sha256": "bd789e35f78fc2bc7f17597ade3181073f61da45c7f2316ac49dd1728cb504b0",
+          "bytes": 658
+        }
+      ]
+    },
+    {
+      "platform": "darwin-x64",
+      "sourceCommit": "de69d52048cf52c72ebfeef61617c04c9bc2005c",
+      "bootstrapVersion": "3.2.2",
+      "bootstrapSha256": "f129616a01de6a3f6c33a54b2edba8dc88ddefed0b0070b7f1397343c73d1479",
+      "redistributionApproved": false,
+      "files": [
+        {
+          "path": "FPC-LICENSE.txt",
+          "sha256": "9884a46111f1346b915f01d3ff56108754a60d7af105459d31d6db31e7fc280d",
+          "bytes": 19284
+        },
+        {
+          "path": "RTL-COPYING.FPC",
+          "sha256": "f65c27c43c289a842185f7948820a01b8eda29021cb0ec0dcdd3d646def9cf69",
+          "bytes": 1213
+        },
+        {
+          "path": "RTL-COPYING.txt",
+          "sha256": "21ac7048f5802388f5a4ce2e64afe922eb4f7fc7daa9d01d9b206e277b8169c9",
+          "bytes": 26434
+        },
+        {
+          "path": "SOURCE.txt",
+          "sha256": "0c3af6b18fba4c6af45b9b21cad0591ba06c7bea13498c3480ac7278552774fb",
+          "bytes": 543
+        },
+        {
+          "path": "binary-dependencies.txt",
+          "sha256": "10cb8f79db55b41c6e82ffc37513fc6dab91679a755404f791b9baddb96cd630",
+          "bytes": 6182
+        },
+        {
+          "path": "bootstrap-packages.json",
+          "sha256": "0e42dd3ae0b382b89754fa22a1976a34c86a0f9a85cdad0f081af5f4b17ba157",
+          "bytes": 3366
+        },
+        {
+          "path": "build-provenance.json",
+          "sha256": "891191cad04068e57db260f254fa12b826f6640be10a00f6570b77cf2bf56d3a",
+          "bytes": 28912
+        },
+        {
+          "path": "build.log",
+          "sha256": "e6bafd8e8c2c92e098f7d5e2b8f870997f140ba42c991323b93a563e4cdcd9be",
+          "bytes": 109385
+        },
+        {
+          "path": "chm-source.tar.gz",
+          "sha256": "63609777bf9601d0ac6ba51cf9d97a0660a6c36add5ea3e935dd29ea928250d8",
+          "bytes": 142777
+        },
+        {
+          "path": "chmcmd",
+          "sha256": "4fe1eaba612fe519785f6742e78e2ca3e6e8c5885c82ec49e26141838c029069",
+          "bytes": 3854224
+        },
+        {
+          "path": "chmcmd-encoding.patch",
+          "sha256": "4a7284dcd7cd8b095f84549e395fcfc71ad101a64ecc7379d06a95ecfa391da5",
+          "bytes": 21319
+        },
+        {
+          "path": "chmcmd-fpc322.patch",
+          "sha256": "c9272544c8a4207446dc3f9e6bbacaa207de68689b7a119e0a938bd4ed47a061",
+          "bytes": 395
+        }
+      ]
+    },
+    {
+      "platform": "darwin-arm64",
+      "sourceCommit": "de69d52048cf52c72ebfeef61617c04c9bc2005c",
+      "bootstrapVersion": "3.2.2",
+      "bootstrapSha256": "014a217e848fa070f4e358999bcb06f79742fda89f0231371f8686d97ec503ae",
+      "redistributionApproved": false,
+      "files": [
+        {
+          "path": "FPC-LICENSE.txt",
+          "sha256": "9884a46111f1346b915f01d3ff56108754a60d7af105459d31d6db31e7fc280d",
+          "bytes": 19284
+        },
+        {
+          "path": "RTL-COPYING.FPC",
+          "sha256": "f65c27c43c289a842185f7948820a01b8eda29021cb0ec0dcdd3d646def9cf69",
+          "bytes": 1213
+        },
+        {
+          "path": "RTL-COPYING.txt",
+          "sha256": "21ac7048f5802388f5a4ce2e64afe922eb4f7fc7daa9d01d9b206e277b8169c9",
+          "bytes": 26434
+        },
+        {
+          "path": "SOURCE.txt",
+          "sha256": "7542f822e55dfbd44fe492cf7ad8000fd8be0631f0fdb7cd9628bae7ca538da0",
+          "bytes": 546
+        },
+        {
+          "path": "binary-dependencies.txt",
+          "sha256": "ca5bc086f4faf97b5ed1c28d744e019f59c01bad91d83cea5aba48d74defcce7",
+          "bytes": 6133
+        },
+        {
+          "path": "bootstrap-packages.json",
+          "sha256": "aea17f829639250577953f57d583cdff7a77a8976044f2efb31c9477c7146474",
+          "bytes": 3397
+        },
+        {
+          "path": "build-provenance.json",
+          "sha256": "e49f17d8e6ac9a83e1799875fd858240cc27215c5882ee60bd7e92d4006e2c0d",
+          "bytes": 28914
+        },
+        {
+          "path": "build.log",
+          "sha256": "1027a4d304cc96301280312022311308a51fb7d5772e5790e7f996f3e53053cf",
+          "bytes": 109334
+        },
+        {
+          "path": "chm-source.tar.gz",
+          "sha256": "0c6595b4900b7fec288aaf77c61ceb0791ba25e3e27e2881dbab019fb22037c4",
+          "bytes": 142766
+        },
+        {
+          "path": "chmcmd",
+          "sha256": "b27184841c9c920e9379d0fb57b28263437739b93c9927eb96e828a7b217d6fa",
+          "bytes": 3999624
+        },
+        {
+          "path": "chmcmd-encoding.patch",
+          "sha256": "4a7284dcd7cd8b095f84549e395fcfc71ad101a64ecc7379d06a95ecfa391da5",
+          "bytes": 21319
+        },
+        {
+          "path": "chmcmd-fpc322.patch",
+          "sha256": "c9272544c8a4207446dc3f9e6bbacaa207de68689b7a119e0a938bd4ed47a061",
+          "bytes": 395
+        }
+      ]
+    },
+    {
+      "platform": "linux-x64",
+      "sourceCommit": "de69d52048cf52c72ebfeef61617c04c9bc2005c",
+      "bootstrapVersion": "3.2.2",
+      "bootstrapSha256": "2211168cace0fecdb4f526edd2b1755f3249608962083b3ca8fdbc67dac9cb47",
+      "redistributionApproved": false,
+      "files": [
+        {
+          "path": "FPC-LICENSE.txt",
+          "sha256": "9884a46111f1346b915f01d3ff56108754a60d7af105459d31d6db31e7fc280d",
+          "bytes": 19284
+        },
+        {
+          "path": "RTL-COPYING.FPC",
+          "sha256": "f65c27c43c289a842185f7948820a01b8eda29021cb0ec0dcdd3d646def9cf69",
+          "bytes": 1213
+        },
+        {
+          "path": "RTL-COPYING.txt",
+          "sha256": "21ac7048f5802388f5a4ce2e64afe922eb4f7fc7daa9d01d9b206e277b8169c9",
+          "bytes": 26434
+        },
+        {
+          "path": "SOURCE.txt",
+          "sha256": "54b540c2d359a6f587fed10cb0d1a8252a591ad8aabf0948d3e172ab4d96302e",
+          "bytes": 537
+        },
+        {
+          "path": "binary-dependencies.txt",
+          "sha256": "d6f0eadd9b9731708b44eb4601efcd19dfc3569d5ea024d5b38e21e86881d6d0",
+          "bytes": 4782
+        },
+        {
+          "path": "bootstrap-packages.txt",
+          "sha256": "a9d7305ad66b47bbaed6f153fda338cebf2d54f593a5a5852bcf4b55b8a80197",
+          "bytes": 243
+        },
+        {
+          "path": "build-provenance.json",
+          "sha256": "8c19d601267bb95fb3a9a64f0f77d2ffb08e30bb21745875b8eb9f71ad594819",
+          "bytes": 29234
+        },
+        {
+          "path": "build.log",
+          "sha256": "d86e7d8fd017bcbd814a795641110717fd61e0cdf241194711740f6a579292be",
+          "bytes": 93387
+        },
+        {
+          "path": "chm-source.tar.gz",
+          "sha256": "0be63ecb07696c3fb4dcb523376150e646b6ffea1d23231a1c3d8f5af207ed11",
+          "bytes": 141708
+        },
+        {
+          "path": "chmcmd",
+          "sha256": "d6f9d0d4440dc8d40781eefd8ef47009cd52d5ccb28609b75d2da651e7dd39c1",
+          "bytes": 1945384
+        },
+        {
+          "path": "chmcmd-encoding.patch",
+          "sha256": "4a7284dcd7cd8b095f84549e395fcfc71ad101a64ecc7379d06a95ecfa391da5",
+          "bytes": 21319
+        },
+        {
+          "path": "chmcmd-fpc322.patch",
+          "sha256": "c9272544c8a4207446dc3f9e6bbacaa207de68689b7a119e0a938bd4ed47a061",
+          "bytes": 395
+        }
+      ]
+    }
+  ],
+  "artifactDigests": [
+    {
+      "name": "shared-java-runtime",
+      "id": 12707698653,
+      "sha256": "31747f93b157b7121ff69f83c887d48d4bbb80b098d63ca91d4722c5f5cc545c"
+    },
+    {
+      "name": "private-native-npm-win32-x64",
+      "id": 12707867557,
+      "sha256": "397899b4e1b89e8bb3eb4e7fcfbf9abc73ea02bb78b24cd98a12872cb6382da9"
+    },
+    {
+      "name": "native-win32-x64",
+      "id": 12707798005,
+      "sha256": "58ffb15f361f807305d72d56da58ca03464d884ebd00f7a1772efa6e21a61958"
+    },
+    {
+      "name": "private-native-npm-darwin-x64",
+      "id": 12708680369,
+      "sha256": "57e319a3a0d1c5eb1daea626fb03a851145e50b2e20ba8cf3732e18e6c7d9035"
+    },
+    {
+      "name": "native-darwin-x64",
+      "id": 12708575493,
+      "sha256": "e0ab1972aed6a7af72641d22c1a7536b23a07c01f9a2954148c531a9decddd02"
+    },
+    {
+      "name": "private-native-npm-darwin-arm64",
+      "id": 12708136513,
+      "sha256": "8679121e7ea9100171e25196117679964e2a5ffb4dc6fe546f65db6a79557dc6"
+    },
+    {
+      "name": "native-darwin-arm64",
+      "id": 12708026790,
+      "sha256": "82587034396a882ec2c72cd029f5094997b92c11663f340222dc69bad841e8f9"
+    },
+    {
+      "name": "private-native-npm-linux-x64",
+      "id": 12707739149,
+      "sha256": "35b804cec1864a9c87f9b87deb9c0b173889a02d5eb482d78031fbe747999716"
+    },
+    {
+      "name": "native-linux-x64",
+      "id": 12708196669,
+      "sha256": "62307c262a508e25d89c8dcc92fcfc3e9cbd575eea667fc7ee2a0ce8a53815f3"
+    }
+  ],
+  "entryAlternatives": [
+    {
+      "platform": "win32-x64",
+      "tarball": "jackiechen1994-db2chm-0.2.0-beta.1.tgz",
+      "bytes": 2481,
+      "sha256": "4c905590506e29a14713fed2de43f11a4c0180e4afda4491a0dc4196a7d38ed7",
+      "payload": {
+        "package.json": "71218ea6531ce22b345f9e4d4a080ed941a33a5bcc8070df1f6f903f599ad04c",
+        "README.md": "8c30574e5a417a4c5663905e3d24e2b9cdb2ddb470005d8cd3ec0444cf67d52b",
+        "help.txt": "980b5dc864c14ec3602f1b0b421bb74ea631c2bbcac305dd03883f88342d7df0",
+        "bin/db2chm.cjs": "1a13a72d74a9cffbe7f1439fcde5d444b148921a15d9dd84ff875dd3b89a98dd",
+        "bin/info.cjs": "0911b6cd36008db50fc48604a01ad26fadabbae08ad01977005c837b5a11b043"
+      }
+    },
+    {
+      "platform": "darwin-x64",
+      "tarball": "jackiechen1994-db2chm-0.2.0-beta.1.tgz",
+      "bytes": 2494,
+      "sha256": "129af68a18379768c9586b00e585d008389fc96c31c31931b1c03e18fe93a799",
+      "payload": {
+        "package.json": "71218ea6531ce22b345f9e4d4a080ed941a33a5bcc8070df1f6f903f599ad04c",
+        "README.md": "8c30574e5a417a4c5663905e3d24e2b9cdb2ddb470005d8cd3ec0444cf67d52b",
+        "help.txt": "980b5dc864c14ec3602f1b0b421bb74ea631c2bbcac305dd03883f88342d7df0",
+        "bin/db2chm.cjs": "1a13a72d74a9cffbe7f1439fcde5d444b148921a15d9dd84ff875dd3b89a98dd",
+        "bin/info.cjs": "0911b6cd36008db50fc48604a01ad26fadabbae08ad01977005c837b5a11b043"
+      }
+    },
+    {
+      "platform": "darwin-arm64",
+      "tarball": "jackiechen1994-db2chm-0.2.0-beta.1.tgz",
+      "bytes": 2488,
+      "sha256": "3f08cb56774719f6edd179494b0c8de7488939ddf8d28ad0ac96c1676663f35a",
+      "payload": {
+        "package.json": "71218ea6531ce22b345f9e4d4a080ed941a33a5bcc8070df1f6f903f599ad04c",
+        "README.md": "8c30574e5a417a4c5663905e3d24e2b9cdb2ddb470005d8cd3ec0444cf67d52b",
+        "help.txt": "980b5dc864c14ec3602f1b0b421bb74ea631c2bbcac305dd03883f88342d7df0",
+        "bin/db2chm.cjs": "1a13a72d74a9cffbe7f1439fcde5d444b148921a15d9dd84ff875dd3b89a98dd",
+        "bin/info.cjs": "0911b6cd36008db50fc48604a01ad26fadabbae08ad01977005c837b5a11b043"
+      }
+    },
+    {
+      "platform": "linux-x64",
+      "tarball": "jackiechen1994-db2chm-0.2.0-beta.1.tgz",
+      "bytes": 2488,
+      "sha256": "3f08cb56774719f6edd179494b0c8de7488939ddf8d28ad0ac96c1676663f35a",
+      "payload": {
+        "package.json": "71218ea6531ce22b345f9e4d4a080ed941a33a5bcc8070df1f6f903f599ad04c",
+        "README.md": "8c30574e5a417a4c5663905e3d24e2b9cdb2ddb470005d8cd3ec0444cf67d52b",
+        "help.txt": "980b5dc864c14ec3602f1b0b421bb74ea631c2bbcac305dd03883f88342d7df0",
+        "bin/db2chm.cjs": "1a13a72d74a9cffbe7f1439fcde5d444b148921a15d9dd84ff875dd3b89a98dd",
+        "bin/info.cjs": "0911b6cd36008db50fc48604a01ad26fadabbae08ad01977005c837b5a11b043"
+      }
+    }
+  ]
+}

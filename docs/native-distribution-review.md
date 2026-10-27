@@ -80,4 +80,4 @@ ppcrossx64.exe -iD  →  2026/10/12
 
 两个构建脚本已增加 `-viu` 编译记录及 `scripts/record-native-inputs.cjs`，生成 `build-provenance.json`。Windows 使用固定 utility 源码、当前两份补丁和已校验 bootstrap 重新编译，捕获 41 个预编译 PPU 输入及 15 个实际工具源码；新二进制 SHA-256 与原 2e63e20 CI 完全相同，见[输入及字节证据](evidence/native-inputs-win32-2e63e20.json)。这补充了本平台输入身份和字节复现证据，没有改变既有源码归档或分发批准标志。
 
-记录中的 objectCandidates 是相邻对象文件身份，PPU 列表是编译输入；两者均不等于完整实际链接映射。Unix 记录路径仍需对应 CI 实测，发行版补丁与 PPU 的准确源码映射、完整许可/例外清单、源码附件与最低系统仍按上述步骤继续收口。
+记录中的 objectCandidates 是相邻对象文件身份，PPU 列表是编译输入；两者均不等于完整实际链接映射。后续个人 scope 的四平台 CI 已全部完成来源记录，native 与原基线全部相同，见[当前验收](evidence/personal-scope-acceptance-4de172f.json)。发行版补丁与 PPU 的准确源码映射、完整许可/例外、源码附件与最低系统继续按[源锁实施路线](native-source-lock-plan.md)收口。

@@ -6,7 +6,15 @@
 
 ## 当前修复版本的证据
 
-源码提交：`2e63e2017b12fca13bad3d334f7081414d097c65`。
+当前个人 scope 的源码提交：`4de172f8d950fa9f10034b885859aebbae9c9512`。[四平台完整回归](https://github.com/ShingLungChu/db2chm-cli/actions/runs/40445394922)、[12 组合](https://github.com/ShingLungChu/db2chm-cli/actions/runs/40445395011)和[修复后的 Ubuntu 汇总](https://github.com/ShingLungChu/db2chm-cli/actions/runs/40446815947)均通过。五个新包的名称、哈希、大小及[实际验收摘要](evidence/personal-scope-acceptance-4de172f.json)已记录，16 个 CHM 场景的 4,076 个正文文件匹配。
+
+当前安装下载链 Windows/Intel/Apple Silicon/Linux 分别为 **2,667,040 / 3,181,117 / 3,147,303 / 2,739,103** 字节，见[精确清单](evidence/native-validation-4de172f.json)。同批 Windows 原包三库 doctor、列表、精确筛选、三表导出、导航及 18 个正文解包比对通过。本机 16 项测试通过；源码提交 4de172f 的 CI 各组合为 15 项，后续新增的跨宿主路径测试及真实 Ubuntu 汇总均通过。
+
+新批 JAR 和四个平台 native 与已人工验收的 2e63e20 基线逐字节相同，新包加入了来源记录并切换名称；没有虚构新的 UI 操作。四平台的来源记录均已真实生成。用户当前无账号权限/SQL 审计证据，该项仍未验证；正式源交付和其他发布门槛保留。
+
+## 编码修复基线与旧 scope（2e63e20）
+
+以下记录绑定源码 `2e63e2017b12fca13bad3d334f7081414d097c65` 及旧 @nstc 名称，保留原哈希。
 
 本轮已下载并核对该次 CI 的四个平台原始 tgz、native 和共享 JAR，共 9 个 artifact ZIP digest。五个未改写的 tgz 汇总至本机 `target/release-review-2e63e20/`；四个平台包内 JAR 均为 `7b4ee792eb515c7422553d6491991ec5742930262ea55d59f071eb446f416d8c`，Windows/Intel/Apple Silicon/Linux 总下载链分别为 2,651,110 / 3,162,310 / 3,128,782 / 2,720,435 字节。[当前完整汇总](evidence/native-validation-2e63e20.json)和[验证矩阵](support-matrix.md)绑定这批文件。
 

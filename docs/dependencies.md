@@ -63,4 +63,4 @@ Windows 构建入口为 scripts/build-native-windows.ps1；验证官方 ZIP SHA-
 
 四平台 native 已从固定源码编译，通过完整 Java 过滤导出、1000×20、私有 npm 安装和 Windows 解包；同一份共享 JAR 已下载复核。Windows 中文夹具交互通过，用户确认生成文档验收通过。最新 hosted runner 不代表全部旧系统，Linux arm64/musl 未列入首期。
 
-Windows bootstrap 的完整版本为 `3.3.1-21298-g814ece0205`，可追溯到 `814ece0205a6b9c2c6dad74c8069ebb2ae50d1c7`。新构建记录捕获 PPU/源码输入；当前本机 41 个预编译单元、15 个工具源码和 Windows 字节复现证据已保存。编译输入清单不能代替库来源/许可/完整链接清单，[分发核查](native-distribution-review.md)仍有未闭合项，`redistributionApproved` 保持 false。
+Windows bootstrap 的完整版本为 `3.3.1-21298-g814ece0205`，可追溯到 `814ece0205a6b9c2c6dad74c8069ebb2ae50d1c7`。四平台 PPU/源码输入记录已通过 CI，native 与前次验收基线字节一致。编译输入清单不能代替库来源/许可/完整链接清单，[分发核查](native-distribution-review.md)和[源锁实施路线](native-source-lock-plan.md)仍有未闭合项，`redistributionApproved` 保持 false。

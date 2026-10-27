@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-10-27T03:25:55.224Z",
-  "sourceCommit": "2e63e2017b12fca13bad3d334f7081414d097c65",
-  "runId": "40436646789",
-  "bundleDirectory": "target/release-review-2e63e20",
+  "recordedAt": "2026-10-27T03:57:59.602Z",
+  "sourceCommit": "4de172f8d950fa9f10034b885859aebbae9c9512",
+  "runId": "40445394922",
+  "bundleDirectory": "target/release-review-4de172f",
   "bundleKind": "private-validation-bundle",
   "releaseEligible": false,
   "status": "preparation-in-progress",
@@ -14,41 +14,41 @@
     },
     "G1": {
       "status": "technical-validation-passed-distribution-review-pending",
-      "evidence": "docs/evidence/native-validation-2e63e20.json"
+      "evidence": "docs/evidence/native-validation-4de172f.json"
     },
     "G2": {
       "status": "partial",
-      "reason": "CLI safety tests and three real database functional runs passed; account privileges, server-side SQL audit and before/after evidence remain pending."
+      "reason": "Functional and safety checks passed; user confirms no account/server audit evidence currently available, so this portion remains unverified."
     },
     "G3": {
       "status": "private-package-installation-and-size-passed",
       "sizes": [
         {
           "platform": "win32-x64",
-          "platformBytes": 2648639,
-          "entryBytes": 2471,
-          "totalDownloadBytes": 2651110,
+          "platformBytes": 2664559,
+          "entryBytes": 2481,
+          "totalDownloadBytes": 2667040,
           "belowLimit": true
         },
         {
           "platform": "darwin-x64",
-          "platformBytes": 3159839,
-          "entryBytes": 2471,
-          "totalDownloadBytes": 3162310,
+          "platformBytes": 3178636,
+          "entryBytes": 2481,
+          "totalDownloadBytes": 3181117,
           "belowLimit": true
         },
         {
           "platform": "darwin-arm64",
-          "platformBytes": 3126311,
-          "entryBytes": 2471,
-          "totalDownloadBytes": 3128782,
+          "platformBytes": 3144822,
+          "entryBytes": 2481,
+          "totalDownloadBytes": 3147303,
           "belowLimit": true
         },
         {
           "platform": "linux-x64",
-          "platformBytes": 2717964,
-          "entryBytes": 2471,
-          "totalDownloadBytes": 2720435,
+          "platformBytes": 2736622,
+          "entryBytes": 2481,
+          "totalDownloadBytes": 2739103,
           "belowLimit": true
         }
       ]
@@ -67,15 +67,16 @@
     }
   },
   "remaining": [
-    "native-component-source-and-license-closure",
-    "pinned-unix-bootstrap-and-oldest-system-validation",
-    "database-account-privilege-and-server-sql-audit-evidence",
-    "clean-exact-candidate-and-registry-acceptance",
-    "new-personal-scope-packaging-and-publishing-authentication"
+    "corresponding-native-source-and-component-license-closure",
+    "fixed-unix-build-inputs-and-minimum-supported-systems",
+    "database-account-privileges-server-sql-and-before-after-audit-unverified",
+    "candidate-exact-artifact-acceptance-and-initial-publishing-authentication",
+    "registry-beta-installation-and-dist-tag-validation"
   ],
   "sourceReview": "docs/native-distribution-review.md",
-  "artifactScope": "nstc",
+  "artifactScope": "jackiechen1994",
   "plannedScope": "jackiechen1994",
   "publisherIdentityVerified": true,
-  "scopeChangeRequiresRepackAndInstallValidation": true
+  "scopeChangeRequiresRepackAndInstallValidation": false,
+  "collectionRun": "https://github.com/ShingLungChu/db2chm-cli/actions/runs/40446815947"
 }

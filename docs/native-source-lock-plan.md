@@ -88,7 +88,15 @@ dsc 的 Source 为 `fpc`、Version 为 `3.2.2+dfsg-32`、Format 为 `3.0 (quilt)
 | fcl-base | 3 | `packages/fcl-base/` |
 | fcl-xml | 8 | `packages/fcl-xml/` |
 
-上表是本轮 Windows 的编译输入包络，不是完整链接映射，也不代表 Unix 必然恰为这五类。待新四平台日志生成后，按每个平台的实际输入分别计算家族集合；任何未知家族立即使源码打包检查失败，再补映射，不能静默忽略。
+上表是 Windows 编译输入包络，不是完整链接映射。新四平台日志已生成并复核，家族集合实际一致，数量如下；后续源码打包遇到未知家族仍应立即失败，不能静默忽略。
+
+| 平台 | rtl | rtl-objpas | rtl-generics | fcl-base | fcl-xml | 总数 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Windows | 18 | 6 | 6 | 3 | 8 | 41 |
+| Linux | 26 | 4 | 6 | 5 | 12 | 53 |
+| macOS Intel/ARM | 25 | 4 | 6 | 5 | 12 | 52 |
+
+计数与输入文件哈希见[个人 scope 验收](evidence/personal-scope-acceptance-4de172f.json)。
 
 优先收录整个相关源家族及原许可/include/Makefile，避免只挑 41 个入口 `.pas/.pp` 丢掉传递 include、汇编、生成器或跨单元构建依赖。顶层构建文件、包注册/fpmake 文件、编译参数和所需的构建辅助程序应作为闭包补充；是否足够以只使用交付材料的重建检查确定。不能为了减少大小先删除“看起来不运行”的来源/许可文件。
 

@@ -1,0 +1,228 @@
+{
+  "schemaVersion": 1,
+  "validatedAt": "2026-10-27T03:57:59.602Z",
+  "sourceCommit": "4de172f8d950fa9f10034b885859aebbae9c9512",
+  "scope": "jackiechen1994",
+  "kind": "private-validation",
+  "releaseEligible": false,
+  "nativeRun": "https://github.com/ShingLungChu/db2chm-cli/actions/runs/40445394922",
+  "contractRun": "https://github.com/ShingLungChu/db2chm-cli/actions/runs/40445395011",
+  "collectionRun": "https://github.com/ShingLungChu/db2chm-cli/actions/runs/40446815947",
+  "collectionToolCommit": "c44023f321eb7180fafab2ac065b46bcd675dd9f",
+  "sourceArtifacts": 9,
+  "localTests": 16,
+  "ciRuntimeCombinations": 12,
+  "ciTestsPerCombination": 15,
+  "sizes": [
+    {
+      "platform": "win32-x64",
+      "platformBytes": 2664559,
+      "entryBytes": 2481,
+      "totalDownloadBytes": 2667040,
+      "belowLimit": true
+    },
+    {
+      "platform": "darwin-x64",
+      "platformBytes": 3178636,
+      "entryBytes": 2481,
+      "totalDownloadBytes": 3181117,
+      "belowLimit": true
+    },
+    {
+      "platform": "darwin-arm64",
+      "platformBytes": 3144822,
+      "entryBytes": 2481,
+      "totalDownloadBytes": 3147303,
+      "belowLimit": true
+    },
+    {
+      "platform": "linux-x64",
+      "platformBytes": 2736622,
+      "entryBytes": 2481,
+      "totalDownloadBytes": 2739103,
+      "belowLimit": true
+    }
+  ],
+  "sharedJarSha256": "7b4ee792eb515c7422553d6491991ec5742930262ea55d59f071eb446f416d8c",
+  "acceptedBaselinePayloadIdentity": {
+    "sourceCommit": "2e63e2017b12fca13bad3d334f7081414d097c65",
+    "sameJava": true,
+    "platforms": [
+      {
+        "platform": "win32-x64",
+        "nativeSha256": "f332d15dea7be9c5af328b483052e5c0dce3b5e3e8e0136fdf943ad74fb736d7",
+        "identicalToAcceptedBaseline": true
+      },
+      {
+        "platform": "darwin-x64",
+        "nativeSha256": "4fe1eaba612fe519785f6742e78e2ca3e6e8c5885c82ec49e26141838c029069",
+        "identicalToAcceptedBaseline": true
+      },
+      {
+        "platform": "darwin-arm64",
+        "nativeSha256": "b27184841c9c920e9379d0fb57b28263437739b93c9927eb96e828a7b217d6fa",
+        "identicalToAcceptedBaseline": true
+      },
+      {
+        "platform": "linux-x64",
+        "nativeSha256": "d6f9d0d4440dc8d40781eefd8ef47009cd52d5ccb28609b75d2da651e7dd39c1",
+        "identicalToAcceptedBaseline": true
+      }
+    ]
+  },
+  "nativeInputSummary": [
+    {
+      "platform": "win32-x64",
+      "compiler": {
+        "version": "3.3.1",
+        "revision": "3.3.1-21298-g814ece0205",
+        "date": "2026/10/12",
+        "cpu": "x86_64",
+        "os": "win64",
+        "executableSha256": "3c230fa579aaa595382b7e7e9daddd00adfd196e9743112bd551141de260b0bc",
+        "upstreamSourceCommit": "814ece0205a6b9c2c6dad74c8069ebb2ae50d1c7",
+        "sourceIdentity": "revision-reported-by-pinned-bootstrap"
+      },
+      "compilationInputCount": 41,
+      "compiledUtilitySourceCount": 15,
+      "groups": {
+        "fcl-base": 3,
+        "rtl": 18,
+        "rtl-objpas": 6,
+        "fcl-xml": 8,
+        "rtl-generics": 6
+      },
+      "traceSha256": "5473cbfa3141c4c3a95723540581aa273d813eb1cfef4c5e54bb297c539402b8",
+      "provenanceFileSha256": "53b9e7bceca55de51d64abbc3d2a88db24ca9b3f8590805cd8796c04cc6d2299",
+      "sourceDistributionReview": "pending"
+    },
+    {
+      "platform": "darwin-x64",
+      "compiler": {
+        "version": "3.2.2",
+        "revision": "3.2.2",
+        "date": "2023/09/18",
+        "cpu": "x86_64",
+        "os": "darwin",
+        "executableSha256": "f129616a01de6a3f6c33a54b2edba8dc88ddefed0b0070b7f1397343c73d1479",
+        "upstreamSourceCommit": "0d122c49534b480be9284c21bd60b53d99904346",
+        "sourceIdentity": "upstream-release-baseline-distro-patches-not-confirmed"
+      },
+      "compilationInputCount": 52,
+      "compiledUtilitySourceCount": 15,
+      "groups": {
+        "fcl-base": 5,
+        "rtl": 25,
+        "rtl-objpas": 4,
+        "fcl-xml": 12,
+        "rtl-generics": 6
+      },
+      "traceSha256": "e6bafd8e8c2c92e098f7d5e2b8f870997f140ba42c991323b93a563e4cdcd9be",
+      "provenanceFileSha256": "891191cad04068e57db260f254fa12b826f6640be10a00f6570b77cf2bf56d3a",
+      "sourceDistributionReview": "pending"
+    },
+    {
+      "platform": "darwin-arm64",
+      "compiler": {
+        "version": "3.2.2",
+        "revision": "3.2.2",
+        "date": "2026/09/13",
+        "cpu": "aarch64",
+        "os": "darwin",
+        "executableSha256": "014a217e848fa070f4e358999bcb06f79742fda89f0231371f8686d97ec503ae",
+        "upstreamSourceCommit": "0d122c49534b480be9284c21bd60b53d99904346",
+        "sourceIdentity": "upstream-release-baseline-distro-patches-not-confirmed"
+      },
+      "compilationInputCount": 52,
+      "compiledUtilitySourceCount": 15,
+      "groups": {
+        "fcl-base": 5,
+        "rtl": 25,
+        "rtl-objpas": 4,
+        "fcl-xml": 12,
+        "rtl-generics": 6
+      },
+      "traceSha256": "1027a4d304cc96301280312022311308a51fb7d5772e5790e7f996f3e53053cf",
+      "provenanceFileSha256": "e49f17d8e6ac9a83e1799875fd858240cc27215c5882ee60bd7e92d4006e2c0d",
+      "sourceDistributionReview": "pending"
+    },
+    {
+      "platform": "linux-x64",
+      "compiler": {
+        "version": "3.2.2",
+        "revision": "3.2.2+dfsg-32",
+        "date": "2024/01/05",
+        "cpu": "x86_64",
+        "os": "linux",
+        "executableSha256": "2211168cace0fecdb4f526edd2b1755f3249608962083b3ca8fdbc67dac9cb47",
+        "upstreamSourceCommit": "0d122c49534b480be9284c21bd60b53d99904346",
+        "sourceIdentity": "upstream-release-baseline-distro-patches-not-confirmed"
+      },
+      "compilationInputCount": 53,
+      "compiledUtilitySourceCount": 15,
+      "groups": {
+        "fcl-base": 5,
+        "rtl": 26,
+        "rtl-objpas": 4,
+        "fcl-xml": 12,
+        "rtl-generics": 6
+      },
+      "traceSha256": "d86e7d8fd017bcbd814a795641110717fd61e0cdf241194711740f6a579292be",
+      "provenanceFileSha256": "8c19d601267bb95fb3a9a64f0f77d2ffb08e30bb21745875b8eb9f71ad594819",
+      "sourceDistributionReview": "pending"
+    }
+  ],
+  "realDatabases": [
+    {
+      "type": "oracle",
+      "doctor": true,
+      "tableList": true,
+      "exactFilter": true,
+      "threeTableExport": true,
+      "listExportConsistency": true,
+      "compiledNavigation": true,
+      "extractedHtmlCssMatched": 6,
+      "accountPrivilegeAndSqlAudit": "unverified-user-has-no-evidence"
+    },
+    {
+      "type": "dm",
+      "doctor": true,
+      "tableList": true,
+      "exactFilter": true,
+      "threeTableExport": true,
+      "listExportConsistency": true,
+      "compiledNavigation": true,
+      "extractedHtmlCssMatched": 6,
+      "accountPrivilegeAndSqlAudit": "unverified-user-has-no-evidence"
+    },
+    {
+      "type": "vastbase",
+      "doctor": true,
+      "tableList": true,
+      "exactFilter": true,
+      "threeTableExport": true,
+      "listExportConsistency": true,
+      "compiledNavigation": true,
+      "extractedHtmlCssMatched": 6,
+      "accountPrivilegeAndSqlAudit": "unverified-user-has-no-evidence"
+    }
+  ],
+  "documentAcceptance": {
+    "status": "passed-user-confirmed",
+    "evidence": "docs/evidence/chm-viewer-human-acceptance-20261027.json",
+    "scope": "functional document acceptance; no invented new UI observations"
+  },
+  "knownRemaining": [
+    "corresponding-native-source-and-component-license-closure",
+    "fixed-unix-build-inputs-and-minimum-supported-systems",
+    "database-account-privileges-server-sql-and-before-after-audit-unverified",
+    "candidate-exact-artifact-acceptance-and-initial-publishing-authentication",
+    "registry-beta-installation-and-dist-tag-validation"
+  ],
+  "automaticRegression": {
+    "scenarios": 16,
+    "extractedHtmlCssMatched": 4076,
+    "artifactId": 12707619613,
+    "artifactDigest": "sha256:1b4a0b92eaa5864ec326129f57899d827a28505f43e499835fe1a99b4943416d"
+  }
+}

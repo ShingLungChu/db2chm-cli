@@ -45,7 +45,9 @@ node scripts/collect-validation.cjs target/review-inputs target/release-review
 
 输出 `report.json`、`SHA256SUMS` 和原始包，仍为 `private-validation-bundle`、`private: true`、`releaseEligible: false`。四个 runner 的入口 payload 必须一致，统一选 Windows runner 的同一份入口。[2e63e20 历史汇总](evidence/native-validation-2e63e20.json)使用旧 @nstc 名称；当前配置改用个人 scope 后，汇总应选择新运行，不将旧包重命名复用。此目录不能作为 `accepted-npm-release` 绕过审批，正式校验会拒绝私有包。
 
-原生构建现在使用 `-viu` 保存编译输入，并生成 `build-provenance.json`，记录 bootstrap 完整版本/日期/哈希、实际加载的 PPU 和相邻对象文件候选哈希、已编译工具源码及补丁哈希。编译单元加载清单不能当作完整链接映射，也不能代替每个库的对应源码/许可审核。Windows 本机已实测，并与此前 CI native 字节一致；其他宿主的新增记录路径由下一轮原生 CI 核验。
+原生构建现在使用 `-viu` 保存编译输入，并生成 `build-provenance.json`，记录 bootstrap 完整版本/日期/哈希、实际加载的 PPU 和相邻对象文件候选哈希、已编译工具源码及补丁哈希。四平台记录均已通过真实 CI，Windows/Linux/macOS Intel/ARM 分别捕获 41/53/52/52 个预编译单元、15 个工具源码，四个平台 native 与此前验收基线字节相同。加载清单不能当作完整链接映射，也不能代替对应源码/许可审核。
+
+首次汇总暴露了 Linux 对 Windows 报告路径的 basename 处理差异；`artifact-name.cjs` 明确按两种分隔符提取安全归档名，发布校验复用同一规则。回归测试先失败后通过，真实原包回放及[Ubuntu 汇总](https://github.com/ShingLungChu/db2chm-cli/actions/runs/40446815947)通过；没有更换或重打包待核验 tgz。
 
 ## 打包与发布门槛
 
