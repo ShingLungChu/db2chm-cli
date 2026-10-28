@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-28T10:10:43.636Z",
+  "checkedAt": "2026-10-28T10:15:07.590Z",
   "scope": "t20-ai",
   "npmAccount": "jackiechen1994",
   "githubRepository": "ShingLungChu/db2chm-cli",
@@ -22,7 +22,15 @@
   ],
   "registry404Interpretation": "not publicly found or not publicly readable; private-package existence requires account-side confirmation",
   "automatedLocalTests": {"passed": 23, "failed": 0, "npmUploadsAttempted": 0},
-  "configurationOnlyCiRun": null,
+  "configurationOnlyCiRun": {
+    "runId": "40670428427",
+    "url": "https://github.com/ShingLungChu/db2chm-cli/actions/runs/40670428427",
+    "sourceCommit": "bdb54241d165ddebfaf2f71666cf6e2ae103402b",
+    "candidateRunId": "40662896805",
+    "conclusion": "success",
+    "uploadStepSkipped": true,
+    "npmPublishAttempted": false
+  },
   "npmTrustedPublishersVerified": false,
   "actualOidcPublishVerified": false,
   "remaining": [

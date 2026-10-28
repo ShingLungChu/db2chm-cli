@@ -19,10 +19,17 @@ async function publicPackageStatus(name){
  if(!response.ok)throw new Error('npm metadata 返回 HTTP '+response.status+'：'+name);
  const body=await response.json();return {name,publiclyReadable:true,httpStatus:response.status,versions:Object.keys(body.versions||{}),distTags:body['dist-tags']||{}};
 }
+async function workflowStatus(){
+ const index=await github('/actions/workflows/'+publisher.workflowFilename+'/runs?branch='+publisher.branch+'&event=workflow_dispatch&per_page=5'),latest=index.workflow_runs?.[0];
+ if(!latest)return {found:false,configurationOnlyPassed:false};
+ const jobs=(await github('/actions/runs/'+latest.id+'/jobs?per_page=100')).jobs||[],steps=jobs.flatMap(job=>job.steps||[]);
+ const upload=steps.find(s=>s.name==='Publish same tarballs, platform packages first'),preflight=steps.find(s=>s.name==='Record configuration-only validation');
+ return {found:true,runId:String(latest.id),sourceCommit:latest.head_sha,url:latest.html_url,status:latest.status,conclusion:latest.conclusion,uploadStepSkipped:upload?.conclusion==='skipped',configurationOnlyPassed:latest.conclusion==='success'&&upload?.conclusion==='skipped'&&preflight?.conclusion==='success'};
+}
 async function status(){
  const result=plan();
- const [packages,environment]=await Promise.all([Promise.all(result.packages.map(p=>publicPackageStatus(p.name))),environmentStatus()]);
- Object.assign(result,{packages,githubEnvironment:environment,setupState:packages.every(p=>p.publiclyReadable)?'npm-package-settings-and-actual-oidc-publish-unverified':'bootstrap-or-package-access-confirmation-required'});
+ const [packages,environment,ci]=await Promise.all([Promise.all(result.packages.map(p=>publicPackageStatus(p.name))),environmentStatus(),workflowStatus()]);
+ Object.assign(result,{packages,githubEnvironment:environment,latestPublishingWorkflow:ci,setupState:packages.every(p=>p.publiclyReadable)?'npm-package-settings-and-actual-oidc-publish-unverified':'bootstrap-or-package-access-confirmation-required'});
  fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,JSON.stringify(result,null,2)+'\n');return result;
 }
 async function setupGithub(dryRun){

@@ -11,6 +11,7 @@
 | 发布工作流 | `.github/workflows/npm-publish.yml` |
 | GitHub 发布环境 | 已创建 `npm-release`，已限制只允许 `main` 分支 |
 | CI 运行环境 | 工作流已配置 Node 24、固定 npm 11.21.1、GitHub 托管 runner |
+| 不上传的远端预检 | [运行 40670428427 已通过](https://github.com/ShingLungChu/db2chm-cli/actions/runs/40670428427)，上传步骤明确跳过 |
 | 长期 npm 凭据 | 发布工作流不注入 npm token，使用隔离的空 npm 配置 |
 | 当前 npm 包 | 2026-10-28 查询五包的公开 registry 均返回 404；如已有私有包，请登录 npm 网站另外确认 |
 | 五包 Trusted Publisher | 尚未在 npm 端确认配置；GitHub 环境已创建不等于 npm 已授权 |
@@ -237,6 +238,8 @@ release.cmd oidc-preflight 40662896805
 此处的绿色只证明工作流、运行时和验收包检查通过。它没有尝试上传，不证明五个 npm Trusted Publisher 已生效，也不会完成 2 天内首次发布的验证。
 
 这一节不依赖包已经存在；因此可以先完成预检，再处理首次建包和 npm 网页授权。
+
+本次已替你完成这一步：[2026-10-28 预检记录](https://github.com/ShingLungChu/db2chm-cli/actions/runs/40670428427)。后续修改发布配置或更换候选后，可再执行。
 
 ## 七、真正通过 OIDC 发布一个尚未发布的已验收版本
 
