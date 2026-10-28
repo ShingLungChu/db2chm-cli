@@ -1,13 +1,33 @@
 {
-  "scope": "jackiechen1994",
+  "scope": "t20-ai",
   "name": "db2chm",
   "version": "0.2.0-beta.1",
   "maxDownloadBytes": 15000000,
   "publisher": "jackiechen1994",
   "platforms": [
-    { "id": "win32-x64", "os": "win32", "cpu": "x64", "compiler": "chmcmd.exe" },
-    { "id": "darwin-x64", "os": "darwin", "cpu": "x64", "compiler": "chmcmd" },
-    { "id": "darwin-arm64", "os": "darwin", "cpu": "arm64", "compiler": "chmcmd" },
-    { "id": "linux-x64", "os": "linux", "cpu": "x64", "compiler": "chmcmd" }
+    {
+      "id": "win32-x64",
+      "os": "win32",
+      "cpu": "x64",
+      "compiler": "chmcmd.exe"
+    },
+    {
+      "id": "darwin-x64",
+      "os": "darwin",
+      "cpu": "x64",
+      "compiler": "chmcmd"
+    },
+    {
+      "id": "darwin-arm64",
+      "os": "darwin",
+      "cpu": "arm64",
+      "compiler": "chmcmd"
+    },
+    {
+      "id": "linux-x64",
+      "os": "linux",
+      "cpu": "x64",
+      "compiler": "chmcmd"
+    }
   ]
 }

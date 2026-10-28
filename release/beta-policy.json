@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "version": "0.2.0-beta.1",
-  "scope": "jackiechen1994",
+  "scope": "t20-ai",
   "channel": "beta",
   "publicationAuthorization": "用户于 2026-10-27 明确要求：请同步代码至github后进行发布",
   "acceptedBaseline": "4de172f8d950fa9f10034b885859aebbae9c9512",
@@ -12,10 +12,23 @@
     "G5": "passed-beta-candidate"
   },
   "limitations": {
-    "G0": ["older-operating-systems-not-validated"],
-    "G2": ["database-account-and-server-sql-audit-unverified"],
-    "G5": ["full-runtime-source-reconstruction-and-toolchain-pinning-not-complete"]
+    "G0": [
+      "older-operating-systems-not-validated"
+    ],
+    "G2": [
+      "database-account-and-server-sql-audit-unverified"
+    ],
+    "G5": [
+      "full-runtime-source-reconstruction-and-toolchain-pinning-not-complete"
+    ]
   },
-  "hardRequirements": ["native-license-and-complete-utility-source", "exact-payload-identity", "four-platform-package-installation", "strictly-below-15000000-bytes", "oracle-and-dm-functional-validation", "chinese-chm-validation"],
+  "hardRequirements": [
+    "native-license-and-complete-utility-source",
+    "exact-payload-identity",
+    "four-platform-package-installation",
+    "strictly-below-15000000-bytes",
+    "oracle-and-dm-functional-validation",
+    "chinese-chm-validation"
+  ],
   "stableReleaseExceptionsAllowed": false
 }
