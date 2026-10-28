@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-10-28T10:10:43.636Z",
+  "scope": "t20-ai",
+  "npmAccount": "jackiechen1994",
+  "githubRepository": "ShingLungChu/db2chm-cli",
+  "workflowFilename": "npm-publish.yml",
+  "githubEnvironment": {
+    "name": "npm-release",
+    "exists": true,
+    "mainOnly": true,
+    "branchRules": [{"name": "main", "type": "branch"}]
+  },
+  "runtime": {"nodeMajor": 24, "npmVersion": "11.21.1"},
+  "requiredNpmAllowedActions": ["npm publish", "npm dist-tag"],
+  "publicRegistryStatus": [
+    {"name": "@t20-ai/db2chm-win32-x64", "httpStatus": 404},
+    {"name": "@t20-ai/db2chm-darwin-x64", "httpStatus": 404},
+    {"name": "@t20-ai/db2chm-darwin-arm64", "httpStatus": 404},
+    {"name": "@t20-ai/db2chm-linux-x64", "httpStatus": 404},
+    {"name": "@t20-ai/db2chm", "httpStatus": 404}
+  ],
+  "registry404Interpretation": "not publicly found or not publicly readable; private-package existence requires account-side confirmation",
+  "automatedLocalTests": {"passed": 23, "failed": 0, "npmUploadsAttempted": 0},
+  "configurationOnlyCiRun": null,
+  "npmTrustedPublishersVerified": false,
+  "actualOidcPublishVerified": false,
+  "remaining": [
+    "bootstrap actual packages if they do not yet exist",
+    "prepare a new unpublished accepted version before creating time-limited trust",
+    "save exact per-package trusted publisher and allowed actions with account-side 2FA",
+    "perform and verify actual OIDC uploads; skipped existing versions are not authentication proof"
+  ]
+}

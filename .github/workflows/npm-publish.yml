@@ -9,18 +9,36 @@ on:
         type: choice
         options: [beta, next]
         default: beta
+      dry_run:
+        description: Validate exact artifacts and OIDC runtime only; does not publish or prove npm trust
+        type: boolean
+        default: true
 permissions:
   contents: read
   actions: read
   id-token: write
+concurrency:
+  group: npm-publish-${{ github.repository }}
+  cancel-in-progress: false
 jobs:
   publish:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     environment: npm-release
+    env:
+      NODE_AUTH_TOKEN: ''
+      NPM_TOKEN: ''
+      NPM_ID_TOKEN: ''
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Select Node 24
         run: node scripts/select-node.cjs 24
+      - name: Isolate npm configuration without long-lived credentials
+        run: node scripts/oidc-runtime.cjs prepare
+      - name: Install pinned npm with OIDC publish and dist-tag support
+        run: npm install --global npm@11.21.1 --ignore-scripts --no-audit --no-fund --registry=https://registry.npmjs.org
+      - name: Verify token-free OIDC runtime
+        run: node scripts/oidc-runtime.cjs check
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: accepted-npm-release
@@ -46,6 +64,16 @@ jobs:
       - name: Verify gates, checksums and complete installation size
         run: node scripts/verify-release.cjs accepted accepted/acceptance.json
       - name: Publish same tarballs, platform packages first
+        if: ${{ !inputs.dry_run }}
         env:
           DIST_TAG: ${{ inputs.dist_tag }}
-        run: node scripts/publish.cjs accepted "$DIST_TAG" --publish
+        run: node scripts/publish.cjs accepted "$DIST_TAG" --publish --require-oidc
+      - name: Record configuration-only validation
+        if: ${{ inputs.dry_run }}
+        run: echo "Configuration and exact artifacts validated. No npm publish was attempted; per-package npm trust remains unverified."
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        if: ${{ always() && !inputs.dry_run }}
+        with:
+          name: npm-oidc-publish-result
+          path: accepted/publish-result.json
+          if-no-files-found: ignore

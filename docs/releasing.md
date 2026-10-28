@@ -1,5 +1,7 @@
 # 构建、验收、发布与回滚
 
+2026-10-28：当前 scope 为 `@t20-ai`。已配置 GitHub `npm-release` 环境，仅允许 main；新增固定 npm 11.21.1、凭据隔离、默认不上传的预检和实际上传报告。完整操作见[OIDC 发布配置手册](../OIDC发布配置手册.md)与[配置证据](evidence/oidc-setup-20261028.json)。五包 npm 端授权及真正 OIDC 实发仍需独立验证，不能由工作流预检绿色或同版跳过上传代替。
+
 ## 0.2.0-beta.1 的候选与发布路径
 
 本版 beta 的验收范围以 [beta 决定](beta-release-decision.md)和 `release/beta-policy.json` 为准。下文早期 private 审查资料和 stable 强标准保留为历史/后续目标，不将数据库服务端审计、更老系统测试或全部 runtime 源码重建写成已完成。

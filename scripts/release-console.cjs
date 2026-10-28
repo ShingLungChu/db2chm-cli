@@ -56,7 +56,7 @@ function githubToken(){
 async function request(route,token,options={}){
  let response;try{response=await fetch(api+route,{...options,headers:{Authorization:'Bearer '+token,'X-GitHub-Api-Version':'2022-11-28',...(options.body?{'Content-Type':'application/json'}:{})},signal:AbortSignal.timeout(45000)});}
  catch{throw new Error('GitHub 网络请求失败；请检查网络后重试。请求内容和凭据未输出。');}
- if(!response.ok)throw new Error('GitHub 返回 HTTP '+response.status+'。请检查仓库 Actions 权限和登录状态。');
+ if(!response.ok)throw Object.assign(new Error('GitHub 返回 HTTP '+response.status+'。请检查仓库 Actions 权限和登录状态。'),{statusCode:response.status});
  return response.status===204?null:response.json();
 }
 async function dispatch(workflow,inputs,dryRun){
@@ -137,7 +137,12 @@ async function verifyRegistry(explicit){
 async function main(args=process.argv.slice(2)){
  if(Number(process.versions.node.split('.')[0])<22)throw new Error('需要 Node.js 22 或更高版本。');
  const command=args.shift()||'help',dryRun=args.includes('--dry-run');args=args.filter(a=>a!=='--dry-run');
- if(command==='help'){console.log('发布指南.md\nrelease.cmd status\nrelease.cmd scope 组织名\nrelease.cmd build\nrelease.cmd fetch [构建编号]\nrelease.cmd check [完整目录]\nrelease.cmd publish win32-x64|darwin-x64|darwin-arm64|linux-x64|entry\nrelease.cmd verify-registry\nrelease.cmd test-registry [构建编号]\n修改 scope 或启动构建可加 --dry-run；本工具不会自动 git add/commit/push。');return;}
+ if(['oidc-plan','oidc-status','oidc-setup-github','oidc-preflight'].includes(command)){
+  if(args.length>(command==='oidc-preflight'?1:0))throw new Error('OIDC 配置命令参数过多。');
+  if(command==='oidc-preflight'&&dryRun)throw new Error('oidc-preflight 本身只启动不会上传的 CI 预检，请直接执行该命令。');
+  await require('./oidc-setup.cjs').main([command.slice(5),...args,...(dryRun?['--dry-run']:[])]);return;
+ }
+ if(command==='help'){console.log('发布指南.md / OIDC发布配置手册.md\nrelease.cmd status\nrelease.cmd scope 组织名\nrelease.cmd build\nrelease.cmd fetch [构建编号]\nrelease.cmd check [完整目录]\nrelease.cmd publish win32-x64|darwin-x64|darwin-arm64|linux-x64|entry\nrelease.cmd verify-registry\nrelease.cmd test-registry [构建编号]\nrelease.cmd oidc-plan\nrelease.cmd oidc-status\nrelease.cmd oidc-setup-github\nrelease.cmd oidc-preflight [构建编号]\n修改 scope 或启动构建可加 --dry-run；本工具不会自动 git add/commit/push。');return;}
  if(command==='status'){
   const config=settings();console.log('工作目录：'+root+'\n目标 scope：@'+config.scope+'\n登录/发布账号：'+config.publisher+'\n本版版本：'+config.version+'\n发布渠道：beta\n入口：@'+config.scope+'/'+config.name);
   for(const platform of config.platforms)console.log('平台包：@'+config.scope+'/'+config.name+'-'+platform.id);
@@ -170,5 +175,5 @@ async function main(args=process.argv.slice(2)){
  }
  throw new Error('未知命令。执行 release.cmd 查看可用步骤。');
 }
-module.exports={configure,main};
+module.exports={configure,main,githubRequest:(route,options)=>request(route,githubToken(),options)};
 if(require.main===module)main().catch(error=>{console.error('发布步骤未完成：'+error.message);process.exitCode=1;});

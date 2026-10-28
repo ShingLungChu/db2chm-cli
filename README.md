@@ -2,6 +2,8 @@
 
 需要逐步更换 npm 组织、build 四个平台发布包并手动发布时，请按[发布指南](发布指南.md)执行；Windows 入口为项目根目录的 `release.cmd`。
 
+采用 GitHub Actions Trusted Publishing、免长期 npm token 发布时，请按[OIDC 发布配置手册](OIDC发布配置手册.md)操作；当前组织为 `@t20-ai`。首次建包、逐包授权、配置预检与真正的 OIDC 发布验收分别记录。
+
 提供 Oracle、MySQL、达梦、Vastbase、KingbaseES 元数据适配器，按表名过滤并生成 HTML/CHM 数据字典。真实兼容范围以版本验收记录为准，本版最低真实验收为 Oracle 和达梦。业务逻辑使用 Java，npm 提供平台选择和启动入口；用户预装 Java。
 
 ## 当前交付状态

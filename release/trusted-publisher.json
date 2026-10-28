@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "provider": "github",
+  "githubOwner": "ShingLungChu",
+  "githubRepository": "db2chm-cli",
+  "workflowFilename": "npm-publish.yml",
+  "environment": "npm-release",
+  "branch": "main",
+  "nodeMajor": 24,
+  "npmVersion": "11.21.1",
+  "allowedActions": ["npm publish", "npm dist-tag"],
+  "registry": "https://registry.npmjs.org"
+}
